@@ -28,8 +28,4 @@
 		<ProjectReference Include="..\DataFac.Memory\DataFac.Memory.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Using Include="Xunit" />
-	</ItemGroup>
-
 </Project>
