@@ -21,6 +21,7 @@
 		<EnableNETAnalyzers>True</EnableNETAnalyzers>
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>..\SigningKey.snk</AssemblyOriginatorKeyFile>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -31,16 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Bcl.HashCode" Version="6.0.0" />
-		<PackageReference Include="Nerdbank.GitVersioning" Version="3.7.112">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="System.Memory" Version="4.6.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\DataFac.Unsafe\DataFac.UnsafeHelpers.csproj" />
+	  <PackageReference Include="System.Memory" Version="4.6.0" />
 	</ItemGroup>
 
 </Project>

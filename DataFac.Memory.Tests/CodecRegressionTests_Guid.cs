@@ -1,8 +1,6 @@
-﻿using DataFac.Memory;
-using FluentAssertions;
+﻿using FluentAssertions;
 using System;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Xunit;
 
 namespace DataFac.Memory.Tests

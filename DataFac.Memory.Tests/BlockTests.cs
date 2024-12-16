@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using System;
-using System.Buffers.Binary;
 using Xunit;
 
 namespace DataFac.Memory.Tests
