@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace DataFac.Memory
 {
     [StructLayout(LayoutKind.Explicit, Size = 2 * 1024)]
-    public struct BlockK002 : IMemBlock
+    public struct BlockK002
     {
         [FieldOffset(0)]
         public BlockK001 A;
