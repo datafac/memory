@@ -6,7 +6,7 @@ namespace DataFac.Memory
     {
         bool TryRead(ReadOnlySpan<byte> source);
         bool TryWrite(Span<byte> target);
-        string? UTF8String { get; set; }
+        string UTF8String { get; set; }
     }
 
 }

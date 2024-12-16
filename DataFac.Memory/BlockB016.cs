@@ -24,7 +24,7 @@ namespace DataFac.Memory
 
 #endif
 
-        public string? UTF8String
+        public string UTF8String
         {
             get => BlockHelper.GetString(ref this);
             set => BlockHelper.SetString(ref this, value);

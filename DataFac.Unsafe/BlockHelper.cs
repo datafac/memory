@@ -28,7 +28,7 @@ namespace DataFac.UnsafeHelpers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static string? GetString<T>(ref T source) where T : struct
+        public unsafe static string GetString<T>(ref T source) where T : struct
         {
             int blockSize = Unsafe.SizeOf<T>();
             byte* pointer = (byte*)(Unsafe.AsPointer<T>(ref source));
@@ -36,8 +36,7 @@ namespace DataFac.UnsafeHelpers
             if (blockSize <= 256)
             {
                 byte length = span[0];
-                if (length == 0xFF) return null;
-                else if (length == 0) return string.Empty;
+                if (length == 0) return string.Empty;
                 else
                 {
                     return Encoding.UTF8.GetString(pointer + 1, length);
@@ -46,8 +45,7 @@ namespace DataFac.UnsafeHelpers
             else
             {
                 short length = BinaryPrimitives.ReadInt16LittleEndian(span.Slice(0, 2));
-                if (length == -1) return null;
-                else if (length == 0) return string.Empty;
+                if (length == 0) return string.Empty;
                 else
                 {
                     return Encoding.UTF8.GetString(pointer + 2, length);
@@ -56,7 +54,7 @@ namespace DataFac.UnsafeHelpers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static void SetString<T>(ref T target, string? value) where T : struct
+        public unsafe static void SetString<T>(ref T target, string value) where T : struct
         {
             int blockSize = Unsafe.SizeOf<T>();
             byte* pointer = (byte*)(Unsafe.AsPointer<T>(ref target));
@@ -64,11 +62,6 @@ namespace DataFac.UnsafeHelpers
             targetSpan.Clear();
             if (blockSize <= 256)
             {
-                if (value is null)
-                {
-                    targetSpan[0] = 0xFF;
-                    return;
-                }
                 int valueLen = value.Length;
                 if (valueLen == 0)
                 {
@@ -79,7 +72,7 @@ namespace DataFac.UnsafeHelpers
                 {
                     fixed (char* valuePtr = value)
                     {
-                        int maxByteCount = blockSize < 256 ? blockSize - 1 : 254;
+                        int maxByteCount = blockSize - 1;
                         int bytesWritten = Encoding.UTF8.GetBytes(valuePtr, valueLen, pointer + 1, maxByteCount);
                         targetSpan[0] = (byte)bytesWritten;
                     }
@@ -87,11 +80,6 @@ namespace DataFac.UnsafeHelpers
             }
             else
             {
-                if (value is null)
-                {
-                    BinaryPrimitives.WriteInt16LittleEndian(targetSpan.Slice(0, 2), -1);
-                    return;
-                }
                 int valueLen = value.Length;
                 if (valueLen == 0)
                 {

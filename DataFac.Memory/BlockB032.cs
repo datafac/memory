@@ -22,7 +22,7 @@ namespace DataFac.Memory
             ref this);
 #endif
 
-        public string? UTF8String
+        public string UTF8String
         {
             get => DataFac.UnsafeHelpers.BlockHelper.GetString(ref this);
             set => DataFac.UnsafeHelpers.BlockHelper.SetString(ref this, value);
