@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using System;
+using System.Drawing;
 using System.Linq;
 using Xunit;
 
@@ -10,6 +11,8 @@ namespace DataFac.Memory.Tests
         private void Roundtrip_Block<T>(in string value, string expectedBytes, bool shouldFail = false) where T: struct, IMemBlock
         {
             T block = default;
+            int size = UnsafeHelpers.BlockHelper.BlockSize<T>();
+
             if (shouldFail)
             {
                 try
@@ -26,8 +29,22 @@ namespace DataFac.Memory.Tests
             {
                 block.UTF8String = value;
             }
-            ReadOnlySpan<byte> buffer = UnsafeHelpers.BlockHelper.AsReadOnlySpan(ref block);
-            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).Should().Be(expectedBytes);
+
+            // emit
+            Span<byte> buffer = stackalloc byte[size];
+            bool emitOk = block.TryWrite(buffer);
+            emitOk.Should().BeTrue();
+
+            // check bytes
+            string expected = string.Join("-", buffer.ToArray().Select(b => b.ToString("X2")));
+            expected.Should().StartWith(expectedBytes);
+            expected.Length.Should().Be(size * 3 - 1);
+
+            // load
+            bool loadOk = block.TryRead(buffer);
+            loadOk.Should().BeTrue();
+
+            // compare values
             string? copy = block.UTF8String;
             copy.Should().Be(value);
         }
@@ -103,10 +120,22 @@ namespace DataFac.Memory.Tests
             {
                 block.UTF8String = value;
             }
-            ReadOnlySpan<byte> buffer = UnsafeHelpers.BlockHelper.AsReadOnlySpan(ref block);
+
+            // emit
+            Span<byte> buffer = stackalloc byte[size];
+            bool emitOk = block.TryWrite(buffer);
+            emitOk.Should().BeTrue();
+
+            // check bytes
             string expected = string.Join("-", buffer.ToArray().Select(b => b.ToString("X2")));
             expected.Should().StartWith(expectedStartsWith);
             expected.Length.Should().Be(size * 3 - 1);
+
+            // load
+            bool loadOk = block.TryRead(buffer);
+            loadOk.Should().BeTrue();
+
+            // compare values
             string? copy = block.UTF8String;
             copy.Should().Be(value);
         }
@@ -138,6 +167,34 @@ namespace DataFac.Memory.Tests
         [InlineData(StringKind.Maximum, "FE-01-7A-7A-")]
         [InlineData(StringKind.Oversize, "??")]
         public void Roundtrip_BlockB512(StringKind kind, string expectedStartsWith) => Roundtrip_LargeBlock<BlockB512>(kind, expectedStartsWith);
+
+        [Theory]
+        [InlineData(StringKind.Empty, "00-00-00-00-")]
+        [InlineData(StringKind.OneChar, "01-00-61-00-")]
+        [InlineData(StringKind.Maximum, "FE-03-7A-7A-")]
+        [InlineData(StringKind.Oversize, "??")]
+        public void Roundtrip_BlockK001(StringKind kind, string expectedStartsWith) => Roundtrip_LargeBlock<BlockK001>(kind, expectedStartsWith);
+
+        [Theory]
+        [InlineData(StringKind.Empty, "00-00-00-00-")]
+        [InlineData(StringKind.OneChar, "01-00-61-00-")]
+        [InlineData(StringKind.Maximum, "FE-07-7A-7A-")]
+        [InlineData(StringKind.Oversize, "??")]
+        public void Roundtrip_BlockK002(StringKind kind, string expectedStartsWith) => Roundtrip_LargeBlock<BlockK002>(kind, expectedStartsWith);
+
+        [Theory]
+        [InlineData(StringKind.Empty, "00-00-00-00-")]
+        [InlineData(StringKind.OneChar, "01-00-61-00-")]
+        [InlineData(StringKind.Maximum, "FE-0F-7A-7A-")]
+        [InlineData(StringKind.Oversize, "??")]
+        public void Roundtrip_BlockK004(StringKind kind, string expectedStartsWith) => Roundtrip_LargeBlock<BlockK004>(kind, expectedStartsWith);
+
+        [Theory]
+        [InlineData(StringKind.Empty, "00-00-00-00-")]
+        [InlineData(StringKind.OneChar, "01-00-61-00-")]
+        [InlineData(StringKind.Maximum, "FE-1F-7A-7A-")]
+        [InlineData(StringKind.Oversize, "??")]
+        public void Roundtrip_BlockK008(StringKind kind, string expectedStartsWith) => Roundtrip_LargeBlock<BlockK008>(kind, expectedStartsWith);
 
     }
 }
