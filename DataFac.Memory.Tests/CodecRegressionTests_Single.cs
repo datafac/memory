@@ -5,6 +5,7 @@ using Xunit;
 
 namespace DataFac.Memory.Tests
 {
+
     public class CodecRegressionTests_Single
     {
         [Theory]

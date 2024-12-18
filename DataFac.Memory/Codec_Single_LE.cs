@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataFac.UnsafeHelpers;
+using System;
 using System.Buffers.Binary;
 
 namespace DataFac.Memory
@@ -54,5 +55,4 @@ namespace DataFac.Memory
 #endif
         }
     }
-
 }

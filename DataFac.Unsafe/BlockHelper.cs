@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Buffers.Binary;
+using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace DataFac.UnsafeHelpers
@@ -28,75 +30,89 @@ namespace DataFac.UnsafeHelpers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static string GetString<T>(ref T source) where T : struct
+        public unsafe static string GetStringFromSpan(ReadOnlySpan<byte> source)
         {
-            int blockSize = Unsafe.SizeOf<T>();
-            byte* pointer = (byte*)(Unsafe.AsPointer<T>(ref source));
-            var span = new ReadOnlySpan<byte>(pointer, blockSize);
-            if (blockSize <= 256)
+            fixed (byte* sourcePtr = source)
             {
-                byte length = span[0];
-                if (length == 0) return string.Empty;
-                else
+                int blockSize = source.Length;
+                if (blockSize <= 256)
                 {
-                    return Encoding.UTF8.GetString(pointer + 1, length);
+                    byte length = source[0];
+                    return length == 0 
+                        ? string.Empty 
+                        : Encoding.UTF8.GetString(sourcePtr + 1, length);
                 }
-            }
-            else
-            {
-                short length = BinaryPrimitives.ReadInt16LittleEndian(span.Slice(0, 2));
-                if (length == 0) return string.Empty;
                 else
                 {
-                    return Encoding.UTF8.GetString(pointer + 2, length);
+                    short length = BinaryPrimitives.ReadInt16LittleEndian(source.Slice(0, 2));
+                    return length == 0 
+                        ? string.Empty 
+                        : Encoding.UTF8.GetString(sourcePtr + 2, length);
                 }
             }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static void SetString<T>(ref T target, string value) where T : struct
+        public unsafe static string GetString<T>(ref T source) where T : struct
         {
             int blockSize = Unsafe.SizeOf<T>();
-            byte* pointer = (byte*)(Unsafe.AsPointer<T>(ref target));
-            var targetSpan = new Span<byte>(pointer, blockSize);
-            targetSpan.Clear();
-            if (blockSize <= 256)
+            byte* pointer = (byte*)(Unsafe.AsPointer<T>(ref source));
+            var span = new ReadOnlySpan<byte>(pointer, blockSize);
+            return GetStringFromSpan(span);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static void SetStringIntoSpan(Span<byte> target, string? value)
+        {
+            target.Clear();
+            if (value is null) return;
+
+            fixed (byte* targetPtr = target)
             {
+                int blockSize = target.Length;
                 int valueLen = value.Length;
-                if (valueLen == 0)
+                if (blockSize <= 256)
                 {
-                    targetSpan[0] = 0;
-                    return;
-                }
-                else
-                {
-                    fixed (char* valuePtr = value)
+                    int maxByteCount = blockSize - 1;
+                    if (valueLen == 0)
                     {
-                        int maxByteCount = blockSize - 1;
-                        int bytesWritten = Encoding.UTF8.GetBytes(valuePtr, valueLen, pointer + 1, maxByteCount);
-                        targetSpan[0] = (byte)bytesWritten;
+                        target[0] = 0;
+                    }
+                    else
+                    {
+                        fixed (char* valuePtr = value)
+                        {
+                            int bytesWritten = Encoding.UTF8.GetBytes(valuePtr, valueLen, targetPtr + 1, maxByteCount);
+                            target[0] = (byte)bytesWritten;
+                        }
                     }
                 }
-            }
-            else
-            {
-                int valueLen = value.Length;
-                if (valueLen == 0)
-                {
-                    BinaryPrimitives.WriteInt16LittleEndian(targetSpan.Slice(0, 2), 0);
-                    return;
-                }
                 else
                 {
-                    fixed (char* valuePtr = value)
+                    int maxByteCount = blockSize - 2;
+                    if (valueLen == 0)
                     {
-                        int maxByteCount = blockSize - 2;
-                        int bytesWritten = Encoding.UTF8.GetBytes(valuePtr, valueLen, pointer + 2, maxByteCount);
-                        BinaryPrimitives.WriteInt16LittleEndian(targetSpan.Slice(0, 2), (short)bytesWritten);
+                        BinaryPrimitives.WriteInt16LittleEndian(target.Slice(0, 2), 0);
+                    }
+                    else
+                    {
+                        fixed (char* valuePtr = value)
+                        {
+                            int bytesWritten = Encoding.UTF8.GetBytes(valuePtr, valueLen, targetPtr + 2, maxByteCount);
+                            BinaryPrimitives.WriteInt16LittleEndian(target.Slice(0, 2), (short)bytesWritten);
+                        }
                     }
                 }
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static void SetString<T>(ref T target, string? value) where T : struct
+        {
+            var blockSize = Unsafe.SizeOf<T>();
+            var pointer = (byte*)(Unsafe.AsPointer<T>(ref target));
+            var span = new Span<byte>(pointer, blockSize);
+            SetStringIntoSpan(span, value);
+        }
     }
 }
