@@ -13,7 +13,7 @@ Structs that divide memory into a binary tree. Sizes from 1B to 8KB.
 An immutable reference type that wraps a ReadOnlyMemory\<byte\> buffer.
 
 ## ReadOnlySequenceBuilder
-A helper struct that supports efficient building of ReadOnlySequence\<T\>.
+A helper class that supports efficient building of ReadOnlySequence\<T\>.
 
 ## ReadOnlyMemorySegment
 An implementation of ReadOnlySequenceSegment\<T\>.
