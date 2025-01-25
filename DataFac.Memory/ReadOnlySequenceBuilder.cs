@@ -4,10 +4,10 @@ using System.Buffers;
 namespace DataFac.Memory
 {
     /// <summary>
-    /// A helper class that supports efficient building of ReadOnlySequence\<T\>.
+    /// A helper struct that supports efficient building of ReadOnlySequence\<T\>.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public sealed class ReadOnlySequenceBuilder<T>
+    public struct ReadOnlySequenceBuilder<T>
     {
         private ReadOnlyMemorySegment<T>? _first { get; set; } = null;
         private ReadOnlyMemorySegment<T>? _last { get; set; } = null;
