@@ -79,14 +79,16 @@ namespace DataFac.Memory.Tests
         [Fact]
         public void ConstructFromSequence2_MultiSegment()
         {
-            // todo
-            //ReadOnlySequenceSegment<byte> segment1 = new ReadOnlySequenceSegment<byte>();
-            //ReadOnlySequenceSegment<byte> segment2 = new ReadOnlySequenceSegment<byte>();
-            //ReadOnlySequence<byte> sequence = new ReadOnlySequence<byte>(segment1, 0, segment2, 5);
-            //sequence.IsSingleSegment.Should().BeFalse();
-            ReadOnlySequence<byte> sequence = new ReadOnlySequence<byte>(new byte[] { 1, 2, 3, 4, 5 });
+            Octets octets1 = new Octets([0, 1, 2, 3]);
+            Octets octets2 = new Octets([4, 5]);
+            Octets octets3 = new Octets([6, 7, 8, 9]);
+            var sequence = Octets.CreateReadOnlySequence(octets1, octets2, octets3);
+
+            sequence.IsSingleSegment.Should().BeFalse();
+            sequence.Length.Should().Be(10);
+
             Octets buffer1 = new Octets(sequence);
-            Octets buffer2 = new Octets(new byte[] { 1, 2, 3, 4, 5 });
+            Octets buffer2 = new Octets([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
             buffer1.Equals(buffer2).Should().BeTrue();
 
             int hash1 = buffer1.GetHashCode();
@@ -431,7 +433,7 @@ namespace DataFac.Memory.Tests
         public void GetHeadTailEmpty()
         {
             Octets orig = Octets.Empty;
-            (var head, var body, var tail) = orig.GetHeadTail(0, 0);
+            (var head, var body, var tail) = orig.GetHeadAndBody(0, 0);
             head.Equals(Octets.Empty).Should().BeTrue();
             body.Equals(Octets.Empty).Should().BeTrue();
             tail.Equals(Octets.Empty).Should().BeTrue();
@@ -443,7 +445,7 @@ namespace DataFac.Memory.Tests
         public void GetHeadTailNonEmptyA()
         {
             Octets orig = new Octets(new byte[] { 1, 2, 3 });
-            (var head, var body, var tail) = orig.GetHeadTail(1, 1);
+            (var head, var body, var tail) = orig.GetHeadAndBody(1, 1);
             head.Memory.Length.Should().Be(1);
             var headBytes = head.Memory.ToArray();
             headBytes[0].Should().Be(1);
@@ -461,7 +463,7 @@ namespace DataFac.Memory.Tests
         public void GetHeadTailNonEmptyB()
         {
             Octets orig = new Octets(new byte[] { 1, 2, 3, 4 }, new byte[] { 5, 6, 7, 8 });
-            (var head, var body, var tail) = orig.GetHeadTail(2, 4);
+            (var head, var body, var tail) = orig.GetHeadAndBody(2, 4);
             // head
             head.Memory.Length.Should().Be(2);
             var headBytes = head.Memory.ToArray();

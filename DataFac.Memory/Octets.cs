@@ -24,6 +24,67 @@ namespace DataFac.Memory
             return source.Length == 0 ? _empty : new Octets(source);
         }
 
+        /// <summary>
+        /// Creates a ReadOnlySequence\<byte\> from given Octets.
+        /// </summary>
+        public static ReadOnlySequence<byte> CreateReadOnlySequence(Octets buffer1)
+        {
+            ReadOnlySequenceBuilder<byte> builder = new(buffer1.Memory);
+            return builder.Build();
+        }
+
+        /// <summary>
+        /// Creates a ReadOnlySequence\<byte\> from given Octets.
+        /// </summary>
+        public static ReadOnlySequence<byte> CreateReadOnlySequence(Octets buffer1, Octets buffer2)
+        {
+            ReadOnlySequenceBuilder<byte> builder = new(buffer1.Memory, buffer2.Memory);
+            return builder.Build();
+        }
+
+        /// <summary>
+        /// Creates a ReadOnlySequence\<byte\> from given Octets.
+        /// </summary>
+        public static ReadOnlySequence<byte> CreateReadOnlySequence(Octets buffer1, Octets buffer2, Octets buffer3)
+        {
+            ReadOnlySequenceBuilder<byte> builder = new(buffer1.Memory, buffer2.Memory, buffer3.Memory);
+            return builder.Build();
+        }
+
+        /// <summary>
+        /// Creates a ReadOnlySequence\<byte\> from given Octets.
+        /// </summary>
+        public static ReadOnlySequence<byte> CreateReadOnlySequence(Octets buffer1, Octets buffer2, Octets buffer3, Octets buffer4)
+        {
+            ReadOnlySequenceBuilder<byte> builder = new(buffer1.Memory, buffer2.Memory, buffer3.Memory);
+            builder.Add(buffer4.Memory);
+            return builder.Build();
+        }
+
+        /// <summary>
+        /// Creates a ReadOnlySequence\<byte\> from given Octets.
+        /// </summary>
+        public static ReadOnlySequence<byte> CreateReadOnlySequence(Octets buffer1, Octets buffer2, Octets buffer3, Octets buffer4, Octets buffer5)
+        {
+            ReadOnlySequenceBuilder<byte> builder = new(buffer1.Memory, buffer2.Memory, buffer3.Memory);
+            builder.Add(buffer4.Memory);
+            builder.Add(buffer5.Memory);
+            return builder.Build();
+        }
+
+        /// <summary>
+        /// Creates a ReadOnlySequence\<byte\> from given Octets.
+        /// </summary>
+        public static ReadOnlySequence<byte> CreateReadOnlySequence(params Octets[] buffers)
+        {
+            ReadOnlySequenceBuilder<byte> builder = default;
+            foreach (var buffer in buffers)
+            {
+                builder.Add(buffer.Memory);
+            }
+            return builder.Build();
+        }
+
         private readonly ReadOnlyMemory<byte> _memory;
         public ReadOnlyMemory<byte> Memory => _memory;
 
@@ -110,6 +171,27 @@ namespace DataFac.Memory
                 UnsafeWrap(_memory.Slice(headLength)));
         }
 
+        public (Octets rest, Octets tail) GetTail(int tailLength)
+        {
+            int restLength = (Memory.Length >= tailLength) ? Memory.Length - tailLength : 0;
+            return (UnsafeWrap(_memory.Slice(0, restLength)), UnsafeWrap(_memory.Slice(restLength)));
+        }
+
+        public (Octets head, Octets body, Octets tail) GetHeadAndBody(int headLength, int bodyLength)
+        {
+            var (head, rest) = this.GetHead(headLength);
+            var (body, tail) = rest.GetHead(bodyLength);
+            return (head, body, tail);
+        }
+
+        public (Octets head, Octets body, Octets tail) GetHeadAndTail(int headLength, int tailLength)
+        {
+            var (head, rest) = this.GetHead(headLength);
+            var (body, tail) = rest.GetTail(tailLength);
+            return (head, body, tail);
+        }
+
+        [Obsolete("Deprecated, Use GetHeadAndBody or GetHeadAndTail")]
         public (Octets head, Octets body, Octets tail) GetHeadTail(int headLength, int bodyLength)
         {
             return (
