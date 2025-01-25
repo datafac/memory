@@ -94,6 +94,11 @@ namespace DataFac.Memory.Tests
             int hash1 = buffer1.GetHashCode();
             int hash2 = buffer2.GetHashCode();
             hash2.Should().Be(hash1);
+
+            // assert compacted sequence is same
+            var sequence2 = sequence.Compact();
+            Octets buffer3 = Octets.UnsafeWrap(sequence2);
+            buffer3.Equals(buffer2).Should().BeTrue();
         }
 
         [Fact]

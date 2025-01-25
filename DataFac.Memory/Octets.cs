@@ -150,13 +150,11 @@ namespace DataFac.Memory
             }
             else
             {
-                byte[] buffer = new byte[sequence.Length];
-                Span<byte> span = buffer.AsSpan();
+                Memory<byte> buffer = new byte[sequence.Length];
                 int offset = 0;
                 foreach (var segment in sequence)
                 {
-                    Span<byte> target = span.Slice(offset);
-                    segment.Span.CopyTo(target);
+                    segment.CopyTo(buffer.Slice(offset));
                     offset += segment.Length;
                 }
                 _memory = buffer;
