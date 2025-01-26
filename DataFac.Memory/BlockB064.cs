@@ -1,6 +1,8 @@
 ﻿using DataFac.UnsafeHelpers;
 using System;
+using System.Buffers.Binary;
 using System.IO;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -31,6 +33,126 @@ namespace DataFac.Memory
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(BlockB064 other) => this.A.Equals(other.A) && this.B.Equals(other.B);
-    }
 
+        public void GetInt32ArrayBE(Span<Int32> target)
+        {
+            var source = MemoryMarshal.Cast<byte, Int32>(BlockHelper.AsReadOnlySpan(ref this));
+            if (!BitConverter.IsLittleEndian)
+            {
+                source.Slice(0, target.Length).CopyTo(target);
+            }
+            else
+            {
+                for (int i = 0; i < target.Length; i++)
+                {
+                    target[i] = BinaryPrimitives.ReverseEndianness(source[i]);
+                }
+            }
+        }
+        public void SetInt32ArrayBE(ReadOnlySpan<Int32> values)
+        {
+            var target = MemoryMarshal.Cast<byte, Int32>(BlockHelper.AsWritableSpan(ref this));
+            if (!BitConverter.IsLittleEndian)
+            {
+                values.CopyTo(target);
+            }
+            else
+            {
+                for (int i = 0; i < values.Length; i++)
+                {
+                    target[i] = BinaryPrimitives.ReverseEndianness(values[i]);
+                }
+            }
+        }
+        public void GetInt32ArrayLE(Span<Int32> target)
+        {
+            var source = MemoryMarshal.Cast<byte, Int32>(BlockHelper.AsReadOnlySpan(ref this));
+            if (BitConverter.IsLittleEndian)
+            {
+                source.Slice(0, target.Length).CopyTo(target);
+            }
+            else
+            {
+                for (int i = 0; i < target.Length; i++)
+                {
+                    target[i] = BinaryPrimitives.ReverseEndianness(source[i]);
+                }
+            }
+        }
+        public void SetInt32ArrayLE(ReadOnlySpan<Int32> values)
+        {
+            var target = MemoryMarshal.Cast<byte, Int32>(BlockHelper.AsWritableSpan(ref this));
+            if (BitConverter.IsLittleEndian)
+            {
+                values.CopyTo(target);
+            }
+            else
+            {
+                for (int i = 0; i < values.Length; i++)
+                {
+                    target[i] = BinaryPrimitives.ReverseEndianness(values[i]);
+                }
+            }
+        }
+        public void GetUInt32ArrayBE(Span<UInt32> target)
+        {
+            var source = MemoryMarshal.Cast<byte, UInt32>(BlockHelper.AsReadOnlySpan(ref this));
+            if (!BitConverter.IsLittleEndian)
+            {
+                source.Slice(0, target.Length).CopyTo(target);
+            }
+            else
+            {
+                for (int i = 0; i < target.Length; i++)
+                {
+                    target[i] = BinaryPrimitives.ReverseEndianness(source[i]);
+                }
+            }
+        }
+        public void SetUInt32ArrayBE(ReadOnlySpan<UInt32> values)
+        {
+            var target = MemoryMarshal.Cast<byte, UInt32>(BlockHelper.AsWritableSpan(ref this));
+            if (!BitConverter.IsLittleEndian)
+            {
+                values.CopyTo(target);
+            }
+            else
+            {
+                for (int i = 0; i < values.Length; i++)
+                {
+                    target[i] = BinaryPrimitives.ReverseEndianness(values[i]);
+                }
+            }
+        }
+        public void GetUInt32ArrayLE(Span<UInt32> target)
+        {
+            var source = MemoryMarshal.Cast<byte, UInt32>(BlockHelper.AsReadOnlySpan(ref this));
+            if (BitConverter.IsLittleEndian)
+            {
+                source.Slice(0, target.Length).CopyTo(target);
+            }
+            else
+            {
+                for (int i = 0; i < target.Length; i++)
+                {
+                    target[i] = BinaryPrimitives.ReverseEndianness(source[i]);
+                }
+            }
+        }
+        public void SetUInt32ArrayLE(ReadOnlySpan<UInt32> values)
+        {
+            var target = MemoryMarshal.Cast<byte, UInt32>(BlockHelper.AsWritableSpan(ref this));
+            if (BitConverter.IsLittleEndian)
+            {
+                values.CopyTo(target);
+            }
+            else
+            {
+                for (int i = 0; i < values.Length; i++)
+                {
+                    target[i] = BinaryPrimitives.ReverseEndianness(values[i]);
+                }
+            }
+        }
+    }
 }
