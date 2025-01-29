@@ -13,6 +13,8 @@ namespace DataFac.Memory
     {
         private const int Size = 8;
 
+        public int BlockSize => Size;
+
         [FieldOffset(0)] public BlockB004 A;
         [FieldOffset(4)] public BlockB004 B;
 
@@ -33,6 +35,22 @@ namespace DataFac.Memory
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(BlockB008 other) => _long == other._long;
 
+        public override bool Equals(object? obj) => obj is BlockB008 other && Equals(other);
+        public override int GetHashCode()
+        {
+            var self = BlockHelper.AsReadOnlySpan(ref this);
+            HashCode hashCode = new HashCode();
+            hashCode.Add(self.Length);
+#if NET8_0_OR_GREATER
+            hashCode.AddBytes(self);
+#else
+            for (int i = 0; i < self.Length; i++)
+            {
+                hashCode.Add(self[i]);
+            }
+#endif
+            return hashCode.ToHashCode();
+        }
         [FieldOffset(0)] public long _long;
         public long Int64ValueLE
         {

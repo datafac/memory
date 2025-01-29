@@ -13,6 +13,8 @@ namespace DataFac.Memory
     {
         private const int Size = 4;
 
+        public int BlockSize => Size;
+
         [FieldOffset(0)] public BlockB002 A;
         [FieldOffset(2)] public BlockB002 B;
 

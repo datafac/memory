@@ -23,6 +23,13 @@ namespace DataFac.UnsafeHelpers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static ReadOnlySpan<long> AsReadOnlySpanOfInt64<TFrom>(ref TFrom source) where TFrom : struct
+        {
+            int size = Unsafe.SizeOf<TFrom>();
+            return new ReadOnlySpan<long>(Unsafe.AsPointer(ref source), size);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe static Span<byte> AsWritableSpan<T>(ref T target) where T : struct
         {
             int size = Unsafe.SizeOf<T>();

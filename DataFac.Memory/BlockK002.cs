@@ -10,6 +10,8 @@ namespace DataFac.Memory
     {
         private const int Size = 2 * 1024;
 
+        public int BlockSize => Size;
+
         [FieldOffset(0)]
         public BlockK001 A;
         [FieldOffset(1 * 1024)]
@@ -30,7 +32,28 @@ namespace DataFac.Memory
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(BlockK002 other) => this.A.Equals(other.A) && this.B.Equals(other.B);
+        public bool Equals(BlockK002 other)
+        {
+            var self = BlockHelper.AsReadOnlySpanOfInt64(ref this);
+            var that = BlockHelper.AsReadOnlySpanOfInt64(ref other);
+            return self.SequenceEqual<long>(that);
+        }
+        public override bool Equals(object? obj) => obj is BlockK002 other && Equals(other);
+        public override int GetHashCode()
+        {
+            var self = BlockHelper.AsReadOnlySpan(ref this);
+            HashCode hashCode = new HashCode();
+            hashCode.Add(self.Length);
+#if NET8_0_OR_GREATER
+            hashCode.AddBytes(self);
+#else
+            for (int i = 0; i < self.Length; i++)
+            {
+                hashCode.Add(self[i]);
+            }
+#endif
+            return hashCode.ToHashCode();
+        }
 
     }
 

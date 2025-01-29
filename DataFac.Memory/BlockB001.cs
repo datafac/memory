@@ -11,6 +11,8 @@ namespace DataFac.Memory
     {
         private const int Size = 1;
 
+        public int BlockSize => Size;
+
         [FieldOffset(0)] public bool BoolValue;
         [FieldOffset(0)] public sbyte SByteValue;
         [FieldOffset(0)] public byte ByteValue;

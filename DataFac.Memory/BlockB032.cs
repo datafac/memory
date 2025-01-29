@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataFac.UnsafeHelpers;
+using System;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -10,6 +11,8 @@ namespace DataFac.Memory
     public struct BlockB032 : IMemBlock, IEquatable<BlockB032>
     {
         private const int Size = 32;
+
+        public int BlockSize => Size;
 
         [FieldOffset(0)] public BlockB016 A;
         [FieldOffset(16)] public BlockB016 B;
@@ -29,7 +32,28 @@ namespace DataFac.Memory
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(BlockB032 other) => this.A.Equals(other.A) && this.B.Equals(other.B);
+        public bool Equals(BlockB032 other)
+        {
+            var self = BlockHelper.AsReadOnlySpanOfInt64(ref this);
+            var that = BlockHelper.AsReadOnlySpanOfInt64(ref other);
+            return self.SequenceEqual<long>(that);
+        }
+        public override bool Equals(object? obj) => obj is BlockB032 other && Equals(other);
+        public override int GetHashCode()
+        {
+            var self = BlockHelper.AsReadOnlySpan(ref this);
+            HashCode hashCode = new HashCode();
+            hashCode.Add(self.Length);
+#if NET8_0_OR_GREATER
+            hashCode.AddBytes(self);
+#else
+            for (int i = 0; i < self.Length; i++)
+            {
+                hashCode.Add(self[i]);
+            }
+#endif
+            return hashCode.ToHashCode();
+        }
     }
 
 }
