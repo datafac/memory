@@ -6,7 +6,7 @@ namespace DataFac.Memory.Tests
 {
     public class BlockTests
     {
-        private T CopyAndCompare<T>(T orig, int size) where T: struct, IMemBlock, IEquatable<T>
+        private T CopyAndCompare<T>(T orig, int size) where T : struct, IMemBlock, IEquatable<T>
         {
             Span<byte> buffer = stackalloc byte[size];
 
@@ -25,6 +25,7 @@ namespace DataFac.Memory.Tests
         public void CopyBlockB001()
         {
             BlockB001 orig = default;
+            orig.IsEmpty.Should().BeTrue();
             orig.ByteValue = 0xFF;
             var copy = CopyAndCompare(orig, 1);
             copy.ByteValue.Should().Be(0xFF);
@@ -38,6 +39,7 @@ namespace DataFac.Memory.Tests
         public void CopyBlockB002(short value)
         {
             BlockB002 orig = default;
+            orig.IsEmpty.Should().BeTrue();
             orig.Int16ValueBE = value;
             var copy = CopyAndCompare(orig, 2);
             copy.Int16ValueBE.Should().Be(value);
@@ -59,6 +61,7 @@ namespace DataFac.Memory.Tests
         public void CopyBlockB004(float value)
         {
             BlockB004 orig = default;
+            orig.IsEmpty.Should().BeTrue();
             orig.SingleValueBE = value;
             var copy = CopyAndCompare(orig, 4);
             copy.SingleValueBE.Should().Be(value);
@@ -80,9 +83,28 @@ namespace DataFac.Memory.Tests
         public void CopyBlockB008(double value)
         {
             BlockB008 orig = default;
+            orig.IsEmpty.Should().BeTrue();
             orig.DoubleValueBE = value;
             var copy = CopyAndCompare(orig, 8);
             copy.DoubleValueBE.Should().Be(value);
+        }
+
+        [Theory]
+        [InlineData("empty")]
+        [InlineData("other")]
+        public void CopyBlockB016(string input)
+        {
+            Guid value = input switch
+            {
+                "empty" => Guid.Empty,
+                "other" => Guid.NewGuid(),
+                _ => throw new ArgumentOutOfRangeException(nameof(input), input, null)
+            };
+            BlockB016 orig = default;
+            orig.IsEmpty.Should().BeTrue();
+            orig.GuidValueLE = value;
+            var copy = CopyAndCompare(orig, 16);
+            copy.GuidValueLE.Should().Be(value);
         }
 
     }

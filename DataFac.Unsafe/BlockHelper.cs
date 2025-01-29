@@ -15,6 +15,15 @@ namespace DataFac.UnsafeHelpers
             return Unsafe.SizeOf<T>();
         }
 
+        public static bool AreAllZero(this ReadOnlySpan<long> source)
+        {
+            for (var i = 0; i < source.Length; i++)
+            {
+                if (source[i] != 0) return false;
+            }
+            return true;
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe static ReadOnlySpan<byte> AsReadOnlySpan<T>(ref T source) where T : struct
         {
@@ -25,8 +34,9 @@ namespace DataFac.UnsafeHelpers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe static ReadOnlySpan<long> AsReadOnlySpanOfInt64<TFrom>(ref TFrom source) where TFrom : struct
         {
-            int size = Unsafe.SizeOf<TFrom>();
-            return new ReadOnlySpan<long>(Unsafe.AsPointer(ref source), size);
+            int size = Unsafe.SizeOf<TFrom>() / 8;
+            var span = new ReadOnlySpan<long>(Unsafe.AsPointer(ref source), size);
+            return span;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

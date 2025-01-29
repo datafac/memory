@@ -32,6 +32,8 @@ namespace DataFac.Memory
             set => BlockHelper.SetString(ref this, value);
         }
 
+        public bool IsEmpty => _int == 0;
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(BlockB004 other) => _int == other._int;
 

@@ -32,6 +32,8 @@ namespace DataFac.Memory
             set => BlockHelper.SetString(ref this, value);
         }
 
+        public bool IsEmpty => BlockHelper.AsReadOnlySpanOfInt64(ref this).AreAllZero();
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(BlockB016 other)
         {

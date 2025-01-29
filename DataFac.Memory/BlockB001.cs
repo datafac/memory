@@ -23,6 +23,8 @@ namespace DataFac.Memory
             set => BlockHelper.SetString(ref this, value);
         }
 
+        public bool IsEmpty => ByteValue == 0;
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(BlockB001 other) => ByteValue == other.ByteValue;
 
