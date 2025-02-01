@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using System;
 using System.Linq;
 using Xunit;
@@ -39,9 +39,9 @@ namespace DataFac.Memory.Tests
             Int128 value = GetTestInt128(input);
             Span<byte> buffer = stackalloc byte[16];
             DataFac.Memory.Codec_Int128_BE.WriteToSpan(buffer, value);
-            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).Should().Be(expectedBytes);
+            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
             Int128 copy = DataFac.Memory.Codec_Int128_BE.ReadFromSpan(buffer);
-            copy.Should().Be(value);
+            copy.ShouldBe(value);
         }
 
         [Theory]
@@ -55,9 +55,9 @@ namespace DataFac.Memory.Tests
             Int128 value = GetTestInt128(input);
             Span<byte> buffer = stackalloc byte[16];
             DataFac.Memory.Codec_Int128_LE.WriteToSpan(buffer, value);
-            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).Should().Be(expectedBytes);
+            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
             Int128 copy = DataFac.Memory.Codec_Int128_LE.ReadFromSpan(buffer);
-            copy.Should().Be(value);
+            copy.ShouldBe(value);
         }
 
         [Theory]
@@ -69,9 +69,9 @@ namespace DataFac.Memory.Tests
             UInt128 value = GetTestUInt128(input);
             Span<byte> buffer = stackalloc byte[16];
             DataFac.Memory.Codec_UInt128_BE.WriteToSpan(buffer, value);
-            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).Should().Be(expectedBytes);
+            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
             UInt128 copy = DataFac.Memory.Codec_UInt128_BE.ReadFromSpan(buffer);
-            copy.Should().Be(value);
+            copy.ShouldBe(value);
         }
 
         [Theory]
@@ -83,9 +83,9 @@ namespace DataFac.Memory.Tests
             UInt128 value = GetTestUInt128(input);
             Span<byte> buffer = stackalloc byte[16];
             DataFac.Memory.Codec_UInt128_LE.WriteToSpan(buffer, value);
-            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).Should().Be(expectedBytes);
+            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
             UInt128 copy = DataFac.Memory.Codec_UInt128_LE.ReadFromSpan(buffer);
-            copy.Should().Be(value);
+            copy.ShouldBe(value);
         }
     }
 #endif

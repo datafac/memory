@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using System;
 using Xunit;
 
@@ -10,13 +10,13 @@ namespace DataFac.Memory.Tests
         {
             Span<byte> buffer = stackalloc byte[size];
 
-            orig.TryWrite(buffer).Should().BeTrue();
+            orig.TryWrite(buffer).ShouldBeTrue();
 
             T copy = default;
-            copy.TryRead(buffer).Should().BeTrue();
+            copy.TryRead(buffer).ShouldBeTrue();
 
-            copy.Should().Be(orig);
-            copy.Equals(orig).Should().BeTrue();
+            copy.ShouldBe(orig);
+            copy.Equals(orig).ShouldBeTrue();
 
             return copy;
         }
@@ -25,10 +25,10 @@ namespace DataFac.Memory.Tests
         public void CopyBlockB001()
         {
             BlockB001 orig = default;
-            orig.IsEmpty.Should().BeTrue();
+            orig.IsEmpty.ShouldBeTrue();
             orig.ByteValue = 0xFF;
             var copy = CopyAndCompare(orig, 1);
-            copy.ByteValue.Should().Be(0xFF);
+            copy.ByteValue.ShouldBe((byte)0xFF);
         }
 
         [Theory]
@@ -39,10 +39,10 @@ namespace DataFac.Memory.Tests
         public void CopyBlockB002(short value)
         {
             BlockB002 orig = default;
-            orig.IsEmpty.Should().BeTrue();
+            orig.IsEmpty.ShouldBeTrue();
             orig.Int16ValueBE = value;
             var copy = CopyAndCompare(orig, 2);
-            copy.Int16ValueBE.Should().Be(value);
+            copy.Int16ValueBE.ShouldBe(value);
         }
 
         [Theory]
@@ -61,10 +61,10 @@ namespace DataFac.Memory.Tests
         public void CopyBlockB004(float value)
         {
             BlockB004 orig = default;
-            orig.IsEmpty.Should().BeTrue();
+            orig.IsEmpty.ShouldBeTrue();
             orig.SingleValueBE = value;
             var copy = CopyAndCompare(orig, 4);
-            copy.SingleValueBE.Should().Be(value);
+            copy.SingleValueBE.ShouldBe(value);
         }
 
         [Theory]
@@ -83,10 +83,10 @@ namespace DataFac.Memory.Tests
         public void CopyBlockB008(double value)
         {
             BlockB008 orig = default;
-            orig.IsEmpty.Should().BeTrue();
+            orig.IsEmpty.ShouldBeTrue();
             orig.DoubleValueBE = value;
             var copy = CopyAndCompare(orig, 8);
-            copy.DoubleValueBE.Should().Be(value);
+            copy.DoubleValueBE.ShouldBe(value);
         }
 
         [Theory]
@@ -101,10 +101,10 @@ namespace DataFac.Memory.Tests
                 _ => throw new ArgumentOutOfRangeException(nameof(input), input, null)
             };
             BlockB016 orig = default;
-            orig.IsEmpty.Should().BeTrue();
+            orig.IsEmpty.ShouldBeTrue();
             orig.GuidValueLE = value;
             var copy = CopyAndCompare(orig, 16);
-            copy.GuidValueLE.Should().Be(value);
+            copy.GuidValueLE.ShouldBe(value);
         }
 
     }

@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using System;
 using System.Drawing;
 using System.Linq;
@@ -21,7 +21,7 @@ namespace DataFac.Memory.Tests
                 }
                 catch (ArgumentException e)
                 {
-                    e.Message.Should().StartWith("The output byte buffer is too small");
+                    e.Message.ShouldStartWith("The output byte buffer is too small");
                     return;
                 }
             }
@@ -33,20 +33,20 @@ namespace DataFac.Memory.Tests
             // emit
             Span<byte> buffer = stackalloc byte[size];
             bool emitOk = block.TryWrite(buffer);
-            emitOk.Should().BeTrue();
+            emitOk.ShouldBeTrue();
 
             // check bytes
             string expected = string.Join("-", buffer.ToArray().Select(b => b.ToString("X2")));
-            expected.Should().StartWith(expectedBytes);
-            expected.Length.Should().Be(size * 3 - 1);
+            expected.ShouldStartWith(expectedBytes);
+            expected.Length.ShouldBe(size * 3 - 1);
 
             // load
             bool loadOk = block.TryRead(buffer);
-            loadOk.Should().BeTrue();
+            loadOk.ShouldBeTrue();
 
             // compare values
             string? copy = block.UTF8String;
-            copy.Should().Be(value);
+            copy.ShouldBe(value);
         }
 
         [Theory]
@@ -112,7 +112,7 @@ namespace DataFac.Memory.Tests
                 }
                 catch (ArgumentException e)
                 {
-                    e.Message.Should().StartWith("The output byte buffer is too small");
+                    e.Message.ShouldStartWith("The output byte buffer is too small");
                     return;
                 }
             }
@@ -124,20 +124,20 @@ namespace DataFac.Memory.Tests
             // emit
             Span<byte> buffer = stackalloc byte[size];
             bool emitOk = block.TryWrite(buffer);
-            emitOk.Should().BeTrue();
+            emitOk.ShouldBeTrue();
 
             // check bytes
             string expected = string.Join("-", buffer.ToArray().Select(b => b.ToString("X2")));
-            expected.Should().StartWith(expectedStartsWith);
-            expected.Length.Should().Be(size * 3 - 1);
+            expected.ShouldStartWith(expectedStartsWith);
+            expected.Length.ShouldBe(size * 3 - 1);
 
             // load
             bool loadOk = block.TryRead(buffer);
-            loadOk.Should().BeTrue();
+            loadOk.ShouldBeTrue();
 
             // compare values
             string? copy = block.UTF8String;
-            copy.Should().Be(value);
+            copy.ShouldBe(value);
         }
 
         [Theory]

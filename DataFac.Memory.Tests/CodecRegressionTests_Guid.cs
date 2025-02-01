@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using System;
 using System.Linq;
 using Xunit;
@@ -29,17 +29,17 @@ namespace DataFac.Memory.Tests
             {
                 Span<byte> buffer = stackalloc byte[16];
                 GuidHelper.WriteToSpan(buffer, true, orig);
-                string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).Should().Be(bigEndianText);
+                string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(bigEndianText);
                 Guid copy = GuidHelper.ReadFromSpan(buffer, true);
-                copy.Should().Be(orig);
+                copy.ShouldBe(orig);
             }
 
             {
                 Span<byte> buffer = stackalloc byte[16];
                 GuidHelper.WriteToSpan(buffer, false, orig);
-                string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).Should().Be(littleEndianText);
+                string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(littleEndianText);
                 Guid copy = GuidHelper.ReadFromSpan(buffer, false);
-                copy.Should().Be(orig);
+                copy.ShouldBe(orig);
             }
         }
 
@@ -56,13 +56,13 @@ namespace DataFac.Memory.Tests
 #else
             DataFac.Memory.Codec_Guid_BE.Instance.WriteTo(buffer, value);
 #endif
-            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).Should().Be(expectedBytes);
+            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
 #if NET7_0_OR_GREATER
             Guid copy = DataFac.Memory.Codec_Guid_BE.ReadFromSpan(buffer);
 #else
             Guid copy = DataFac.Memory.Codec_Guid_BE.Instance.ReadFrom(buffer);
 #endif
-            copy.Should().Be(value);
+            copy.ShouldBe(value);
         }
 
         [Theory]
@@ -78,13 +78,13 @@ namespace DataFac.Memory.Tests
 #else
             DataFac.Memory.Codec_Guid_LE.Instance.WriteTo(buffer, value);
 #endif
-            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).Should().Be(expectedBytes);
+            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
 #if NET7_0_OR_GREATER
             Guid copy = DataFac.Memory.Codec_Guid_LE.ReadFromSpan(buffer);
 #else
             Guid copy = DataFac.Memory.Codec_Guid_LE.Instance.ReadFrom(buffer);
 #endif
-            copy.Should().Be(value);
+            copy.ShouldBe(value);
         }
 
     }

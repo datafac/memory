@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using System;
 using System.Linq;
 using Xunit;
@@ -21,13 +21,13 @@ namespace DataFac.Memory.Tests
 #else
             DataFac.Memory.Codec_Int32_BE.Instance.WriteTo(buffer, value);
 #endif
-            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).Should().Be(expectedBytes);
+            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
 #if NET7_0_OR_GREATER
             Int32 copy = DataFac.Memory.Codec_Int32_BE.ReadFromSpan(buffer);
 #else
             Int32 copy = DataFac.Memory.Codec_Int32_BE.Instance.ReadFrom(buffer);
 #endif
-            copy.Should().Be(value);
+            copy.ShouldBe(value);
         }
 
         [Theory]
@@ -44,13 +44,13 @@ namespace DataFac.Memory.Tests
 #else
             DataFac.Memory.Codec_Int32_LE.Instance.WriteTo(buffer, value);
 #endif
-            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).Should().Be(expectedBytes);
+            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
 #if NET7_0_OR_GREATER
             Int32 copy = DataFac.Memory.Codec_Int32_LE.ReadFromSpan(buffer);
 #else
             Int32 copy = DataFac.Memory.Codec_Int32_LE.Instance.ReadFrom(buffer);
 #endif
-            copy.Should().Be(value);
+            copy.ShouldBe(value);
         }
 
         [Theory]
@@ -65,13 +65,13 @@ namespace DataFac.Memory.Tests
 #else
             DataFac.Memory.Codec_UInt32_BE.Instance.WriteTo(buffer, value);
 #endif
-            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).Should().Be(expectedBytes);
+            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
 #if NET7_0_OR_GREATER
             UInt32 copy = DataFac.Memory.Codec_UInt32_BE.ReadFromSpan(buffer);
 #else
             UInt32 copy = DataFac.Memory.Codec_UInt32_BE.Instance.ReadFrom(buffer);
 #endif
-            copy.Should().Be(value);
+            copy.ShouldBe(value);
         }
 
         [Theory]
@@ -86,13 +86,13 @@ namespace DataFac.Memory.Tests
 #else
             DataFac.Memory.Codec_UInt32_LE.Instance.WriteTo(buffer, value);
 #endif
-            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).Should().Be(expectedBytes);
+            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
 #if NET7_0_OR_GREATER
             UInt32 copy = DataFac.Memory.Codec_UInt32_LE.ReadFromSpan(buffer);
 #else
             UInt32 copy = DataFac.Memory.Codec_UInt32_LE.Instance.ReadFrom(buffer);
 #endif
-            copy.Should().Be(value);
+            copy.ShouldBe(value);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using System;
 using System.Linq;
 using Xunit;
@@ -18,13 +18,13 @@ namespace DataFac.Memory.Tests
 #else
             DataFac.Memory.Codec_Boolean_BE.Instance.WriteTo(buffer, value);
 #endif
-            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).Should().Be(expectedBytes);
+            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
 #if NET7_0_OR_GREATER
             Boolean copy = DataFac.Memory.Codec_Boolean_BE.ReadFromSpan(buffer);
 #else
             Boolean copy = DataFac.Memory.Codec_Boolean_BE.Instance.ReadFrom(buffer);
 #endif
-            copy.Should().Be(value);
+            copy.ShouldBe(value);
         }
 
         [Theory]
@@ -38,13 +38,13 @@ namespace DataFac.Memory.Tests
 #else
             DataFac.Memory.Codec_Boolean_LE.Instance.WriteTo(buffer, value);
 #endif
-            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).Should().Be(expectedBytes);
+            string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
 #if NET7_0_OR_GREATER
             Boolean copy = DataFac.Memory.Codec_Boolean_LE.ReadFromSpan(buffer);
 #else
             Boolean copy = DataFac.Memory.Codec_Boolean_LE.Instance.ReadFrom(buffer);
 #endif
-            copy.Should().Be(value);
+            copy.ShouldBe(value);
         }
     }
 }
