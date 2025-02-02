@@ -189,6 +189,8 @@ namespace DataFac.Memory.Tests
 
             b.Equals(a).ShouldBeFalse();
             Equals(a, b).ShouldBeFalse();
+            (a == b).ShouldBeFalse();
+            (a != b).ShouldBeTrue();
         }
 
         [Fact]
@@ -199,6 +201,8 @@ namespace DataFac.Memory.Tests
 
             b.Equals(a).ShouldBeFalse();
             Equals(a, b).ShouldBeFalse();
+            (a == b).ShouldBeFalse();
+            (a != b).ShouldBeTrue();
         }
 
         [Fact]
@@ -213,6 +217,8 @@ namespace DataFac.Memory.Tests
             b.Equals(a).ShouldBeTrue();
             b.ShouldNotBeSameAs(a);
             Equals(a, b).ShouldBeTrue();
+            (a == b).ShouldBeTrue();
+            (a != b).ShouldBeFalse();
         }
 
         [Fact]
@@ -226,6 +232,34 @@ namespace DataFac.Memory.Tests
             b.GetHashCode().ShouldBe(a.GetHashCode());
             b.ShouldBeEquivalentTo(a);
             b.Equals(a).ShouldBeTrue();
+            (a == b).ShouldBeTrue();
+            (a != b).ShouldBeFalse();
+        }
+
+        [Fact]
+        public void Block_Equality_Null1()
+        {
+            Octets a = Octets.Empty;
+            Octets? b = null;
+
+            Equals(a, b).ShouldBeFalse();
+            (a == b).ShouldBeFalse();
+            (a != b).ShouldBeTrue();
+
+            Equals(b, a).ShouldBeFalse();
+            (b == a).ShouldBeFalse();
+            (b != a).ShouldBeTrue();
+        }
+
+        [Fact]
+        public void Block_Equality_Null2()
+        {
+            Octets? a = null;
+            Octets? b = null;
+
+            Equals(a, b).ShouldBeTrue();
+            (a == b).ShouldBeTrue();
+            (a != b).ShouldBeFalse();
         }
 
         [Fact]

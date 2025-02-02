@@ -284,7 +284,10 @@ namespace DataFac.Memory
             return thatSpan.SequenceEqual(thisSpan);
         }
 
-#endregion
+        public static bool operator ==(Octets? left, Octets? right) => left is null ? right is null : left.Equals(right);
+        public static bool operator !=(Octets? left, Octets? right) => left is null ? right is not null : !left.Equals(right);
+
+        #endregion
 
     }
 }
