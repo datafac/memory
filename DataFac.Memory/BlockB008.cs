@@ -53,6 +53,7 @@ namespace DataFac.Memory
 #endif
             return hashCode.ToHashCode();
         }
+
         [FieldOffset(0)] public long _long;
         public long Int64ValueLE
         {
@@ -86,6 +87,42 @@ namespace DataFac.Memory
                     _long = BinaryPrimitives.ReverseEndianness(value);
                 else
                     _long = value;
+            }
+        }
+
+        [FieldOffset(0)] public ulong _ulong;
+        public ulong UInt64ValueLE
+        {
+            get
+            {
+                if (BitConverter.IsLittleEndian)
+                    return _ulong;
+                else
+                    return BinaryPrimitives.ReverseEndianness(_ulong);
+            }
+            set
+            {
+                if (BitConverter.IsLittleEndian)
+                    _ulong = value;
+                else
+                    _ulong = BinaryPrimitives.ReverseEndianness(value);
+            }
+        }
+        public ulong UInt64ValueBE
+        {
+            get
+            {
+                if (BitConverter.IsLittleEndian)
+                    return BinaryPrimitives.ReverseEndianness(_ulong);
+                else
+                    return _ulong;
+            }
+            set
+            {
+                if (BitConverter.IsLittleEndian)
+                    _ulong = BinaryPrimitives.ReverseEndianness(value);
+                else
+                    _ulong = value;
             }
         }
 
