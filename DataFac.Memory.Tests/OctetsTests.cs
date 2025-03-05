@@ -79,10 +79,12 @@ namespace DataFac.Memory.Tests
         [Fact]
         public void ConstructFromSequence2_MultiSegment()
         {
-            Octets octets1 = new Octets([0, 1, 2, 3]);
-            Octets octets2 = new Octets([4, 5]);
-            Octets octets3 = new Octets([6, 7, 8, 9]);
-            var sequence = Octets.CreateReadOnlySequence(octets1, octets2, octets3);
+            Octets octets1 = new Octets([0, 1, 2]);
+            Octets octets2 = new Octets([3]);
+            Octets octets3 = new Octets([4, 5]);
+            Octets octets4 = new Octets([6, 7, 8]);
+            Octets octets5 = new Octets([9]);
+            var sequence = Octets.CreateReadOnlySequence(octets1, octets2, octets3, octets4, octets5);
 
             sequence.IsSingleSegment.ShouldBeFalse();
             sequence.Length.ShouldBe(10);

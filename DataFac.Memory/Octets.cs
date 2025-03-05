@@ -57,8 +57,7 @@ namespace DataFac.Memory
         public static ReadOnlySequence<byte> CreateReadOnlySequence(Octets buffer1, Octets buffer2, Octets buffer3, Octets buffer4)
         {
             ReadOnlySequenceBuilder<byte> builder = new(buffer1.Memory, buffer2.Memory, buffer3.Memory);
-            builder.Add(buffer4.Memory);
-            return builder.Build();
+            return builder.Append(buffer4.Memory).Build();
         }
 
         /// <summary>
@@ -67,9 +66,7 @@ namespace DataFac.Memory
         public static ReadOnlySequence<byte> CreateReadOnlySequence(Octets buffer1, Octets buffer2, Octets buffer3, Octets buffer4, Octets buffer5)
         {
             ReadOnlySequenceBuilder<byte> builder = new(buffer1.Memory, buffer2.Memory, buffer3.Memory);
-            builder.Add(buffer4.Memory);
-            builder.Add(buffer5.Memory);
-            return builder.Build();
+            return builder.Append(buffer4.Memory).Append(buffer5.Memory).Build();
         }
 
         /// <summary>
@@ -80,7 +77,7 @@ namespace DataFac.Memory
             ReadOnlySequenceBuilder<byte> builder = default;
             foreach (var buffer in buffers)
             {
-                builder.Add(buffer.Memory);
+                builder = builder.Append(buffer.Memory);
             }
             return builder.Build();
         }

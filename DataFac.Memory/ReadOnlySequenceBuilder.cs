@@ -7,67 +7,76 @@ namespace DataFac.Memory
     /// A helper struct that supports efficient building of ReadOnlySequence\<T\>.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public struct ReadOnlySequenceBuilder<T>
+    public readonly struct ReadOnlySequenceBuilder<T>
     {
-        private ReadOnlyMemorySegment<T>? _first { get; set; } = null;
-        private ReadOnlyMemorySegment<T>? _last { get; set; } = null;
+        public readonly ReadOnlyMemorySegment<T>? First;
+        public readonly ReadOnlyMemorySegment<T>? Last;
 
         public ReadOnlySequenceBuilder() { }
 
+        private ReadOnlySequenceBuilder(ReadOnlyMemorySegment<T>? first, ReadOnlyMemorySegment<T>? last) : this()
+        {
+            First = first;
+            Last = last;
+        }
+
         public ReadOnlySequenceBuilder(ReadOnlyMemory<T> memory) : this()
         {
-            _first = new ReadOnlyMemorySegment<T>(memory);
+            First = new ReadOnlyMemorySegment<T>(memory);
+            Last = null;
         }
 
         public ReadOnlySequenceBuilder(ReadOnlyMemory<T> memory1, ReadOnlyMemory<T> memory2) : this()
         {
-            _first = new ReadOnlyMemorySegment<T>(memory1);
-            _last = _first.Append(memory2);
+            First = new ReadOnlyMemorySegment<T>(memory1);
+            Last = First.Append(memory2);
         }
 
         public ReadOnlySequenceBuilder(ReadOnlyMemory<T> memory1, ReadOnlyMemory<T> memory2, ReadOnlyMemory<T> memory3) : this()
         {
-            _first = new ReadOnlyMemorySegment<T>(memory1);
-            _last = _first.Append(memory2).Append(memory3);
+            First = new ReadOnlyMemorySegment<T>(memory1);
+            Last = First.Append(memory2).Append(memory3);
         }
 
         public ReadOnlySequenceBuilder(params ReadOnlyMemory<T>[] buffers) : this()
         {
             if (buffers.Length >= 1)
             {
-                _first = new ReadOnlyMemorySegment<T>(buffers[0]);
+                First = new ReadOnlyMemorySegment<T>(buffers[0]);
             }
             if (buffers.Length >= 2)
             {
-                _last = _first!.Append(buffers[1]);
+                Last = First!.Append(buffers[1]);
             }
             for (int i = 2; i < buffers.Length; i++)
             {
-                _last = _last!.Append(buffers[i]);
+                Last = Last!.Append(buffers[i]);
             }
         }
 
-        public void Add(ReadOnlyMemory<T> memory)
+        public ReadOnlySequenceBuilder<T> Append(ReadOnlyMemory<T> memory)
         {
-            if (_first is null)
+            if (First is null)
             {
-                _first = new ReadOnlyMemorySegment<T>(memory);
+                return new ReadOnlySequenceBuilder<T>(memory);
             }
-            else if (_last is null)
+            else if (Last is null)
             {
-                _last = _first.Append(memory);
+                var last = First.Append(memory);
+                return new ReadOnlySequenceBuilder<T>(First, last);
             }
             else
             {
-                _last = _last.Append(memory);
+                var last = Last.Append(memory);
+                return new ReadOnlySequenceBuilder<T>(First, last);
             }
         }
 
         public ReadOnlySequence<T> Build()
         {
-            if (_first is null) return ReadOnlySequence<T>.Empty;
-            if (_last is null) return new ReadOnlySequence<T>(_first.Memory);
-            return new ReadOnlySequence<T>(_first, 0, _last, _last.Memory.Length);
+            if (First is null) return ReadOnlySequence<T>.Empty;
+            if (Last is null) return new ReadOnlySequence<T>(First.Memory);
+            return new ReadOnlySequence<T>(First, 0, Last, Last.Memory.Length);
         }
     }
 }
