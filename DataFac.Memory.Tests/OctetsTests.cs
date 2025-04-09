@@ -2,7 +2,6 @@ using Shouldly;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using Xunit;
@@ -309,74 +308,22 @@ namespace DataFac.Memory.Tests
         }
 
         [Fact]
-        public void Block_IsImmutable_FromByteArray()
+        public void Block_IsImmutable()
         {
-            var immutable = ImmutableArray<byte>.Empty.AddRange(new byte[] { 1, 2, 3 });
+            ReadOnlySpan<byte> immutable = new byte[] { 1, 2, 3 };
             var mutable = new byte[] { 1, 2, 3 };
 
             Octets block = new Octets(mutable);
-            var output1 = block.Memory.ToArray();
-            output1.ShouldBeEquivalentTo(immutable.ToArray());
-            output1.ShouldBeEquivalentTo(mutable);
+            block.Memory.Span.SequenceEqual(immutable).ShouldBeTrue();
+            block.Memory.Span.SequenceEqual(mutable).ShouldBeTrue();
             int hash1 = block.GetHashCode();
 
             // act
             mutable[1] = 4;
 
             // assert
-            var output2 = block.Memory.ToArray();
-            output2.ShouldBeEquivalentTo(immutable.ToArray());
-            output2.SequenceEqual(mutable).ShouldBeFalse();
-            int hash2 = block.GetHashCode();
-            hash2.ShouldBe(hash1);
-        }
-
-        [Fact]
-        public void Block_IsImmutable_FromArraySegment()
-        {
-            var immutable = ImmutableArray<byte>.Empty.AddRange(new byte[] { 1, 2, 3 });
-            var mutable = new byte[] { 1, 2, 3 };
-            var segment = new ArraySegment<byte>(mutable);
-
-            Octets block = new Octets(segment);
-            byte[] output1 = block.Memory.ToArray();
-            output1.ShouldBeEquivalentTo(immutable.ToArray());
-            output1.ShouldBeEquivalentTo(mutable);
-            int hash1 = block.GetHashCode();
-
-            // act
-            mutable[1] = 4;
-
-            // assert
-            var output2 = block.Memory.ToArray();
-            output2.ShouldBeEquivalentTo(immutable.ToArray());
-            //output2.ShouldNotBeEquivalentTo(mutable);
-            output2.SequenceEqual(mutable).ShouldBeFalse();
-            int hash2 = block.GetHashCode();
-            hash2.ShouldBe(hash1);
-        }
-
-        [Fact]
-        public void Block_IsImmutable_FromSpan()
-        {
-            var immutable = ImmutableArray<byte>.Empty.AddRange(new byte[] { 1, 2, 3 });
-            var mutable = new byte[] { 1, 2, 3 };
-            var span = new ReadOnlySpan<byte>(mutable);
-
-            Octets block = new Octets(span);
-            var output1 = block.Memory.ToArray();
-            output1.ShouldBeEquivalentTo(immutable.ToArray());
-            output1.ShouldBeEquivalentTo(mutable);
-            int hash1 = block.GetHashCode();
-
-            // act
-            mutable[1] = 4;
-
-            // assert
-            var output2 = block.Memory.ToArray();
-            output2.ShouldBeEquivalentTo(immutable.ToArray());
-            //output2.ShouldNotBeEquivalentTo(mutable);
-            output2.SequenceEqual(mutable).ShouldBeFalse();
+            block.Memory.Span.SequenceEqual(immutable).ShouldBeTrue();
+            block.Memory.Span.SequenceEqual(mutable).ShouldBeFalse();
             int hash2 = block.GetHashCode();
             hash2.ShouldBe(hash1);
         }
@@ -384,23 +331,20 @@ namespace DataFac.Memory.Tests
         [Fact]
         public void Block_UnsafeWrap_IsNotImmutable()
         {
-            var immutable = ImmutableArray<byte>.Empty.AddRange(new byte[] { 1, 2, 3 });
+            ReadOnlySpan<byte> immutable = new byte[] { 1, 2, 3 };
             var mutable = new byte[] { 1, 2, 3 };
             var memory = new ReadOnlyMemory<byte>(mutable);
 
             Octets block = Octets.UnsafeWrap(memory);
-            var output1 = block.Memory.ToArray();
-            output1.ShouldBeEquivalentTo(immutable.ToArray());
-            output1.ShouldBeEquivalentTo(mutable);
+            block.Memory.Span.SequenceEqual(immutable).ShouldBeTrue();
+            block.Memory.Span.SequenceEqual(mutable).ShouldBeTrue();
 
             // act
             mutable[1] = 4;
 
             // assert
-            var output2 = block.Memory.ToArray();
-            //output2.ShouldNotBeEquivalentTo(immutable);
-            output2.SequenceEqual(immutable).ShouldBeFalse();
-            output2.ShouldBeEquivalentTo(mutable);
+            block.Memory.Span.SequenceEqual(immutable).ShouldBeFalse();
+            block.Memory.Span.SequenceEqual(mutable).ShouldBeTrue();
         }
 
         [Fact]
