@@ -9,9 +9,9 @@ namespace DataFac.Memory
     /// <summary>
     /// An immutable reference type that wraps a ReadOnlyMemory<byte> buffer.
     /// </summary>
-    public sealed class Octets : IEnumerable<byte>, IReadOnlyList<byte>, IEquatable<Octets?>
+    public sealed class Octets : IEquatable<Octets?>
     {
-        private static readonly Octets _empty = new Octets(ReadOnlyMemory<byte>.Empty);
+        private static readonly Octets _empty = new Octets(ReadOnlySequence<byte>.Empty);
         public static Octets Empty => _empty;
 
         /// <summary>
@@ -23,71 +23,100 @@ namespace DataFac.Memory
         {
             return source.Length == 0 ? _empty : new Octets(source);
         }
-
-        /// <summary>
-        /// Creates a ReadOnlySequence\<byte\> from given Octets.
-        /// </summary>
-        public static ReadOnlySequence<byte> CreateReadOnlySequence(Octets buffer1)
+        public static Octets UnsafeWrap(ReadOnlySequence<byte> source)
         {
-            ReadOnlySequenceBuilder<byte> builder = new(buffer1.Memory);
-            return builder.Build();
+            return source.Length == 0 ? _empty : new Octets(source);
         }
 
         /// <summary>
-        /// Creates a ReadOnlySequence\<byte\> from given Octets.
+        /// Combines multiple Octets.
         /// </summary>
-        public static ReadOnlySequence<byte> CreateReadOnlySequence(Octets buffer1, Octets buffer2)
-        {
-            ReadOnlySequenceBuilder<byte> builder = new(buffer1.Memory, buffer2.Memory);
-            return builder.Build();
-        }
-
-        /// <summary>
-        /// Creates a ReadOnlySequence\<byte\> from given Octets.
-        /// </summary>
-        public static ReadOnlySequence<byte> CreateReadOnlySequence(Octets buffer1, Octets buffer2, Octets buffer3)
-        {
-            ReadOnlySequenceBuilder<byte> builder = new(buffer1.Memory, buffer2.Memory, buffer3.Memory);
-            return builder.Build();
-        }
-
-        /// <summary>
-        /// Creates a ReadOnlySequence\<byte\> from given Octets.
-        /// </summary>
-        public static ReadOnlySequence<byte> CreateReadOnlySequence(Octets buffer1, Octets buffer2, Octets buffer3, Octets buffer4)
-        {
-            ReadOnlySequenceBuilder<byte> builder = new(buffer1.Memory, buffer2.Memory, buffer3.Memory);
-            return builder.Append(buffer4.Memory).Build();
-        }
-
-        /// <summary>
-        /// Creates a ReadOnlySequence\<byte\> from given Octets.
-        /// </summary>
-        public static ReadOnlySequence<byte> CreateReadOnlySequence(Octets buffer1, Octets buffer2, Octets buffer3, Octets buffer4, Octets buffer5)
-        {
-            ReadOnlySequenceBuilder<byte> builder = new(buffer1.Memory, buffer2.Memory, buffer3.Memory);
-            return builder.Append(buffer4.Memory).Append(buffer5.Memory).Build();
-        }
-
-        /// <summary>
-        /// Creates a ReadOnlySequence\<byte\> from given Octets.
-        /// </summary>
-        public static ReadOnlySequence<byte> CreateReadOnlySequence(params Octets[] buffers)
+        public static Octets Combine(Octets source1, Octets source2)
         {
             ReadOnlySequenceBuilder<byte> builder = default;
-            foreach (var buffer in buffers)
+            foreach (var buffer in source1.Sequence)
             {
-                builder = builder.Append(buffer.Memory);
+                if (buffer.Length > 0) builder = builder.Append(buffer);
             }
-            return builder.Build();
+            foreach (var buffer in source2.Sequence)
+            {
+                if (buffer.Length > 0) builder = builder.Append(buffer);
+            }
+            return new Octets(builder.Build());
         }
 
-        private readonly ReadOnlyMemory<byte> _memory;
-        public ReadOnlyMemory<byte> Memory => _memory;
+        /// <summary>
+        /// Combines multiple Octets.
+        /// </summary>
+        public static Octets Combine(Octets source1, Octets source2, Octets source3)
+        {
+            ReadOnlySequenceBuilder<byte> builder = default;
+            foreach (var buffer in source1.Sequence)
+            {
+                if (buffer.Length > 0) builder = builder.Append(buffer);
+            }
+            foreach (var buffer in source2.Sequence)
+            {
+                if (buffer.Length > 0) builder = builder.Append(buffer);
+            }
+            foreach (var buffer in source3.Sequence)
+            {
+                if (buffer.Length > 0) builder = builder.Append(buffer);
+            }
+            return new Octets(builder.Build());
+        }
+
+        /// <summary>
+        /// Combines multiple Octets.
+        /// </summary>
+        public static Octets Combine(params Octets[] sources)
+        {
+            ReadOnlySequenceBuilder<byte> builder = default;
+            foreach (var source in sources)
+            {
+                foreach (var buffer in source.Sequence)
+                {
+                    if (buffer.Length > 0) builder = builder.Append(buffer);
+                }
+            }
+            return new Octets(builder.Build());
+        }
+
+        private readonly ReadOnlySequence<byte> _sequence;
+
+        public ReadOnlySequence<byte> Sequence => _sequence;
+        public long Length => _sequence.Length;
+
+        [Obsolete("This property will be removed in a future release. Instead use the AsMemory() method.")]
+        public ReadOnlyMemory<byte> Memory => AsMemory();
+
+        /// <summary>
+        /// Returns a single memory segment combining all the internal segments.
+        /// </summary>
+        /// <returns></returns>
+        public ReadOnlyMemory<byte> AsMemory()
+        {
+            if (_sequence.IsEmpty) return ReadOnlyMemory<byte>.Empty;
+            if (_sequence.IsSingleSegment) return _sequence.First;
+            Memory<byte> result = new byte[_sequence.Length];
+            int position = 0;
+            foreach (var buffer in _sequence)
+            {
+                buffer.CopyTo(result.Slice(position));
+                position += buffer.Length;
+            }
+            return result;
+        }
 
         private Octets(ReadOnlyMemory<byte> memory)
         {
-            _memory = memory;
+            _sequence = new ReadOnlySequence<byte>(memory);
+            _hashCodeFunc = new Lazy<int>(CalcHashCode);
+        }
+
+        private Octets(ReadOnlySequence<byte> sequence)
+        {
+            _sequence = sequence;
             _hashCodeFunc = new Lazy<int>(CalcHashCode);
         }
 
@@ -97,14 +126,13 @@ namespace DataFac.Memory
         /// <param name="source"></param>
         public Octets(ReadOnlySpan<byte> source)
         {
-            _memory = source.ToArray();
+            _sequence = new ReadOnlySequence<byte>(source.ToArray());
             _hashCodeFunc = new Lazy<int>(CalcHashCode);
         }
 
         /// <summary>
         /// Creates an immutable block, copying the sources to a new internal buffer.
         /// </summary>
-        /// <param name="source"></param>
         public Octets(ReadOnlySpan<byte> source1, ReadOnlySpan<byte> source2)
         {
             byte[] buffer = new byte[source1.Length + source2.Length];
@@ -113,7 +141,7 @@ namespace DataFac.Memory
             Span<byte> span2 = span.Slice(source1.Length, source2.Length);
             source1.CopyTo(span1);
             source2.CopyTo(span2);
-            _memory = buffer;
+            _sequence = new ReadOnlySequence<byte>(new ReadOnlyMemory<byte>(buffer));
             _hashCodeFunc = new Lazy<int>(CalcHashCode);
         }
 
@@ -131,45 +159,19 @@ namespace DataFac.Memory
             source1.CopyTo(span1);
             source2.CopyTo(span2);
             source3.CopyTo(span3);
-            _memory = buffer;
-            _hashCodeFunc = new Lazy<int>(CalcHashCode);
-        }
-
-        public Octets(ReadOnlySequence<byte> sequence)
-        {
-            if (sequence.IsEmpty)
-            {
-                _memory = ReadOnlyMemory<byte>.Empty;
-            }
-            else if (sequence.IsSingleSegment)
-            {
-                _memory = sequence.First;
-            }
-            else
-            {
-                Memory<byte> buffer = new byte[sequence.Length];
-                int offset = 0;
-                foreach (var segment in sequence)
-                {
-                    segment.CopyTo(buffer.Slice(offset));
-                    offset += segment.Length;
-                }
-                _memory = buffer;
-            }
+            _sequence = new ReadOnlySequence<byte>(new ReadOnlyMemory<byte>(buffer));
             _hashCodeFunc = new Lazy<int>(CalcHashCode);
         }
 
         public (Octets head, Octets rest) GetHead(int headLength)
         {
-            return (
-                UnsafeWrap(_memory.Slice(0, headLength)),
-                UnsafeWrap(_memory.Slice(headLength)));
+            return (UnsafeWrap(_sequence.Slice(0, headLength)), UnsafeWrap(_sequence.Slice(headLength)));
         }
 
         public (Octets rest, Octets tail) GetTail(int tailLength)
         {
-            int restLength = (Memory.Length >= tailLength) ? Memory.Length - tailLength : 0;
-            return (UnsafeWrap(_memory.Slice(0, restLength)), UnsafeWrap(_memory.Slice(restLength)));
+            long restLength = (_sequence.Length >= tailLength) ? (_sequence.Length - tailLength) : 0;
+            return (UnsafeWrap(_sequence.Slice(0, restLength)), UnsafeWrap(_sequence.Slice(restLength)));
         }
 
         public (Octets head, Octets body, Octets tail) GetHeadAndBody(int headLength, int bodyLength)
@@ -190,56 +192,10 @@ namespace DataFac.Memory
         public (Octets head, Octets body, Octets tail) GetHeadTail(int headLength, int bodyLength)
         {
             return (
-                UnsafeWrap(_memory.Slice(0, headLength)),
-                UnsafeWrap(_memory.Slice(headLength, bodyLength)),
-                UnsafeWrap(_memory.Slice(headLength + bodyLength)));
+                UnsafeWrap(_sequence.Slice(0, headLength)),
+                UnsafeWrap(_sequence.Slice(headLength, bodyLength)),
+                UnsafeWrap(_sequence.Slice(headLength + bodyLength)));
         }
-
-        #region IEnumerable implementation
-        private sealed class Enumerator : IEnumerator<byte>
-        {
-            private readonly ReadOnlyMemory<byte> _memory;
-            private int _index = -1;
-
-            public Enumerator(ReadOnlyMemory<byte> memory)
-            {
-                _memory = memory;
-            }
-
-            public byte Current => _memory.Span[_index];
-
-            object IEnumerator.Current => Current;
-
-            public void Dispose()
-            {
-            }
-
-            public bool MoveNext()
-            {
-                return ++_index < _memory.Length;
-            }
-
-            public void Reset()
-            {
-                _index = -1;
-            }
-        }
-        public IEnumerator<byte> GetEnumerator()
-        {
-            return new Enumerator(_memory);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        #endregion
-
-        #region IReadOnlyList implementation
-        public int Count => _memory.Length;
-        public byte this[int index] => _memory.Span[index];
-        #endregion
 
         #region IEquatable implementation
         private readonly Lazy<int> _hashCodeFunc;
@@ -247,16 +203,15 @@ namespace DataFac.Memory
         private int CalcHashCode()
         {
             var result = new HashCode();
-            var span = _memory.Span;
-            result.Add(span.Length);
-#if NET6_0_OR_GREATER
-            result.AddBytes(span);
-#else
-            for (int i = 0; i < span.Length; i++)
+            result.Add(_sequence.Length);
+            foreach (var buffer in _sequence)
             {
-                result.Add(span[i]);
+                var span = buffer.Span;
+                for (int i = 0; i < span.Length; i++)
+                {
+                    result.Add(span[i]);
+                }
             }
-#endif
             return result.ToHashCode();
         }
 
@@ -274,11 +229,43 @@ namespace DataFac.Memory
             if (ReferenceEquals(other, this)) return true;
             if (other is null) return false;
 
-            var thisSpan = _memory.Span;
-            var thatSpan = other._memory.Span;
-            if (thatSpan.Length != thisSpan.Length) return false;
-            if (other.GetHashCode() != GetHashCode()) return false;
-            return thatSpan.SequenceEqual(thisSpan);
+            if (other.Sequence.Length != _sequence.Length) return false;
+
+            var thisEnumerator = _sequence.GetEnumerator();
+            var thisBuffer = ReadOnlySpan<byte>.Empty;
+            int thisOffset = 0;
+
+            var thatEnumerator = other.Sequence.GetEnumerator();
+            var thatBuffer = ReadOnlySpan<byte>.Empty;
+            int thatOffset = 0;
+
+            int position = 0;
+
+            while (position < _sequence.Length)
+            {
+                while (thisOffset >= thisBuffer.Length)
+                {
+                    if (!thisEnumerator.MoveNext()) return false;
+                    thisBuffer = thisEnumerator.Current.Span;
+                    thisOffset = 0;
+                }
+
+                while (thatOffset >= thatBuffer.Length)
+                {
+                    if (!thatEnumerator.MoveNext()) return false;
+                    thatBuffer = thatEnumerator.Current.Span;
+                    thatOffset = 0;
+                }
+
+                if (thatBuffer[thatOffset] != thisBuffer[thisOffset]) return false;
+
+                //next
+                position++;
+                thisOffset++;
+                thatOffset++;
+            }
+
+            return true;
         }
 
         public static bool operator ==(Octets? left, Octets? right) => left is null ? right is null : left.Equals(right);

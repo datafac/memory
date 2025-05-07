@@ -10,7 +10,7 @@ Endian-aware binary encoders and decoders for primitive types.
 Structs that divide memory into a binary tree. Sizes from 1B to 8KB.
 
 ## Octets
-An immutable reference type that wraps a ReadOnlyMemory\<byte\> buffer.
+An immutable reference type that wraps a ReadOnlySequence\<byte\>.
 
 ## ReadOnlySequenceBuilder
 A helper struct that supports efficient building of ReadOnlySequence\<T\>.
