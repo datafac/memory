@@ -267,7 +267,7 @@ namespace DataFac.Memory.Tests
 
             block.Sequence.ToArray().ShouldBeEquivalentTo(bytes);
 
-            IEnumerator<byte> e = block.AsMemory().ToArray().ToList().GetEnumerator();
+            IEnumerator<byte> e = block.ToByteArray().ToList().GetEnumerator();
             e.Reset();
             int i = 0;
             while (e.MoveNext())
@@ -382,10 +382,10 @@ namespace DataFac.Memory.Tests
             Octets orig = new Octets(new byte[] { 1, 2, 3 });
             (var head, var body) = orig.GetHead(1);
             head.AsMemory().Length.ShouldBe(1);
-            var headBytes = head.AsMemory().ToArray();
+            var headBytes = head.ToByteArray();
             headBytes[0].ShouldBe((byte)1);
             body.AsMemory().Length.ShouldBe(2);
-            var bodyBytes = body.AsMemory().ToArray();
+            var bodyBytes = body.ToByteArray();
             bodyBytes[0].ShouldBe((byte)2);
             bodyBytes[1].ShouldBe((byte)3);
             var copy = new Octets(head.AsMemory().Span, body.AsMemory().Span);
@@ -399,11 +399,11 @@ namespace DataFac.Memory.Tests
             (var head, var body) = orig.GetHead(1);
             // head
             head.AsMemory().Length.ShouldBe(1);
-            var headBytes = head.AsMemory().ToArray();
+            var headBytes = head.ToByteArray();
             headBytes[0].ShouldBe((byte)1);
             // body
             body.AsMemory().Length.ShouldBe(3);
-            var bodyBytes = body.AsMemory().ToArray();
+            var bodyBytes = body.ToByteArray();
             bodyBytes[0].ShouldBe((byte)2);
             bodyBytes[1].ShouldBe((byte)3);
             bodyBytes[2].ShouldBe((byte)4);
@@ -430,13 +430,13 @@ namespace DataFac.Memory.Tests
             Octets orig = new Octets(new byte[] { 1, 2, 3 });
             (var head, var body, var tail) = orig.GetHeadAndBody(1, 1);
             head.AsMemory().Length.ShouldBe(1);
-            var headBytes = head.AsMemory().ToArray();
+            var headBytes = head.ToByteArray();
             headBytes[0].ShouldBe((byte)1);
             body.AsMemory().Length.ShouldBe(1);
-            var bodyBytes = body.AsMemory().ToArray();
+            var bodyBytes = body.ToByteArray();
             bodyBytes[0].ShouldBe((byte)2);
             tail.AsMemory().Length.ShouldBe(1);
-            var tailBytes = tail.AsMemory().ToArray();
+            var tailBytes = tail.ToByteArray();
             tailBytes[0].ShouldBe((byte)3);
             var copy = new Octets(head.AsMemory().Span, body.AsMemory().Span, tail.AsMemory().Span);
             copy.Equals(orig).ShouldBeTrue();
@@ -449,19 +449,19 @@ namespace DataFac.Memory.Tests
             (var head, var body, var tail) = orig.GetHeadAndBody(2, 4);
             // head
             head.AsMemory().Length.ShouldBe(2);
-            var headBytes = head.AsMemory().ToArray();
+            var headBytes = head.ToByteArray();
             headBytes[0].ShouldBe((byte)1);
             headBytes[1].ShouldBe((byte)2);
             // body
             body.AsMemory().Length.ShouldBe(4);
-            var bodyBytes = body.AsMemory().ToArray();
+            var bodyBytes = body.ToByteArray();
             bodyBytes[0].ShouldBe((byte)3);
             bodyBytes[1].ShouldBe((byte)4);
             bodyBytes[2].ShouldBe((byte)5);
             bodyBytes[3].ShouldBe((byte)6);
             // tail
             tail.AsMemory().Length.ShouldBe(2);
-            var tailBytes = tail.AsMemory().ToArray();
+            var tailBytes = tail.ToByteArray();
             tailBytes[0].ShouldBe((byte)7);
             tailBytes[1].ShouldBe((byte)8);
 

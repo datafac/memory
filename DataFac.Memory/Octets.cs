@@ -84,6 +84,9 @@ namespace DataFac.Memory
 
         private readonly ReadOnlySequence<byte> _sequence;
 
+        /// <summary>
+        /// Gets the internal sequence of bytes represented as a <see cref="System.Buffers.ReadOnlySequence{T}"/>.
+        /// </summary>
         public ReadOnlySequence<byte> Sequence => _sequence;
         public long Length => _sequence.Length;
 
@@ -91,9 +94,14 @@ namespace DataFac.Memory
         public ReadOnlyMemory<byte> Memory => AsMemory();
 
         /// <summary>
-        /// Returns a single memory segment combining all the internal segments.
+        /// Converts the sequence into a single contiguous <see cref="ReadOnlyMemory{T}"/> of bytes.
         /// </summary>
-        /// <returns></returns>
+        /// <remarks>This method consolidates the contents of the sequence into a single memory block.  If
+        /// the sequence is empty, the method returns <see cref="ReadOnlyMemory{T}.Empty"/>. If the sequence consists of
+        /// a single segment, the method returns that segment directly. For sequences with multiple segments, the method
+        /// allocates a new memory block and copies  the contents of each segment into it.</remarks>
+        /// <returns>A <see cref="ReadOnlyMemory{T}"/> containing the bytes from the sequence. Returns <see
+        /// cref="ReadOnlyMemory{T}.Empty"/> if the sequence is empty.</returns>
         public ReadOnlyMemory<byte> AsMemory()
         {
             if (_sequence.IsEmpty) return ReadOnlyMemory<byte>.Empty;
@@ -103,6 +111,27 @@ namespace DataFac.Memory
             foreach (var buffer in _sequence)
             {
                 buffer.CopyTo(result.Slice(position));
+                position += buffer.Length;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Converts the sequence into a single byte array.
+        /// </summary>
+        /// <remarks>This method consolidates all segments of the sequence into a single contiguous byte
+        /// array. If the sequence is empty, an empty array is returned. If the sequence contains only one segment, the
+        /// segment is directly converted to an array for efficiency.</remarks>
+        /// <returns>A byte array containing all the data from the sequence. Returns an empty array if the sequence is empty.</returns>
+        public byte[] ToByteArray()
+        {
+            if (_sequence.IsEmpty) return Array.Empty<byte>();
+            if (_sequence.IsSingleSegment) return _sequence.First.ToArray();
+            byte[] result = new byte[_sequence.Length];
+            int position = 0;
+            foreach (var buffer in _sequence)
+            {
+                buffer.Span.CopyTo(result.AsSpan(position));
                 position += buffer.Length;
             }
             return result;
