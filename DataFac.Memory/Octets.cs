@@ -90,7 +90,7 @@ namespace DataFac.Memory
         public ReadOnlySequence<byte> Sequence => _sequence;
         public long Length => _sequence.Length;
 
-        [Obsolete("This property will be removed in a future release. Instead use the AsMemory() method.")]
+        [Obsolete("This property has been deprecated. Instead use the AsMemory() method.", true)]
         public ReadOnlyMemory<byte> Memory => AsMemory();
 
         /// <summary>
