@@ -1,12 +1,12 @@
 ﻿using DataFac.UnsafeHelpers;
 using System;
-using System.IO;
+using System.Buffers.Binary;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace DataFac.Memory
 {
+
     [StructLayout(LayoutKind.Explicit, Size = 16)]
     public struct BlockB016 : IMemBlock, IEquatable<BlockB016>
     {
@@ -76,6 +76,80 @@ namespace DataFac.Memory
                     throw new NotImplementedException();
             }
         }
+
+#if NET8_0_OR_GREATER
+        [FieldOffset(0)] public Int128 _int128;
+        public Int128 Int128ValueLE
+        {
+            get
+            {
+                if (BitConverter.IsLittleEndian)
+                    return _int128;
+                else
+                    return BinaryPrimitives.ReverseEndianness(_int128);
+            }
+            set
+            {
+                if (BitConverter.IsLittleEndian)
+                    _int128 = value;
+                else
+                    _int128 = BinaryPrimitives.ReverseEndianness(value);
+            }
+        }
+        public Int128 Int128ValueBE
+        {
+            get
+            {
+                if (BitConverter.IsLittleEndian)
+                    return BinaryPrimitives.ReverseEndianness(_int128);
+                else
+                    return _int128;
+            }
+            set
+            {
+                if (BitConverter.IsLittleEndian)
+                    _int128 = BinaryPrimitives.ReverseEndianness(value);
+                else
+                    _int128 = value;
+            }
+        }
+
+        [FieldOffset(0)] public UInt128 _uint128;
+        public UInt128 UInt128ValueLE
+        {
+            get
+            {
+                if (BitConverter.IsLittleEndian)
+                    return _uint128;
+                else
+                    return BinaryPrimitives.ReverseEndianness(_uint128);
+            }
+            set
+            {
+                if (BitConverter.IsLittleEndian)
+                    _uint128 = value;
+                else
+                    _uint128 = BinaryPrimitives.ReverseEndianness(value);
+            }
+        }
+        public UInt128 UInt128ValueBE
+        {
+            get
+            {
+                if (BitConverter.IsLittleEndian)
+                    return BinaryPrimitives.ReverseEndianness(_uint128);
+                else
+                    return _uint128;
+            }
+            set
+            {
+                if (BitConverter.IsLittleEndian)
+                    _uint128 = BinaryPrimitives.ReverseEndianness(value);
+                else
+                    _uint128 = value;
+            }
+        }
+#endif
     }
 
 }

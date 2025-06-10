@@ -1,5 +1,6 @@
 ﻿using Shouldly;
 using System;
+using System.Numerics;
 using Xunit;
 
 namespace DataFac.Memory.Tests
@@ -92,7 +93,7 @@ namespace DataFac.Memory.Tests
         [Theory]
         [InlineData("empty")]
         [InlineData("other")]
-        public void CopyBlockB016(string input)
+        public void CopyBlockB016_Guid(string input)
         {
             Guid value = input switch
             {
@@ -106,6 +107,79 @@ namespace DataFac.Memory.Tests
             var copy = CopyAndCompare(orig, 16);
             copy.GuidValueLE.ShouldBe(value);
         }
+
+        [Theory]
+        [InlineData("def")]
+        [InlineData("zero")]
+        [InlineData("real1")]
+        [InlineData("imag1")]
+#if NET7_0_OR_GREATER
+        [InlineData("nan")]
+#endif
+        public void CopyBlockB016_Complex_ViaPairOfInt64(string test)
+        {
+            Complex sendValue = test switch
+            {
+                "def" => default,
+                "zero" => Complex.Zero,
+                "real1" => Complex.One,
+                "imag1" => Complex.ImaginaryOne,
+#if NET7_0_OR_GREATER
+                "nan" => Complex.NaN,
+#endif
+                _ => throw new ArgumentOutOfRangeException(nameof(test), test, null)
+            };
+
+            PairOfInt64 wireValue = new PairOfInt64(BitConverter.DoubleToInt64Bits(sendValue.Real), BitConverter.DoubleToInt64Bits(sendValue.Imaginary));
+
+            Complex recdValue = new Complex(BitConverter.Int64BitsToDouble(wireValue.A), BitConverter.Int64BitsToDouble(wireValue.B));
+
+            recdValue.ShouldBe(sendValue);
+            recdValue.Real.ShouldBe(sendValue.Real);
+            recdValue.Imaginary.ShouldBe(sendValue.Imaginary);
+        }
+
+#if NET7_0_OR_GREATER
+        [Theory]
+        [InlineData("def")]
+        [InlineData("zero")]
+        [InlineData("real1")]
+        [InlineData("imag1")]
+        [InlineData("nan")]
+        public void CopyBlockB016_Complex_ViaInt128(string test)
+        {
+            Complex sendValue = test switch
+            {
+                "def" => default,
+                "zero" => Complex.Zero,
+                "real1" => Complex.One,
+                "imag1" => Complex.ImaginaryOne,
+                "nan" => Complex.NaN,
+                _ => throw new ArgumentOutOfRangeException(nameof(test), test, null)
+            };
+
+            Int128 wireValue;
+            {
+                BlockB016 orig = default;
+                orig.A.UInt64ValueLE = BitConverter.DoubleToUInt64Bits(sendValue.Real);
+                orig.B.UInt64ValueLE = BitConverter.DoubleToUInt64Bits(sendValue.Imaginary);
+                wireValue = orig.Int128ValueLE;
+            }
+
+            Complex recdValue;
+            {
+                BlockB016 copy = default;
+                copy.Int128ValueLE = wireValue;
+                recdValue = new Complex(
+                    BitConverter.UInt64BitsToDouble(copy.A.UInt64ValueLE),
+                    BitConverter.UInt64BitsToDouble(copy.B.UInt64ValueLE)
+                );
+            }
+            recdValue.ShouldBe(sendValue);
+            recdValue.Real.ShouldBe(sendValue.Real);
+            recdValue.Imaginary.ShouldBe(sendValue.Imaginary);
+        }
+#endif
 
     }
 }

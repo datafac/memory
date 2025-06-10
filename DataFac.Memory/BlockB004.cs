@@ -1,10 +1,8 @@
 ﻿using DataFac.UnsafeHelpers;
 using System;
 using System.Buffers.Binary;
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace DataFac.Memory
 {
