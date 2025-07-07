@@ -52,6 +52,26 @@ namespace DataFac.Memory
             return hashCode.ToHashCode();
         }
 
+        public PairOfInt32 PairOfInt32LE
+        {
+            get => new PairOfInt32(A.Int32ValueLE, B.Int32ValueLE);
+            set
+            {
+                A.Int32ValueLE = value.A;
+                B.Int32ValueLE = value.B;
+            }
+        }
+
+        public PairOfInt32 PairOfInt32BE
+        {
+            get => new PairOfInt32(A.Int32ValueBE, B.Int32ValueBE);
+            set
+            {
+                A.Int32ValueBE = value.A;
+                B.Int32ValueBE = value.B;
+            }
+        }
+
         [FieldOffset(0)] public long _long;
         public long Int64ValueLE
         {

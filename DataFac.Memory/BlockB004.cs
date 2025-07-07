@@ -35,6 +35,26 @@ namespace DataFac.Memory
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(BlockB004 other) => _int == other._int;
 
+        public PairOfInt16 PairOfInt16LE
+        {
+            get => new PairOfInt16(A.Int16ValueLE, B.Int16ValueLE);
+            set
+            {
+                A.Int16ValueLE = value.A;
+                B.Int16ValueLE = value.B;
+            }
+        }
+
+        public PairOfInt16 PairOfInt16BE
+        {
+            get => new PairOfInt16(A.Int16ValueBE, B.Int16ValueBE);
+            set
+            {
+                A.Int16ValueBE = value.A;
+                B.Int16ValueBE = value.B;
+            }
+        }
+
         [FieldOffset(0)] public int _int;
         public int Int32ValueLE
         {

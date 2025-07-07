@@ -58,6 +58,26 @@ namespace DataFac.Memory
             return hashCode.ToHashCode();
         }
 
+        public PairOfInt64 PairOfInt64LE
+        {
+            get => new PairOfInt64(A.Int64ValueLE, B.Int64ValueLE);
+            set
+            {
+                A.Int64ValueLE = value.A;
+                B.Int64ValueLE = value.B;
+            }
+        }
+
+        public PairOfInt64 PairOfInt64BE
+        {
+            get => new PairOfInt64(A.Int64ValueBE, B.Int64ValueBE);
+            set
+            {
+                A.Int64ValueBE = value.A;
+                B.Int64ValueBE = value.B;
+            }
+        }
+
         [FieldOffset(0)] public Guid _guid;
         public Guid GuidValueLE
         {

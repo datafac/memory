@@ -5,6 +5,7 @@ using Xunit;
 
 namespace DataFac.Memory.Tests
 {
+
     public class CodecRegressionTests_Int64
     {
         [Theory]
@@ -16,17 +17,9 @@ namespace DataFac.Memory.Tests
         public void Roundtrip_Int64_BE(in Int64 value, string expectedBytes)
         {
             Span<byte> buffer = stackalloc byte[8];
-#if NET7_0_OR_GREATER
-            DataFac.Memory.Codec_Int64_BE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_Int64_BE.Instance.WriteTo(buffer, value);
-#endif
+            Codec_Int64_BE.WriteToSpan(buffer, value);
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
-            Int64 copy = DataFac.Memory.Codec_Int64_BE.ReadFromSpan(buffer);
-#else
-            Int64 copy = DataFac.Memory.Codec_Int64_BE.Instance.ReadFrom(buffer);
-#endif
+            Int64 copy = Codec_Int64_BE.ReadFromSpan(buffer);
             copy.ShouldBe(value);
         }
 
@@ -39,17 +32,9 @@ namespace DataFac.Memory.Tests
         public void Roundtrip_Int64_LE(in Int64 value, string expectedBytes)
         {
             Span<byte> buffer = stackalloc byte[8];
-#if NET7_0_OR_GREATER
-            DataFac.Memory.Codec_Int64_LE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_Int64_LE.Instance.WriteTo(buffer, value);
-#endif
+            Codec_Int64_LE.WriteToSpan(buffer, value);
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
-            Int64 copy = DataFac.Memory.Codec_Int64_LE.ReadFromSpan(buffer);
-#else
-            Int64 copy = DataFac.Memory.Codec_Int64_LE.Instance.ReadFrom(buffer);
-#endif
+            Int64 copy = Codec_Int64_LE.ReadFromSpan(buffer);
             copy.ShouldBe(value);
         }
 
