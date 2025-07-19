@@ -18,5 +18,7 @@ namespace DataFac.Memory
         public override bool Equals(object? obj) => obj is PairOfInt64 other && Equals(other);
         public override int GetHashCode() => HashCode.Combine(A, B);
         override public string ToString() => $"({A},{B})";
+        public static bool operator ==(PairOfInt64 left, PairOfInt64 right) => left.Equals(right);
+        public static bool operator !=(PairOfInt64 left, PairOfInt64 right) => !left.Equals(right);
     }
 }
