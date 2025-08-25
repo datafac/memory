@@ -18,11 +18,11 @@ namespace DataFac.Memory
         /// <returns>The wrapped buffer.</returns>
         public static Octets UnsafeWrap(ReadOnlyMemory<byte> source)
         {
-            return source.Length == 0 ? _empty : new Octets(source);
+            return source.IsEmpty ? _empty : new Octets(source);
         }
         public static Octets UnsafeWrap(ReadOnlySequence<byte> source)
         {
-            return source.Length == 0 ? _empty : new Octets(source);
+            return source.IsEmpty ? _empty : new Octets(source);
         }
 
         /// <summary>
