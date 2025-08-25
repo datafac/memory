@@ -86,14 +86,46 @@ namespace DataFac.Memory
                 if (BitConverter.IsLittleEndian)
                     return _guid;
                 else
-                    throw new NotImplementedException();
+                {
+                    var span = BlockHelper.AsReadOnlySpan(ref this);
+                    Guid result = GuidHelper.ReadFromSpan(span, false);
+                    return result;
+                }
             }
             set
             {
                 if (BitConverter.IsLittleEndian)
                     _guid = value;
                 else
-                    throw new NotImplementedException();
+                {
+                    var span = BlockHelper.AsWritableSpan(ref this);
+                    GuidHelper.WriteToSpan(span, false, value);
+                }
+            }
+        }
+
+        public Guid GuidValueBE
+        {
+            get
+            {
+                if (!BitConverter.IsLittleEndian)
+                    return _guid;
+                else
+                {
+                    var span = BlockHelper.AsReadOnlySpan(ref this);
+                    Guid result = GuidHelper.ReadFromSpan(span, true);
+                    return result;
+                }
+            }
+            set
+            {
+                if (!BitConverter.IsLittleEndian)
+                    _guid = value;
+                else
+                {
+                    var span = BlockHelper.AsWritableSpan(ref this);
+                    GuidHelper.WriteToSpan(span, true, value);
+                }
             }
         }
 

@@ -93,7 +93,7 @@ namespace DataFac.Memory.Tests
         [Theory]
         [InlineData("empty")]
         [InlineData("other")]
-        public void CopyBlockB016_Guid(string input)
+        public void CopyBlockB016_GuidLE(string input)
         {
             Guid value = input switch
             {
@@ -106,6 +106,24 @@ namespace DataFac.Memory.Tests
             orig.GuidValueLE = value;
             var copy = CopyAndCompare(orig, 16);
             copy.GuidValueLE.ShouldBe(value);
+        }
+
+        [Theory]
+        [InlineData("empty")]
+        [InlineData("other")]
+        public void CopyBlockB016_GuidBE(string input)
+        {
+            Guid value = input switch
+            {
+                "empty" => Guid.Empty,
+                "other" => Guid.NewGuid(),
+                _ => throw new ArgumentOutOfRangeException(nameof(input), input, null)
+            };
+            BlockB016 orig = default;
+            orig.IsEmpty.ShouldBeTrue();
+            orig.GuidValueBE = value;
+            var copy = CopyAndCompare(orig, 16);
+            copy.GuidValueBE.ShouldBe(value);
         }
 
         [Theory]
