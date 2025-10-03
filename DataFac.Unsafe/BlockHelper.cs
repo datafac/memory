@@ -53,15 +53,15 @@ namespace DataFac.UnsafeHelpers
                 if (blockSize <= 256)
                 {
                     byte length = source[0];
-                    return length == 0 
-                        ? string.Empty 
+                    return length == 0
+                        ? string.Empty
                         : Encoding.UTF8.GetString(sourcePtr + 1, length);
                 }
                 else
                 {
                     short length = BinaryPrimitives.ReadInt16LittleEndian(source.Slice(0, 2));
-                    return length == 0 
-                        ? string.Empty 
+                    return length == 0
+                        ? string.Empty
                         : Encoding.UTF8.GetString(sourcePtr + 2, length);
                 }
             }

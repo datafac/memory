@@ -7,7 +7,7 @@ namespace DataFac.Memory.Tests
 {
     public class StringRegressionTests
     {
-        private void Roundtrip_Block<T>(in string value, string expectedBytes, bool shouldFail = false) where T: struct, IMemBlock
+        private void Roundtrip_Block<T>(in string value, string expectedBytes, bool shouldFail = false) where T : struct, IMemBlock
         {
             T block = default;
             int size = UnsafeHelpers.BlockHelper.BlockSize<T>();

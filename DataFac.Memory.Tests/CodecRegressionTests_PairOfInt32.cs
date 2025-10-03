@@ -7,9 +7,9 @@ namespace DataFac.Memory.Tests
 {
     public class CodecRegressionTests_PairOfInt32
     {
-        [Theory] 
-        [InlineData(1, 2,  "00-00-00-01-00-00-00-02")]
-        [InlineData(0, 1,  "00-00-00-00-00-00-00-01")]
+        [Theory]
+        [InlineData(1, 2, "00-00-00-01-00-00-00-02")]
+        [InlineData(0, 1, "00-00-00-00-00-00-00-01")]
         [InlineData(-1, 0, "FF-FF-FF-FF-00-00-00-00")]
         [InlineData(Int32.MaxValue - 1, Int32.MaxValue, "7F-FF-FF-FE-7F-FF-FF-FF")]
         [InlineData(Int32.MinValue, Int32.MinValue + 1, "80-00-00-00-80-00-00-01")]
@@ -33,8 +33,8 @@ namespace DataFac.Memory.Tests
         }
 
         [Theory]
-        [InlineData(1, 2,  "01-00-00-00-02-00-00-00")]
-        [InlineData(0, 1,  "00-00-00-00-01-00-00-00")]
+        [InlineData(1, 2, "01-00-00-00-02-00-00-00")]
+        [InlineData(0, 1, "00-00-00-00-01-00-00-00")]
         [InlineData(-1, 0, "FF-FF-FF-FF-00-00-00-00")]
         [InlineData(Int32.MaxValue - 1, Int32.MaxValue, "FE-FF-FF-7F-FF-FF-FF-7F")]
         [InlineData(Int32.MinValue, Int32.MinValue + 1, "00-00-00-80-01-00-00-80")]

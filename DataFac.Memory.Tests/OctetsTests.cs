@@ -68,7 +68,7 @@ namespace DataFac.Memory.Tests
             ReadOnlySequence<byte> sequence = new ReadOnlySequence<byte>(new byte[] { 1, 2, 3, 4, 5 });
             sequence.IsSingleSegment.ShouldBeTrue();
             Octets buffer1 = Octets.UnsafeWrap(sequence);
-            Octets buffer2 = Octets.UnsafeWrap(new ReadOnlyMemory<byte>( new byte[] { 1, 2, 3, 4, 5 }));
+            Octets buffer2 = Octets.UnsafeWrap(new ReadOnlyMemory<byte>(new byte[] { 1, 2, 3, 4, 5 }));
             buffer1.Equals(buffer2).ShouldBeTrue();
 
             int hash1 = buffer1.GetHashCode();

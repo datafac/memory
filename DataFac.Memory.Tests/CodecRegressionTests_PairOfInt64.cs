@@ -8,11 +8,11 @@ namespace DataFac.Memory.Tests
     public class CodecRegressionTests_PairOfInt64
     {
         [Theory]
-        [InlineData(1L, 2L,  "00-00-00-00-00-00-00-01-00-00-00-00-00-00-00-02")]
-        [InlineData(0L, 1L,  "00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-01")]
+        [InlineData(1L, 2L, "00-00-00-00-00-00-00-01-00-00-00-00-00-00-00-02")]
+        [InlineData(0L, 1L, "00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-01")]
         [InlineData(-1L, 0L, "FF-FF-FF-FF-FF-FF-FF-FF-00-00-00-00-00-00-00-00")]
-        [InlineData(Int64.MaxValue-1,Int64.MaxValue, "7F-FF-FF-FF-FF-FF-FF-FE-7F-FF-FF-FF-FF-FF-FF-FF")]
-        [InlineData(Int64.MinValue, Int64.MinValue+1, "80-00-00-00-00-00-00-00-80-00-00-00-00-00-00-01")]
+        [InlineData(Int64.MaxValue - 1, Int64.MaxValue, "7F-FF-FF-FF-FF-FF-FF-FE-7F-FF-FF-FF-FF-FF-FF-FF")]
+        [InlineData(Int64.MinValue, Int64.MinValue + 1, "80-00-00-00-00-00-00-00-80-00-00-00-00-00-00-01")]
         public void Roundtrip_PairOfInt64_BE(in Int64 a, in Int64 b, string expectedBytes)
         {
             PairOfInt64 orig = new PairOfInt64(a, b);
