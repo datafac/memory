@@ -30,8 +30,8 @@ namespace DataFac.Memory.Tests
 
         [Theory]
         [InlineData("1", "00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-01")]
-        [InlineData("0",   "00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00")]
-        [InlineData("-1",  "FF-FF-FF-FF-FF-FF-FF-FF-FF-FF-FF-FF-FF-FF-FF-FF")]
+        [InlineData("0", "00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00")]
+        [InlineData("-1", "FF-FF-FF-FF-FF-FF-FF-FF-FF-FF-FF-FF-FF-FF-FF-FF")]
         [InlineData("max", "7F-FF-FF-FF-FF-FF-FF-FF-FF-FF-FF-FF-FF-FF-FF-FF")]
         [InlineData("min", "80-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00")]
         public void Roundtrip_Int128_BE(string input, string expectedBytes)
