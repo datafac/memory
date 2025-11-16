@@ -1,0 +1,645 @@
+﻿namespace DataFac.Memory
+{
+    public struct BlockB001 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB001>
+    {
+        public bool BoolValue;
+        public byte ByteValue;
+        public sbyte SByteValue;
+        public int BlockSize { get; }
+        public bool IsEmpty { get; }
+        public string UTF8String { get; set; }
+        public bool Equals(DataFac.Memory.BlockB001 other) { }
+        public bool TryRead(System.ReadOnlySpan<byte> source) { }
+        public bool TryWrite(System.Span<byte> target) { }
+    }
+    public struct BlockB002 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB002>
+    {
+        public DataFac.Memory.BlockB001 A;
+        public DataFac.Memory.BlockB001 B;
+        public short _short;
+        public int BlockSize { get; }
+        public short Int16ValueBE { get; set; }
+        public short Int16ValueLE { get; set; }
+        public bool IsEmpty { get; }
+        public string UTF8String { get; set; }
+        public bool Equals(DataFac.Memory.BlockB002 other) { }
+        public bool TryRead(System.ReadOnlySpan<byte> source) { }
+        public bool TryWrite(System.Span<byte> target) { }
+    }
+    public struct BlockB004 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB004>
+    {
+        public DataFac.Memory.BlockB002 A;
+        public DataFac.Memory.BlockB002 B;
+        public float _float;
+        public int _int;
+        public int BlockSize { get; }
+        public int Int32ValueBE { get; set; }
+        public int Int32ValueLE { get; set; }
+        public bool IsEmpty { get; }
+        public DataFac.Memory.PairOfInt16 PairOfInt16BE { get; set; }
+        public DataFac.Memory.PairOfInt16 PairOfInt16LE { get; set; }
+        public float SingleValueBE { get; set; }
+        public float SingleValueLE { get; set; }
+        public string UTF8String { get; set; }
+        public bool Equals(DataFac.Memory.BlockB004 other) { }
+        public bool TryRead(System.ReadOnlySpan<byte> source) { }
+        public bool TryWrite(System.Span<byte> target) { }
+    }
+    public struct BlockB008 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB008>
+    {
+        public DataFac.Memory.BlockB004 A;
+        public DataFac.Memory.BlockB004 B;
+        public double _double;
+        public long _long;
+        public ulong _ulong;
+        public int BlockSize { get; }
+        public double DoubleValueBE { get; set; }
+        public double DoubleValueLE { get; set; }
+        public long Int64ValueBE { get; set; }
+        public long Int64ValueLE { get; set; }
+        public bool IsEmpty { get; }
+        public DataFac.Memory.PairOfInt32 PairOfInt32BE { get; set; }
+        public DataFac.Memory.PairOfInt32 PairOfInt32LE { get; set; }
+        public ulong UInt64ValueBE { get; set; }
+        public ulong UInt64ValueLE { get; set; }
+        public string UTF8String { get; set; }
+        public bool Equals(DataFac.Memory.BlockB008 other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+        public bool TryRead(System.ReadOnlySpan<byte> source) { }
+        public bool TryWrite(System.Span<byte> target) { }
+    }
+    public struct BlockB016 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB016>
+    {
+        public DataFac.Memory.BlockB008 A;
+        public DataFac.Memory.BlockB008 B;
+        public System.Guid _guid;
+        public int BlockSize { get; }
+        public System.Guid GuidValueBE { get; set; }
+        public System.Guid GuidValueLE { get; set; }
+        public bool IsEmpty { get; }
+        public DataFac.Memory.PairOfInt64 PairOfInt64BE { get; set; }
+        public DataFac.Memory.PairOfInt64 PairOfInt64LE { get; set; }
+        public string UTF8String { get; set; }
+        public bool Equals(DataFac.Memory.BlockB016 other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+        public bool TryRead(System.ReadOnlySpan<byte> source) { }
+        public bool TryWrite(System.Span<byte> target) { }
+    }
+    public struct BlockB032 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB032>
+    {
+        public DataFac.Memory.BlockB016 A;
+        public DataFac.Memory.BlockB016 B;
+        public int BlockSize { get; }
+        public bool IsEmpty { get; }
+        public string UTF8String { get; set; }
+        public bool Equals(DataFac.Memory.BlockB032 other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+        public bool TryRead(System.ReadOnlySpan<byte> source) { }
+        public bool TryWrite(System.Span<byte> target) { }
+    }
+    public struct BlockB064 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB064>
+    {
+        public DataFac.Memory.BlockB032 A;
+        public DataFac.Memory.BlockB032 B;
+        public int BlockSize { get; }
+        public bool IsEmpty { get; }
+        public string UTF8String { get; set; }
+        public bool Equals(DataFac.Memory.BlockB064 other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+        public void GetInt32ArrayBE(System.Span<int> target) { }
+        public void GetInt32ArrayLE(System.Span<int> target) { }
+        public void GetUInt32ArrayBE(System.Span<uint> target) { }
+        public void GetUInt32ArrayLE(System.Span<uint> target) { }
+        public void SetInt32ArrayBE(System.ReadOnlySpan<int> values) { }
+        public void SetInt32ArrayLE(System.ReadOnlySpan<int> values) { }
+        public void SetUInt32ArrayBE(System.ReadOnlySpan<uint> values) { }
+        public void SetUInt32ArrayLE(System.ReadOnlySpan<uint> values) { }
+        public bool TryRead(System.ReadOnlySpan<byte> source) { }
+        public bool TryWrite(System.Span<byte> target) { }
+    }
+    public struct BlockB128 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB128>
+    {
+        public DataFac.Memory.BlockB064 A;
+        public DataFac.Memory.BlockB064 B;
+        public int BlockSize { get; }
+        public bool IsEmpty { get; }
+        public string UTF8String { get; set; }
+        public bool Equals(DataFac.Memory.BlockB128 other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+        public bool TryRead(System.ReadOnlySpan<byte> source) { }
+        public bool TryWrite(System.Span<byte> target) { }
+    }
+    public struct BlockB256 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB256>
+    {
+        public DataFac.Memory.BlockB128 A;
+        public DataFac.Memory.BlockB128 B;
+        public int BlockSize { get; }
+        public bool IsEmpty { get; }
+        public string UTF8String { get; set; }
+        public bool Equals(DataFac.Memory.BlockB256 other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+        public bool TryRead(System.ReadOnlySpan<byte> source) { }
+        public bool TryWrite(System.Span<byte> target) { }
+    }
+    public struct BlockB512 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB512>
+    {
+        public DataFac.Memory.BlockB256 A;
+        public DataFac.Memory.BlockB256 B;
+        public int BlockSize { get; }
+        public bool IsEmpty { get; }
+        public string UTF8String { get; set; }
+        public bool Equals(DataFac.Memory.BlockB512 other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+        public bool TryRead(System.ReadOnlySpan<byte> source) { }
+        public bool TryWrite(System.Span<byte> target) { }
+    }
+    public struct BlockK001 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockK001>
+    {
+        public DataFac.Memory.BlockB512 A;
+        public DataFac.Memory.BlockB512 B;
+        public int BlockSize { get; }
+        public bool IsEmpty { get; }
+        public string UTF8String { get; set; }
+        public bool Equals(DataFac.Memory.BlockK001 other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+        public bool TryRead(System.ReadOnlySpan<byte> source) { }
+        public bool TryWrite(System.Span<byte> target) { }
+    }
+    public struct BlockK002 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockK002>
+    {
+        public DataFac.Memory.BlockK001 A;
+        public DataFac.Memory.BlockK001 B;
+        public int BlockSize { get; }
+        public bool IsEmpty { get; }
+        public string UTF8String { get; set; }
+        public bool Equals(DataFac.Memory.BlockK002 other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+        public bool TryRead(System.ReadOnlySpan<byte> source) { }
+        public bool TryWrite(System.Span<byte> target) { }
+    }
+    public struct BlockK004 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockK004>
+    {
+        public DataFac.Memory.BlockK002 A;
+        public DataFac.Memory.BlockK002 B;
+        public int BlockSize { get; }
+        public bool IsEmpty { get; }
+        public string UTF8String { get; set; }
+        public bool Equals(DataFac.Memory.BlockK004 other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+        public bool TryRead(System.ReadOnlySpan<byte> source) { }
+        public bool TryWrite(System.Span<byte> target) { }
+    }
+    public struct BlockK008 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockK008>
+    {
+        public DataFac.Memory.BlockK004 A;
+        public DataFac.Memory.BlockK004 B;
+        public int BlockSize { get; }
+        public bool IsEmpty { get; }
+        public string UTF8String { get; set; }
+        public bool Equals(DataFac.Memory.BlockK008 other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+        public bool TryRead(System.ReadOnlySpan<byte> source) { }
+        public bool TryWrite(System.Span<byte> target) { }
+    }
+    public abstract class Codec_Base<TField> : DataFac.Memory.IFieldCodec, DataFac.Memory.ITypedFieldCodec<TField>
+        where TField :  struct
+    {
+        protected Codec_Base() { }
+        public abstract TField OnRead(System.ReadOnlySpan<byte> source);
+        public abstract void OnWrite(System.Span<byte> target, in TField input);
+        public TField ReadFrom(System.ReadOnlySpan<byte> source) { }
+        public void WriteTo(System.Span<byte> target, in TField input) { }
+    }
+    public sealed class Codec_Boolean_BE : DataFac.Memory.Codec_Base<bool>
+    {
+        public static DataFac.Memory.Codec_Boolean_BE Instance { get; }
+        public override bool OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in bool input) { }
+        public static bool ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in bool input) { }
+    }
+    public sealed class Codec_Boolean_LE : DataFac.Memory.Codec_Base<bool>
+    {
+        public static DataFac.Memory.Codec_Boolean_LE Instance { get; }
+        public override bool OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in bool input) { }
+        public static bool ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in bool input) { }
+    }
+    public sealed class Codec_Byte_BE : DataFac.Memory.Codec_Base<byte>
+    {
+        public static DataFac.Memory.Codec_Byte_BE Instance { get; }
+        public override byte OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in byte input) { }
+        public static byte ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in byte input) { }
+    }
+    public sealed class Codec_Byte_LE : DataFac.Memory.Codec_Base<byte>
+    {
+        public static DataFac.Memory.Codec_Byte_LE Instance { get; }
+        public override byte OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in byte input) { }
+        public static byte ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in byte input) { }
+    }
+    public sealed class Codec_Char_BE : DataFac.Memory.Codec_Base<char>
+    {
+        public static DataFac.Memory.Codec_Char_BE Instance { get; }
+        public override char OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in char input) { }
+        public static char ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in char input) { }
+    }
+    public sealed class Codec_Char_LE : DataFac.Memory.Codec_Base<char>
+    {
+        public static DataFac.Memory.Codec_Char_LE Instance { get; }
+        public override char OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in char input) { }
+        public static char ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in char input) { }
+    }
+    public sealed class Codec_Decimal_BE : DataFac.Memory.Codec_Base<decimal>
+    {
+        public static DataFac.Memory.Codec_Decimal_BE Instance { get; }
+        public override decimal OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in decimal input) { }
+        public static decimal ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in decimal input) { }
+    }
+    public sealed class Codec_Decimal_LE : DataFac.Memory.Codec_Base<decimal>
+    {
+        public static DataFac.Memory.Codec_Decimal_LE Instance { get; }
+        public override decimal OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in decimal input) { }
+        public static decimal ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in decimal input) { }
+    }
+    public sealed class Codec_Double_BE : DataFac.Memory.Codec_Base<double>
+    {
+        public static DataFac.Memory.Codec_Double_BE Instance { get; }
+        public override double OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in double input) { }
+        public static double ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in double input) { }
+    }
+    public sealed class Codec_Double_LE : DataFac.Memory.Codec_Base<double>
+    {
+        public static DataFac.Memory.Codec_Double_LE Instance { get; }
+        public override double OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in double input) { }
+        public static double ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in double input) { }
+    }
+    public sealed class Codec_Guid_BE : DataFac.Memory.Codec_Base<System.Guid>
+    {
+        public static DataFac.Memory.Codec_Guid_BE Instance { get; }
+        public override System.Guid OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in System.Guid input) { }
+        public static System.Guid ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in System.Guid input) { }
+    }
+    public sealed class Codec_Guid_LE : DataFac.Memory.Codec_Base<System.Guid>
+    {
+        public static DataFac.Memory.Codec_Guid_LE Instance { get; }
+        public override System.Guid OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in System.Guid input) { }
+        public static System.Guid ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in System.Guid input) { }
+    }
+    public sealed class Codec_Int16_BE : DataFac.Memory.Codec_Base<short>
+    {
+        public static DataFac.Memory.Codec_Int16_BE Instance { get; }
+        public override short OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in short input) { }
+        public static short ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in short input) { }
+    }
+    public sealed class Codec_Int16_LE : DataFac.Memory.Codec_Base<short>
+    {
+        public static DataFac.Memory.Codec_Int16_LE Instance { get; }
+        public override short OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in short input) { }
+        public static short ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in short input) { }
+    }
+    public sealed class Codec_Int32_BE : DataFac.Memory.Codec_Base<int>
+    {
+        public static DataFac.Memory.Codec_Int32_BE Instance { get; }
+        public override int OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in int input) { }
+        public static int ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in int input) { }
+    }
+    public sealed class Codec_Int32_LE : DataFac.Memory.Codec_Base<int>
+    {
+        public static DataFac.Memory.Codec_Int32_LE Instance { get; }
+        public override int OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in int input) { }
+        public static int ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in int input) { }
+    }
+    public sealed class Codec_Int64_BE : DataFac.Memory.Codec_Base<long>
+    {
+        public static DataFac.Memory.Codec_Int64_BE Instance { get; }
+        public override long OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in long input) { }
+        public static long ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in long input) { }
+    }
+    public sealed class Codec_Int64_LE : DataFac.Memory.Codec_Base<long>
+    {
+        public static DataFac.Memory.Codec_Int64_LE Instance { get; }
+        public override long OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in long input) { }
+        public static long ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in long input) { }
+    }
+    public sealed class Codec_PairOfInt16_BE : DataFac.Memory.Codec_Base<DataFac.Memory.PairOfInt16>
+    {
+        public static DataFac.Memory.Codec_PairOfInt16_BE Instance { get; }
+        public override DataFac.Memory.PairOfInt16 OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in DataFac.Memory.PairOfInt16 input) { }
+        public static DataFac.Memory.PairOfInt16 ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in DataFac.Memory.PairOfInt16 input) { }
+    }
+    public sealed class Codec_PairOfInt16_LE : DataFac.Memory.Codec_Base<DataFac.Memory.PairOfInt16>
+    {
+        public static DataFac.Memory.Codec_PairOfInt16_LE Instance { get; }
+        public override DataFac.Memory.PairOfInt16 OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in DataFac.Memory.PairOfInt16 input) { }
+        public static DataFac.Memory.PairOfInt16 ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in DataFac.Memory.PairOfInt16 input) { }
+    }
+    public sealed class Codec_PairOfInt32_BE : DataFac.Memory.Codec_Base<DataFac.Memory.PairOfInt32>
+    {
+        public static DataFac.Memory.Codec_PairOfInt32_BE Instance { get; }
+        public override DataFac.Memory.PairOfInt32 OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in DataFac.Memory.PairOfInt32 input) { }
+        public static DataFac.Memory.PairOfInt32 ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in DataFac.Memory.PairOfInt32 input) { }
+    }
+    public sealed class Codec_PairOfInt32_LE : DataFac.Memory.Codec_Base<DataFac.Memory.PairOfInt32>
+    {
+        public static DataFac.Memory.Codec_PairOfInt32_LE Instance { get; }
+        public override DataFac.Memory.PairOfInt32 OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in DataFac.Memory.PairOfInt32 input) { }
+        public static DataFac.Memory.PairOfInt32 ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in DataFac.Memory.PairOfInt32 input) { }
+    }
+    public sealed class Codec_PairOfInt64_BE : DataFac.Memory.Codec_Base<DataFac.Memory.PairOfInt64>
+    {
+        public static DataFac.Memory.Codec_PairOfInt64_BE Instance { get; }
+        public override DataFac.Memory.PairOfInt64 OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in DataFac.Memory.PairOfInt64 input) { }
+        public static DataFac.Memory.PairOfInt64 ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in DataFac.Memory.PairOfInt64 input) { }
+    }
+    public sealed class Codec_PairOfInt64_LE : DataFac.Memory.Codec_Base<DataFac.Memory.PairOfInt64>
+    {
+        public static DataFac.Memory.Codec_PairOfInt64_LE Instance { get; }
+        public override DataFac.Memory.PairOfInt64 OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in DataFac.Memory.PairOfInt64 input) { }
+        public static DataFac.Memory.PairOfInt64 ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in DataFac.Memory.PairOfInt64 input) { }
+    }
+    public sealed class Codec_SByte_BE : DataFac.Memory.Codec_Base<sbyte>
+    {
+        public static DataFac.Memory.Codec_SByte_BE Instance { get; }
+        public override sbyte OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in sbyte input) { }
+        public static sbyte ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in sbyte input) { }
+    }
+    public sealed class Codec_SByte_LE : DataFac.Memory.Codec_Base<sbyte>
+    {
+        public static DataFac.Memory.Codec_SByte_LE Instance { get; }
+        public override sbyte OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in sbyte input) { }
+        public static sbyte ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in sbyte input) { }
+    }
+    public sealed class Codec_Single_BE : DataFac.Memory.Codec_Base<float>
+    {
+        public static DataFac.Memory.Codec_Single_BE Instance { get; }
+        public override float OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in float input) { }
+        public static float ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in float input) { }
+    }
+    public sealed class Codec_Single_LE : DataFac.Memory.Codec_Base<float>
+    {
+        public static DataFac.Memory.Codec_Single_LE Instance { get; }
+        public override float OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in float input) { }
+        public static float ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in float input) { }
+    }
+    public sealed class Codec_String_LE : DataFac.Memory.IFieldCodec, DataFac.Memory.ITypedFieldCodec<string>
+    {
+        public static DataFac.Memory.Codec_String_LE Instance { get; }
+        public string ReadFrom(System.ReadOnlySpan<byte> source) { }
+        public void WriteTo(System.Span<byte> target, in string? input) { }
+        public static string ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in string? input) { }
+    }
+    public sealed class Codec_UInt16_BE : DataFac.Memory.Codec_Base<ushort>
+    {
+        public static DataFac.Memory.Codec_UInt16_BE Instance { get; }
+        public override ushort OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in ushort input) { }
+        public static ushort ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in ushort input) { }
+    }
+    public sealed class Codec_UInt16_LE : DataFac.Memory.Codec_Base<ushort>
+    {
+        public static DataFac.Memory.Codec_UInt16_LE Instance { get; }
+        public override ushort OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in ushort input) { }
+        public static ushort ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in ushort input) { }
+    }
+    public sealed class Codec_UInt32_BE : DataFac.Memory.Codec_Base<uint>
+    {
+        public static DataFac.Memory.Codec_UInt32_BE Instance { get; }
+        public override uint OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in uint input) { }
+        public static uint ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in uint input) { }
+    }
+    public sealed class Codec_UInt32_LE : DataFac.Memory.Codec_Base<uint>
+    {
+        public static DataFac.Memory.Codec_UInt32_LE Instance { get; }
+        public override uint OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in uint input) { }
+        public static uint ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in uint input) { }
+    }
+    public sealed class Codec_UInt64_BE : DataFac.Memory.Codec_Base<ulong>
+    {
+        public static DataFac.Memory.Codec_UInt64_BE Instance { get; }
+        public override ulong OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in ulong input) { }
+        public static ulong ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in ulong input) { }
+    }
+    public sealed class Codec_UInt64_LE : DataFac.Memory.Codec_Base<ulong>
+    {
+        public static DataFac.Memory.Codec_UInt64_LE Instance { get; }
+        public override ulong OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in ulong input) { }
+        public static ulong ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in ulong input) { }
+    }
+    public readonly struct GuidHelper
+    {
+        public readonly System.Guid GuidValue;
+        public readonly int Part_A;
+        public readonly short Part_B;
+        public readonly short Part_C;
+        public readonly byte Part_D;
+        public readonly byte Part_E;
+        public readonly byte Part_F;
+        public readonly byte Part_G;
+        public readonly byte Part_H;
+        public readonly byte Part_I;
+        public readonly byte Part_J;
+        public readonly byte Part_K;
+        public GuidHelper(System.Guid guidValue) { }
+        public override string ToString() { }
+        public static System.Guid ReadFromSpan(System.ReadOnlySpan<byte> source, bool bigEndian) { }
+        public static void WriteToSpan(System.Span<byte> target, bool bigEndian, System.Guid value) { }
+    }
+    public interface IFieldCodec
+    {
+        object? ReadObject(System.ReadOnlySpan<byte> source);
+        void WriteObject(System.Span<byte> target, object? input);
+    }
+    public interface IMemBlock
+    {
+        int BlockSize { get; }
+        bool IsEmpty { get; }
+        string UTF8String { get; set; }
+        bool TryRead(System.ReadOnlySpan<byte> source);
+        bool TryWrite(System.Span<byte> target);
+    }
+    public interface ITypedFieldCodec<TField> : DataFac.Memory.IFieldCodec
+    {
+        TField ReadFrom(System.ReadOnlySpan<byte> source);
+        void WriteTo(System.Span<byte> target, in TField input);
+    }
+    public sealed class Octets : System.IEquatable<DataFac.Memory.Octets?>
+    {
+        public Octets(System.ReadOnlySpan<byte> source) { }
+        public Octets(System.ReadOnlySpan<byte> source1, System.ReadOnlySpan<byte> source2) { }
+        public Octets(System.ReadOnlySpan<byte> source1, System.ReadOnlySpan<byte> source2, System.ReadOnlySpan<byte> source3) { }
+        public long Length { get; }
+        [System.Obsolete("This property has been deprecated. Instead use the AsMemory() method.", true)]
+        public System.ReadOnlyMemory<byte> Memory { get; }
+        public System.Buffers.ReadOnlySequence<byte> Sequence { get; }
+        public static DataFac.Memory.Octets Empty { get; }
+        public System.ReadOnlyMemory<byte> AsMemory() { }
+        public bool Equals(DataFac.Memory.Octets? other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
+                "head",
+                "rest"})]
+        public System.ValueTuple<DataFac.Memory.Octets, DataFac.Memory.Octets> GetHead(int headLength) { }
+        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
+                "head",
+                "body",
+                "tail"})]
+        public System.ValueTuple<DataFac.Memory.Octets, DataFac.Memory.Octets, DataFac.Memory.Octets> GetHeadAndBody(int headLength, int bodyLength) { }
+        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
+                "head",
+                "body",
+                "tail"})]
+        public System.ValueTuple<DataFac.Memory.Octets, DataFac.Memory.Octets, DataFac.Memory.Octets> GetHeadAndTail(int headLength, int tailLength) { }
+        [System.Obsolete("Deprecated, Use GetHeadAndBody or GetHeadAndTail")]
+        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
+                "head",
+                "body",
+                "tail"})]
+        public System.ValueTuple<DataFac.Memory.Octets, DataFac.Memory.Octets, DataFac.Memory.Octets> GetHeadTail(int headLength, int bodyLength) { }
+        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
+                "rest",
+                "tail"})]
+        public System.ValueTuple<DataFac.Memory.Octets, DataFac.Memory.Octets> GetTail(int tailLength) { }
+        public byte[] ToByteArray() { }
+        public static DataFac.Memory.Octets Combine(params DataFac.Memory.Octets[] sources) { }
+        public static DataFac.Memory.Octets Combine(DataFac.Memory.Octets source1, DataFac.Memory.Octets source2) { }
+        public static DataFac.Memory.Octets Combine(DataFac.Memory.Octets source1, DataFac.Memory.Octets source2, DataFac.Memory.Octets source3) { }
+        public static DataFac.Memory.Octets UnsafeWrap(System.Buffers.ReadOnlySequence<byte> source) { }
+        public static DataFac.Memory.Octets UnsafeWrap(System.ReadOnlyMemory<byte> source) { }
+        public static bool operator !=(DataFac.Memory.Octets? left, DataFac.Memory.Octets? right) { }
+        public static bool operator ==(DataFac.Memory.Octets? left, DataFac.Memory.Octets? right) { }
+    }
+    public readonly struct PairOfInt16 : System.IEquatable<DataFac.Memory.PairOfInt16>
+    {
+        public readonly short A;
+        public readonly short B;
+        public PairOfInt16(short a, short b) { }
+        public bool Equals(DataFac.Memory.PairOfInt16 other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+        public override string ToString() { }
+        public static bool operator !=(DataFac.Memory.PairOfInt16 left, DataFac.Memory.PairOfInt16 right) { }
+        public static bool operator ==(DataFac.Memory.PairOfInt16 left, DataFac.Memory.PairOfInt16 right) { }
+    }
+    public readonly struct PairOfInt32 : System.IEquatable<DataFac.Memory.PairOfInt32>
+    {
+        public readonly int A;
+        public readonly int B;
+        public PairOfInt32(int a, int b) { }
+        public bool Equals(DataFac.Memory.PairOfInt32 other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+        public override string ToString() { }
+        public static bool operator !=(DataFac.Memory.PairOfInt32 left, DataFac.Memory.PairOfInt32 right) { }
+        public static bool operator ==(DataFac.Memory.PairOfInt32 left, DataFac.Memory.PairOfInt32 right) { }
+    }
+    public readonly struct PairOfInt64 : System.IEquatable<DataFac.Memory.PairOfInt64>
+    {
+        public readonly long A;
+        public readonly long B;
+        public PairOfInt64(long a, long b) { }
+        public bool Equals(DataFac.Memory.PairOfInt64 other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+        public override string ToString() { }
+        public static bool operator !=(DataFac.Memory.PairOfInt64 left, DataFac.Memory.PairOfInt64 right) { }
+        public static bool operator ==(DataFac.Memory.PairOfInt64 left, DataFac.Memory.PairOfInt64 right) { }
+    }
+    public sealed class ReadOnlyMemorySegment<T> : System.Buffers.ReadOnlySequenceSegment<T>
+    {
+        public ReadOnlyMemorySegment(System.ReadOnlyMemory<T> memory) { }
+        public DataFac.Memory.ReadOnlyMemorySegment<T> Append(System.ReadOnlyMemory<T> memory) { }
+    }
+    public readonly struct ReadOnlySequenceBuilder<T>
+    {
+        public readonly DataFac.Memory.ReadOnlyMemorySegment<T>? First;
+        public readonly DataFac.Memory.ReadOnlyMemorySegment<T>? Last;
+        public ReadOnlySequenceBuilder() { }
+        public ReadOnlySequenceBuilder(params System.ReadOnlyMemory<T>[] buffers) { }
+        public ReadOnlySequenceBuilder(System.ReadOnlyMemory<T> memory) { }
+        public ReadOnlySequenceBuilder(System.ReadOnlyMemory<T> memory1, System.ReadOnlyMemory<T> memory2) { }
+        public ReadOnlySequenceBuilder(System.ReadOnlyMemory<T> memory1, System.ReadOnlyMemory<T> memory2, System.ReadOnlyMemory<T> memory3) { }
+        public DataFac.Memory.ReadOnlySequenceBuilder<T> Append(System.ReadOnlyMemory<T> memory) { }
+        public System.Buffers.ReadOnlySequence<T> Build() { }
+    }
+    public static class ReadOnlySequenceExtensions
+    {
+        public static System.ReadOnlyMemory<T> Compact<T>(this System.Buffers.ReadOnlySequence<T> sequence) { }
+    }
+}
