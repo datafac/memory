@@ -1,5 +1,5 @@
 # Datafac.Memory
-Performant memory related types and codecs. Targets .NetStandard 2.0 and .NET 8.0+.
+Performant memory related types and codecs. Targets .NetStandard 2.0 and .NET 8 (LTS), 9, and 10 (LTS).
 
 [![Build-Deploy](https://github.com/datafac/memory/actions/workflows/dotnet.yml/badge.svg)](https://github.com/datafac/memory/actions/workflows/dotnet.yml)
 ![NuGet Version](https://img.shields.io/nuget/v/Datafac.Memory)
