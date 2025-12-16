@@ -1,9 +1,6 @@
-﻿using PublicApiGenerator;
-using Shouldly;
+﻿using Shouldly;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
-using VerifyXunit;
 using Xunit;
 
 namespace DataFac.Memory.Tests
