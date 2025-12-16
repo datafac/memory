@@ -26,3 +26,6 @@ An implementation of ReadOnlySequenceSegment\<T\>.
 If you find this package useful, please consider sponsoring my work on GitHub 
 at https://github.com/sponsors/Psiman62
 or buy me a coffee at https://www.buymeacoffee.com/psiman62
+
+## License
+This project is licensed under the Apache-2.0 License - see the [LICENSE](LICENSE) file for details.
