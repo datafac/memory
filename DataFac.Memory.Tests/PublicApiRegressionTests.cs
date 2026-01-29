@@ -12,7 +12,7 @@ namespace DataFac.Memory.Tests
         [Fact]
         public void VersionCheck()
         {
-            ThisAssembly.AssemblyVersion.ShouldBe("0.16.0.0");
+            ThisAssembly.AssemblyVersion.ShouldBe("0.17.0.0");
         }
 
         [Fact]

@@ -631,6 +631,7 @@
         public readonly DataFac.Memory.ReadOnlyMemorySegment<T>? First;
         public readonly DataFac.Memory.ReadOnlyMemorySegment<T>? Last;
         public ReadOnlySequenceBuilder() { }
+        public ReadOnlySequenceBuilder(System.Collections.Generic.IEnumerable<System.ReadOnlyMemory<T>> buffers) { }
         public ReadOnlySequenceBuilder(params System.ReadOnlyMemory<T>[] buffers) { }
         public ReadOnlySequenceBuilder(System.ReadOnlyMemory<T> memory) { }
         public ReadOnlySequenceBuilder(System.ReadOnlyMemory<T> memory1, System.ReadOnlyMemory<T> memory2) { }

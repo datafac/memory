@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Buffers;
+using System.Collections.Generic;
 
 namespace DataFac.Memory
 {
@@ -51,6 +52,27 @@ namespace DataFac.Memory
             for (int i = 2; i < buffers.Length; i++)
             {
                 Last = Last!.Append(buffers[i]);
+            }
+        }
+
+        public ReadOnlySequenceBuilder(IEnumerable<ReadOnlyMemory<T>> buffers) : this()
+        {
+            int count = 0;
+            foreach (var buffer in buffers)
+            {
+                if (count == 0)
+                {
+                    First = new ReadOnlyMemorySegment<T>(buffer);
+                }
+                else if (count == 1)
+                {
+                    Last = First!.Append(buffer);
+                }
+                else
+                {
+                    Last = Last!.Append(buffer);
+                }
+                count++;
             }
         }
 
