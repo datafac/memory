@@ -23,6 +23,9 @@ namespace DataFac.Memory
             ref this);
 #endif
 
+        public void WriteTo(Span<byte> target) => BlockHelper.AsReadOnlySpan(ref this).CopyTo(target);
+        public void WriteTo(int start, int length, Span<byte> target) => BlockHelper.AsReadOnlySpan(ref this).Slice(start, length).CopyTo(target);
+
         public string UTF8String
         {
             get => DataFac.UnsafeHelpers.BlockHelper.GetString(ref this);

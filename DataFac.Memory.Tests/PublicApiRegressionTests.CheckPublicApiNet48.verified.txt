@@ -11,6 +11,8 @@
         public bool Equals(DataFac.Memory.BlockB001 other) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
+        public void WriteTo(System.Span<byte> target) { }
+        public void WriteTo(int start, int length, System.Span<byte> target) { }
     }
     public struct BlockB002 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB002>
     {
@@ -25,6 +27,8 @@
         public bool Equals(DataFac.Memory.BlockB002 other) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
+        public void WriteTo(System.Span<byte> target) { }
+        public void WriteTo(int start, int length, System.Span<byte> target) { }
     }
     public struct BlockB004 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB004>
     {
@@ -44,6 +48,8 @@
         public bool Equals(DataFac.Memory.BlockB004 other) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
+        public void WriteTo(System.Span<byte> target) { }
+        public void WriteTo(int start, int length, System.Span<byte> target) { }
     }
     public struct BlockB008 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB008>
     {
@@ -68,6 +74,8 @@
         public override int GetHashCode() { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
+        public void WriteTo(System.Span<byte> target) { }
+        public void WriteTo(int start, int length, System.Span<byte> target) { }
     }
     public struct BlockB016 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB016>
     {
@@ -86,6 +94,8 @@
         public override int GetHashCode() { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
+        public void WriteTo(System.Span<byte> target) { }
+        public void WriteTo(int start, int length, System.Span<byte> target) { }
     }
     public struct BlockB032 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB032>
     {
@@ -99,6 +109,8 @@
         public override int GetHashCode() { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
+        public void WriteTo(System.Span<byte> target) { }
+        public void WriteTo(int start, int length, System.Span<byte> target) { }
     }
     public struct BlockB064 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB064>
     {
@@ -120,6 +132,8 @@
         public void SetUInt32ArrayLE(System.ReadOnlySpan<uint> values) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
+        public void WriteTo(System.Span<byte> target) { }
+        public void WriteTo(int start, int length, System.Span<byte> target) { }
     }
     public struct BlockB128 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB128>
     {
@@ -133,6 +147,8 @@
         public override int GetHashCode() { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
+        public void WriteTo(System.Span<byte> target) { }
+        public void WriteTo(int start, int length, System.Span<byte> target) { }
     }
     public struct BlockB256 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB256>
     {
@@ -146,6 +162,8 @@
         public override int GetHashCode() { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
+        public void WriteTo(System.Span<byte> target) { }
+        public void WriteTo(int start, int length, System.Span<byte> target) { }
     }
     public struct BlockB512 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB512>
     {
@@ -159,6 +177,8 @@
         public override int GetHashCode() { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
+        public void WriteTo(System.Span<byte> target) { }
+        public void WriteTo(int start, int length, System.Span<byte> target) { }
     }
     public struct BlockK001 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockK001>
     {
@@ -172,6 +192,8 @@
         public override int GetHashCode() { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
+        public void WriteTo(System.Span<byte> target) { }
+        public void WriteTo(int start, int length, System.Span<byte> target) { }
     }
     public struct BlockK002 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockK002>
     {
@@ -185,6 +207,8 @@
         public override int GetHashCode() { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
+        public void WriteTo(System.Span<byte> target) { }
+        public void WriteTo(int start, int length, System.Span<byte> target) { }
     }
     public struct BlockK004 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockK004>
     {
@@ -198,6 +222,8 @@
         public override int GetHashCode() { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
+        public void WriteTo(System.Span<byte> target) { }
+        public void WriteTo(int start, int length, System.Span<byte> target) { }
     }
     public struct BlockK008 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockK008>
     {
@@ -211,6 +237,8 @@
         public override int GetHashCode() { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
+        public void WriteTo(System.Span<byte> target) { }
+        public void WriteTo(int start, int length, System.Span<byte> target) { }
     }
     public abstract class Codec_Base<TField> : DataFac.Memory.IFieldCodec, DataFac.Memory.ITypedFieldCodec<TField>
         where TField :  struct
@@ -532,6 +560,8 @@
         string UTF8String { get; set; }
         bool TryRead(System.ReadOnlySpan<byte> source);
         bool TryWrite(System.Span<byte> target);
+        void WriteTo(System.Span<byte> target);
+        void WriteTo(int start, int length, System.Span<byte> target);
     }
     public interface ITypedFieldCodec<TField> : DataFac.Memory.IFieldCodec
     {
