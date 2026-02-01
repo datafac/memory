@@ -29,25 +29,28 @@ namespace DataFac.Memory
         public void WriteTo(Span<byte> target) => BlockHelper.AsReadOnlySpan(ref this).CopyTo(target);
         public void WriteTo(int start, int length, Span<byte> target) => BlockHelper.AsReadOnlySpan(ref this).Slice(start, length).CopyTo(target);
 
-        public string ToBase64String()
+        public string ToBase64String(Base64FormattingOptions options = Base64FormattingOptions.None)
         {
             var span = BlockHelper.AsReadOnlySpan(ref this);
 #if NET8_0_OR_GREATER
-            return Convert.ToBase64String(span);
+            return Convert.ToBase64String(span, options);
 #else
-            return Convert.ToBase64String(span.ToArray());
+            return Convert.ToBase64String(span.ToArray(), options);
 #endif
         }
 
-        public string ToBase64String(int start, int length)
+        public string ToBase64String(int start, int length, Base64FormattingOptions options = Base64FormattingOptions.None)
         {
             var span = BlockHelper.AsReadOnlySpan(ref this).Slice(start, length);
 #if NET8_0_OR_GREATER
-            return Convert.ToBase64String(span);
+            return Convert.ToBase64String(span, options);
 #else
-            return Convert.ToBase64String(span.ToArray());
+            return Convert.ToBase64String(span.ToArray(), options);
 #endif
         }
+
+        public byte[] ToByteArray() => BlockHelper.AsReadOnlySpan(ref this).ToArray();
+        public byte[] ToByteArray(int start, int length) => BlockHelper.AsReadOnlySpan(ref this).Slice(start, length).ToArray();
 
         public string UTF8String
         {

@@ -11,8 +11,10 @@
         public bool Equals(DataFac.Memory.BlockB001 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
-        public string ToBase64String() { }
-        public string ToBase64String(int start, int length) { }
+        public string ToBase64String(System.Base64FormattingOptions options = 0) { }
+        public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
+        public byte[] ToByteArray() { }
+        public byte[] ToByteArray(int start, int length) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -31,8 +33,10 @@
         public bool Equals(DataFac.Memory.BlockB002 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
-        public string ToBase64String() { }
-        public string ToBase64String(int start, int length) { }
+        public string ToBase64String(System.Base64FormattingOptions options = 0) { }
+        public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
+        public byte[] ToByteArray() { }
+        public byte[] ToByteArray(int start, int length) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -56,8 +60,10 @@
         public bool Equals(DataFac.Memory.BlockB004 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
-        public string ToBase64String() { }
-        public string ToBase64String(int start, int length) { }
+        public string ToBase64String(System.Base64FormattingOptions options = 0) { }
+        public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
+        public byte[] ToByteArray() { }
+        public byte[] ToByteArray(int start, int length) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -84,8 +90,10 @@
         public bool Equals(DataFac.Memory.BlockB008 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
-        public string ToBase64String() { }
-        public string ToBase64String(int start, int length) { }
+        public string ToBase64String(System.Base64FormattingOptions options = 0) { }
+        public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
+        public byte[] ToByteArray() { }
+        public byte[] ToByteArray(int start, int length) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -106,8 +114,10 @@
         public bool Equals(DataFac.Memory.BlockB016 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
-        public string ToBase64String() { }
-        public string ToBase64String(int start, int length) { }
+        public string ToBase64String(System.Base64FormattingOptions options = 0) { }
+        public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
+        public byte[] ToByteArray() { }
+        public byte[] ToByteArray(int start, int length) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -123,8 +133,10 @@
         public bool Equals(DataFac.Memory.BlockB032 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
-        public string ToBase64String() { }
-        public string ToBase64String(int start, int length) { }
+        public string ToBase64String(System.Base64FormattingOptions options = 0) { }
+        public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
+        public byte[] ToByteArray() { }
+        public byte[] ToByteArray(int start, int length) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -148,8 +160,10 @@
         public void SetInt32ArrayLE(System.ReadOnlySpan<int> values) { }
         public void SetUInt32ArrayBE(System.ReadOnlySpan<uint> values) { }
         public void SetUInt32ArrayLE(System.ReadOnlySpan<uint> values) { }
-        public string ToBase64String() { }
-        public string ToBase64String(int start, int length) { }
+        public string ToBase64String(System.Base64FormattingOptions options = 0) { }
+        public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
+        public byte[] ToByteArray() { }
+        public byte[] ToByteArray(int start, int length) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -165,8 +179,10 @@
         public bool Equals(DataFac.Memory.BlockB128 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
-        public string ToBase64String() { }
-        public string ToBase64String(int start, int length) { }
+        public string ToBase64String(System.Base64FormattingOptions options = 0) { }
+        public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
+        public byte[] ToByteArray() { }
+        public byte[] ToByteArray(int start, int length) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -182,8 +198,10 @@
         public bool Equals(DataFac.Memory.BlockB256 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
-        public string ToBase64String() { }
-        public string ToBase64String(int start, int length) { }
+        public string ToBase64String(System.Base64FormattingOptions options = 0) { }
+        public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
+        public byte[] ToByteArray() { }
+        public byte[] ToByteArray(int start, int length) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -199,8 +217,10 @@
         public bool Equals(DataFac.Memory.BlockB512 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
-        public string ToBase64String() { }
-        public string ToBase64String(int start, int length) { }
+        public string ToBase64String(System.Base64FormattingOptions options = 0) { }
+        public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
+        public byte[] ToByteArray() { }
+        public byte[] ToByteArray(int start, int length) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -216,8 +236,10 @@
         public bool Equals(DataFac.Memory.BlockK001 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
-        public string ToBase64String() { }
-        public string ToBase64String(int start, int length) { }
+        public string ToBase64String(System.Base64FormattingOptions options = 0) { }
+        public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
+        public byte[] ToByteArray() { }
+        public byte[] ToByteArray(int start, int length) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -233,8 +255,10 @@
         public bool Equals(DataFac.Memory.BlockK002 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
-        public string ToBase64String() { }
-        public string ToBase64String(int start, int length) { }
+        public string ToBase64String(System.Base64FormattingOptions options = 0) { }
+        public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
+        public byte[] ToByteArray() { }
+        public byte[] ToByteArray(int start, int length) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -250,8 +274,10 @@
         public bool Equals(DataFac.Memory.BlockK004 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
-        public string ToBase64String() { }
-        public string ToBase64String(int start, int length) { }
+        public string ToBase64String(System.Base64FormattingOptions options = 0) { }
+        public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
+        public byte[] ToByteArray() { }
+        public byte[] ToByteArray(int start, int length) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -267,8 +293,10 @@
         public bool Equals(DataFac.Memory.BlockK008 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
-        public string ToBase64String() { }
-        public string ToBase64String(int start, int length) { }
+        public string ToBase64String(System.Base64FormattingOptions options = 0) { }
+        public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
+        public byte[] ToByteArray() { }
+        public byte[] ToByteArray(int start, int length) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -600,8 +628,10 @@
         int BlockSize { get; }
         bool IsEmpty { get; }
         string UTF8String { get; set; }
-        string ToBase64String();
-        string ToBase64String(int start, int length);
+        string ToBase64String(System.Base64FormattingOptions options = 0);
+        string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0);
+        byte[] ToByteArray();
+        byte[] ToByteArray(int start, int length);
         bool TryRead(System.ReadOnlySpan<byte> source);
         bool TryWrite(System.Span<byte> target);
         void WriteTo(System.Span<byte> target);
