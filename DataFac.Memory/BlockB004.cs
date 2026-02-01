@@ -57,6 +57,8 @@ namespace DataFac.Memory
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(BlockB004 other) => _int == other._int;
+        public override bool Equals(object? obj) => obj is BlockB004 other && Equals(other);
+        public override int GetHashCode() => _int.GetHashCode();
 
         public PairOfInt16 PairOfInt16LE
         {

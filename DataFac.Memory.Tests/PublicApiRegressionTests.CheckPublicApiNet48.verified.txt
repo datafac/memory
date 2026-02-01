@@ -9,6 +9,8 @@
         public bool IsEmpty { get; }
         public string UTF8String { get; set; }
         public bool Equals(DataFac.Memory.BlockB001 other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
         public string ToBase64String() { }
         public string ToBase64String(int start, int length) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
@@ -27,6 +29,8 @@
         public bool IsEmpty { get; }
         public string UTF8String { get; set; }
         public bool Equals(DataFac.Memory.BlockB002 other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
         public string ToBase64String() { }
         public string ToBase64String(int start, int length) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
@@ -50,6 +54,8 @@
         public float SingleValueLE { get; set; }
         public string UTF8String { get; set; }
         public bool Equals(DataFac.Memory.BlockB004 other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
         public string ToBase64String() { }
         public string ToBase64String(int start, int length) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }

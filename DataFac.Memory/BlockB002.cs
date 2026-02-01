@@ -58,6 +58,8 @@ namespace DataFac.Memory
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(BlockB002 other) => _short == other._short;
+        public override bool Equals(object? obj) => obj is BlockB002 other && Equals(other);
+        public override int GetHashCode() => _short.GetHashCode();
 
         [FieldOffset(0)] public short _short;
         public short Int16ValueLE

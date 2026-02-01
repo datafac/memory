@@ -26,6 +26,8 @@ namespace DataFac.Memory
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(BlockB001 other) => ByteValue == other.ByteValue;
+        public override bool Equals(object? obj) => obj is BlockB001 other && Equals(other);
+        public override int GetHashCode() => ByteValue.GetHashCode();
 
         public bool TryRead(ReadOnlySpan<byte> source) => MemoryMarshal.TryRead(source.Slice(0, Size), out this);
         public bool TryWrite(Span<byte> target) => MemoryMarshal.TryWrite(target.Slice(0, Size),

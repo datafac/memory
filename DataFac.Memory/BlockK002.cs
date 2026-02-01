@@ -57,21 +57,16 @@ namespace DataFac.Memory
         public bool IsEmpty => BlockHelper.AsReadOnlySpanOfInt64(ref this).AreAllZero();
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(BlockK002 other)
-        {
-            var self = BlockHelper.AsReadOnlySpanOfInt64(ref this);
-            var that = BlockHelper.AsReadOnlySpanOfInt64(ref other);
-            return self.SequenceEqual<long>(that);
-        }
+        public bool Equals(BlockK002 other) => BlockHelper.AsReadOnlySpanOfInt64(ref this).SequenceEqual(BlockHelper.AsReadOnlySpanOfInt64(ref other));
         public override bool Equals(object? obj) => obj is BlockK002 other && Equals(other);
         public override int GetHashCode()
         {
-            var self = BlockHelper.AsReadOnlySpan(ref this);
             HashCode hashCode = new HashCode();
-            hashCode.Add(self.Length);
+            hashCode.Add(Size);
 #if NET8_0_OR_GREATER
-            hashCode.AddBytes(self);
+            hashCode.AddBytes(BlockHelper.AsReadOnlySpan(ref this));
 #else
+            var self = BlockHelper.AsReadOnlySpanOfInt64(ref this);
             for (int i = 0; i < self.Length; i++)
             {
                 hashCode.Add(self[i]);
@@ -79,7 +74,6 @@ namespace DataFac.Memory
 #endif
             return hashCode.ToHashCode();
         }
-
     }
 
 }
