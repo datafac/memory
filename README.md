@@ -22,6 +22,9 @@ A helper struct that supports efficient building of ReadOnlySequence\<T\>.
 ## ReadOnlyMemorySegment
 An implementation of ReadOnlySequenceSegment\<T\>.
 
+## ByteBufferWriter
+An implementation of IBufferWriter\<byte\>.
+
 ## How to sponsor
 If you find this package useful, please consider sponsoring my work on GitHub 
 at https://github.com/sponsors/Psiman62
