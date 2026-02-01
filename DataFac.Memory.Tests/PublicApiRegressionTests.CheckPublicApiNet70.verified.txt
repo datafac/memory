@@ -274,6 +274,14 @@
         public void WriteTo(System.Span<byte> target) { }
         public void WriteTo(int start, int length, System.Span<byte> target) { }
     }
+    public class ByteBufferWriter : System.Buffers.IBufferWriter<byte>
+    {
+        public ByteBufferWriter() { }
+        public void Advance(int count) { }
+        public System.Memory<byte> GetMemory(int sizeHint = 0) { }
+        public System.Span<byte> GetSpan(int sizeHint = 0) { }
+        public System.Buffers.ReadOnlySequence<byte> GetWrittenSequence() { }
+    }
     public abstract class Codec_Base<TField> : DataFac.Memory.IFieldCodec, DataFac.Memory.ITypedFieldCodec<TField>
         where TField :  struct
     {
