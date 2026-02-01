@@ -10,6 +10,8 @@ namespace DataFac.Memory
         bool TryWrite(Span<byte> target);
         void WriteTo(Span<byte> target);
         void WriteTo(int start, int length, Span<byte> target);
+        string ToBase64String();
+        string ToBase64String(int start, int length);
         string UTF8String { get; set; }
 
         // todo ByteString

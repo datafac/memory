@@ -26,6 +26,26 @@ namespace DataFac.Memory
         public void WriteTo(Span<byte> target) => BlockHelper.AsReadOnlySpan(ref this).CopyTo(target);
         public void WriteTo(int start, int length, Span<byte> target) => BlockHelper.AsReadOnlySpan(ref this).Slice(start, length).CopyTo(target);
 
+        public string ToBase64String()
+        {
+            var span = BlockHelper.AsReadOnlySpan(ref this);
+#if NET8_0_OR_GREATER
+            return Convert.ToBase64String(span);
+#else
+            return Convert.ToBase64String(span.ToArray());
+#endif
+        }
+
+        public string ToBase64String(int start, int length)
+        {
+            var span = BlockHelper.AsReadOnlySpan(ref this).Slice(start, length);
+#if NET8_0_OR_GREATER
+            return Convert.ToBase64String(span);
+#else
+            return Convert.ToBase64String(span.ToArray());
+#endif
+        }
+
         public string UTF8String
         {
             get => DataFac.UnsafeHelpers.BlockHelper.GetString(ref this);
