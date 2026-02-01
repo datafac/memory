@@ -1,5 +1,6 @@
 ﻿using Shouldly;
 using System;
+using System.Linq;
 using System.Numerics;
 using Xunit;
 
@@ -9,15 +10,28 @@ namespace DataFac.Memory.Tests
     {
         private T CopyAndCompare<T>(T orig, int size) where T : struct, IMemBlock, IEquatable<T>
         {
-            Span<byte> buffer = stackalloc byte[size];
+            Span<byte> buffer1 = stackalloc byte[size];
+            orig.TryWrite(buffer1).ShouldBeTrue();
 
-            orig.TryWrite(buffer).ShouldBeTrue();
+            Span<byte> buffer2 = stackalloc byte[size];
+            orig.WriteTo(buffer2);
+            buffer2.SequenceEqual(buffer1).ShouldBeTrue();
+
+            Span<byte> buffer3 = orig.ToByteArray();
+            buffer3.SequenceEqual(buffer1).ShouldBeTrue();
+
+            string origAsStr = orig.ToBase64String();
 
             T copy = default;
-            copy.TryRead(buffer).ShouldBeTrue();
-
+            copy.IsEmpty.ShouldBeTrue();
+            copy.TryRead(buffer1).ShouldBeTrue();
             copy.ShouldBe(orig);
             copy.Equals(orig).ShouldBeTrue();
+            copy.GetHashCode().ShouldBe(orig.GetHashCode());
+            Equals(copy, orig).ShouldBeTrue();
+
+            string copyAsStr = copy.ToBase64String();
+            copyAsStr.ShouldBe(origAsStr);
 
             return copy;
         }
@@ -198,6 +212,33 @@ namespace DataFac.Memory.Tests
             recdValue.Imaginary.ShouldBe(sendValue.Imaginary);
         }
 #endif
+
+        [Fact]
+        public void CopyBlockB032()
+        {
+            BlockB032 orig = default;
+            ReadOnlySpan<byte> data = Enumerable.Range(0, orig.BlockSize).Select(i => (byte)(i % 256)).ToArray();
+            orig.TryRead(data).ShouldBeTrue();
+            var copy = CopyAndCompare(orig, orig.BlockSize);
+        }
+
+        [Fact]
+        public void CopyBlockB064()
+        {
+            BlockB064 orig = default;
+            ReadOnlySpan<byte> data = Enumerable.Range(0, orig.BlockSize).Select(i => (byte)(i % 256)).ToArray();
+            orig.TryRead(data).ShouldBeTrue();
+            var copy = CopyAndCompare(orig, orig.BlockSize);
+        }
+
+        [Fact]
+        public void CopyBlockB128()
+        {
+            BlockB128 orig = default;
+            ReadOnlySpan<byte> data = Enumerable.Range(0, orig.BlockSize).Select(i => (byte)(i % 256)).ToArray();
+            orig.TryRead(data).ShouldBeTrue();
+            var copy = CopyAndCompare(orig, orig.BlockSize);
+        }
 
     }
 }
