@@ -9,6 +9,7 @@ public interface IMemBlock
     int BlockSize { get; }
     bool IsEmpty { get; }
     bool TryRead(ReadOnlySpan<byte> source);
+    bool TryRead(ReadOnlySequence<byte> source);
     bool TryWrite(Span<byte> target);
     void WriteTo(Span<byte> target);
     void WriteTo(int start, int length, Span<byte> target);

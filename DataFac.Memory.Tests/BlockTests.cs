@@ -1,5 +1,6 @@
 ﻿using Shouldly;
 using System;
+using System.Buffers;
 using System.Linq;
 using System.Numerics;
 using Xunit;
@@ -22,18 +23,34 @@ namespace DataFac.Memory.Tests
 
             string origAsStr = orig.ToBase64String();
 
-            T copy = default;
-            copy.IsEmpty.ShouldBeTrue();
-            copy.TryRead(buffer1).ShouldBeTrue();
-            copy.ShouldBe(orig);
-            copy.Equals(orig).ShouldBeTrue();
-            copy.GetHashCode().ShouldBe(orig.GetHashCode());
-            Equals(copy, orig).ShouldBeTrue();
+            T copy1 = default;
+            {
+                copy1.IsEmpty.ShouldBeTrue();
+                copy1.TryRead(buffer1).ShouldBeTrue();
+                copy1.ShouldBe(orig);
+                copy1.Equals(orig).ShouldBeTrue();
+                copy1.GetHashCode().ShouldBe(orig.GetHashCode());
+                Equals(copy1, orig).ShouldBeTrue();
+            }
 
-            string copyAsStr = copy.ToBase64String();
+            string copyAsStr = copy1.ToBase64String();
             copyAsStr.ShouldBe(origAsStr);
 
-            return copy;
+            {
+                ReadOnlySequence<byte> sequence = new ReadOnlySequenceBuilder<byte>()
+                    .Append(buffer1.Slice(0, size / 2).ToArray())
+                    .Append(buffer1.Slice(size / 2).ToArray())
+                    .Build();
+                T copy2 = default;
+                copy2.IsEmpty.ShouldBeTrue();
+                copy2.TryRead(sequence).ShouldBeTrue();
+                copy2.ShouldBe(orig);
+                copy2.Equals(orig).ShouldBeTrue();
+                copy2.GetHashCode().ShouldBe(orig.GetHashCode());
+                Equals(copy2, orig).ShouldBeTrue();
+            }
+
+            return copy1;
         }
 
         [Fact]
@@ -235,6 +252,60 @@ namespace DataFac.Memory.Tests
         public void CopyBlockB128()
         {
             BlockB128 orig = default;
+            ReadOnlySpan<byte> data = Enumerable.Range(0, orig.BlockSize).Select(i => (byte)(i % 256)).ToArray();
+            orig.TryRead(data).ShouldBeTrue();
+            var copy = CopyAndCompare(orig, orig.BlockSize);
+        }
+
+        [Fact]
+        public void CopyBlockB256()
+        {
+            BlockB256 orig = default;
+            ReadOnlySpan<byte> data = Enumerable.Range(0, orig.BlockSize).Select(i => (byte)(i % 256)).ToArray();
+            orig.TryRead(data).ShouldBeTrue();
+            var copy = CopyAndCompare(orig, orig.BlockSize);
+        }
+
+        [Fact]
+        public void CopyBlockB512()
+        {
+            BlockB512 orig = default;
+            ReadOnlySpan<byte> data = Enumerable.Range(0, orig.BlockSize).Select(i => (byte)(i % 256)).ToArray();
+            orig.TryRead(data).ShouldBeTrue();
+            var copy = CopyAndCompare(orig, orig.BlockSize);
+        }
+
+        [Fact]
+        public void CopyBlockK001()
+        {
+            BlockK001 orig = default;
+            ReadOnlySpan<byte> data = Enumerable.Range(0, orig.BlockSize).Select(i => (byte)(i % 256)).ToArray();
+            orig.TryRead(data).ShouldBeTrue();
+            var copy = CopyAndCompare(orig, orig.BlockSize);
+        }
+
+        [Fact]
+        public void CopyBlockK002()
+        {
+            BlockK002 orig = default;
+            ReadOnlySpan<byte> data = Enumerable.Range(0, orig.BlockSize).Select(i => (byte)(i % 256)).ToArray();
+            orig.TryRead(data).ShouldBeTrue();
+            var copy = CopyAndCompare(orig, orig.BlockSize);
+        }
+
+        [Fact]
+        public void CopyBlockK004()
+        {
+            BlockK004 orig = default;
+            ReadOnlySpan<byte> data = Enumerable.Range(0, orig.BlockSize).Select(i => (byte)(i % 256)).ToArray();
+            orig.TryRead(data).ShouldBeTrue();
+            var copy = CopyAndCompare(orig, orig.BlockSize);
+        }
+
+        [Fact]
+        public void CopyBlockK008()
+        {
+            BlockK008 orig = default;
             ReadOnlySpan<byte> data = Enumerable.Range(0, orig.BlockSize).Select(i => (byte)(i % 256)).ToArray();
             orig.TryRead(data).ShouldBeTrue();
             var copy = CopyAndCompare(orig, orig.BlockSize);

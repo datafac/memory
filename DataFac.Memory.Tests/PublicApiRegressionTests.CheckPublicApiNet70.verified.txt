@@ -15,6 +15,7 @@
         public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
         public byte[] ToByteArray() { }
         public byte[] ToByteArray(int start, int length) { }
+        public bool TryRead(System.Buffers.ReadOnlySequence<byte> source) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -37,6 +38,7 @@
         public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
         public byte[] ToByteArray() { }
         public byte[] ToByteArray(int start, int length) { }
+        public bool TryRead(System.Buffers.ReadOnlySequence<byte> source) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -64,6 +66,7 @@
         public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
         public byte[] ToByteArray() { }
         public byte[] ToByteArray(int start, int length) { }
+        public bool TryRead(System.Buffers.ReadOnlySequence<byte> source) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -94,6 +97,7 @@
         public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
         public byte[] ToByteArray() { }
         public byte[] ToByteArray(int start, int length) { }
+        public bool TryRead(System.Buffers.ReadOnlySequence<byte> source) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -124,6 +128,7 @@
         public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
         public byte[] ToByteArray() { }
         public byte[] ToByteArray(int start, int length) { }
+        public bool TryRead(System.Buffers.ReadOnlySequence<byte> source) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -143,6 +148,7 @@
         public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
         public byte[] ToByteArray() { }
         public byte[] ToByteArray(int start, int length) { }
+        public bool TryRead(System.Buffers.ReadOnlySequence<byte> source) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -170,6 +176,7 @@
         public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
         public byte[] ToByteArray() { }
         public byte[] ToByteArray(int start, int length) { }
+        public bool TryRead(System.Buffers.ReadOnlySequence<byte> source) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -189,6 +196,7 @@
         public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
         public byte[] ToByteArray() { }
         public byte[] ToByteArray(int start, int length) { }
+        public bool TryRead(System.Buffers.ReadOnlySequence<byte> source) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -208,6 +216,7 @@
         public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
         public byte[] ToByteArray() { }
         public byte[] ToByteArray(int start, int length) { }
+        public bool TryRead(System.Buffers.ReadOnlySequence<byte> source) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -227,6 +236,7 @@
         public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
         public byte[] ToByteArray() { }
         public byte[] ToByteArray(int start, int length) { }
+        public bool TryRead(System.Buffers.ReadOnlySequence<byte> source) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -246,6 +256,7 @@
         public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
         public byte[] ToByteArray() { }
         public byte[] ToByteArray(int start, int length) { }
+        public bool TryRead(System.Buffers.ReadOnlySequence<byte> source) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -265,6 +276,7 @@
         public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
         public byte[] ToByteArray() { }
         public byte[] ToByteArray(int start, int length) { }
+        public bool TryRead(System.Buffers.ReadOnlySequence<byte> source) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -284,6 +296,7 @@
         public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
         public byte[] ToByteArray() { }
         public byte[] ToByteArray(int start, int length) { }
+        public bool TryRead(System.Buffers.ReadOnlySequence<byte> source) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -303,6 +316,7 @@
         public string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0) { }
         public byte[] ToByteArray() { }
         public byte[] ToByteArray(int start, int length) { }
+        public bool TryRead(System.Buffers.ReadOnlySequence<byte> source) { }
         public bool TryRead(System.ReadOnlySpan<byte> source) { }
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
@@ -678,6 +692,7 @@
         string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0);
         byte[] ToByteArray();
         byte[] ToByteArray(int start, int length);
+        bool TryRead(System.Buffers.ReadOnlySequence<byte> source);
         bool TryRead(System.ReadOnlySpan<byte> source);
         bool TryWrite(System.Span<byte> target);
         void WriteTo(System.Span<byte> target);

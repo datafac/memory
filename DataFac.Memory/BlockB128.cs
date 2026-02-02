@@ -1,5 +1,6 @@
 ﻿using DataFac.UnsafeHelpers;
 using System;
+using System.Buffers;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -17,7 +18,45 @@ namespace DataFac.Memory
         [FieldOffset(64)]
         public BlockB064 B;
 
-        public bool TryRead(ReadOnlySpan<byte> source) => MemoryMarshal.TryRead(source.Slice(0, Size), out this);
+        public bool TryRead(ReadOnlySequence<byte> source)
+        {
+            var span = BlockHelper.AsWritableSpan(ref this);
+            if (source.IsEmpty) return false;
+            if (source.IsSingleSegment)
+            {
+                var segment = source.First;
+                if (segment.Length < Size) return false;
+                segment.Span.Slice(0, Size).CopyTo(span);
+                return true;
+            }
+            int bytesRemaining = Size;
+            foreach (var segment in source)
+            {
+                if (bytesRemaining == 0) break;
+                if (segment.Length > bytesRemaining)
+                {
+                    segment.Span.Slice(0, bytesRemaining).CopyTo(span);
+                    span = span.Slice(bytesRemaining);
+                    bytesRemaining = 0;
+                }
+                else
+                {
+                    segment.Span.CopyTo(span);
+                    span = span.Slice(segment.Length);
+                    bytesRemaining -= segment.Length;
+                }
+            }
+            return bytesRemaining == 0;
+        }
+
+        public bool TryRead(ReadOnlySpan<byte> source)
+        {
+            if (source.Length < Size) return false;
+            var span = BlockHelper.AsWritableSpan(ref this);
+            source.Slice(0, Size).CopyTo(span);
+            return true;
+        }
+
         public bool TryWrite(Span<byte> target) => MemoryMarshal.TryWrite(target.Slice(0, Size),
 #if NET8_0_OR_GREATER
             in this);
