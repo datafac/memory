@@ -124,6 +124,30 @@ namespace DataFac.Memory
             }
         }
 
+        public QuadOfInt32 QuadOfInt32LE
+        {
+            get => new QuadOfInt32(A.A.Int32ValueLE, A.B.Int32ValueLE, B.A.Int32ValueLE, B.B.Int32ValueLE);
+            set
+            {
+                A.A.Int32ValueLE = value.A;
+                A.B.Int32ValueLE = value.B;
+                B.A.Int32ValueLE = value.C;
+                B.B.Int32ValueLE = value.D;
+            }
+        }
+
+        public QuadOfInt32 QuadOfInt32BE
+        {
+            get => new QuadOfInt32(A.A.Int32ValueBE, A.B.Int32ValueBE, B.A.Int32ValueBE, B.B.Int32ValueBE);
+            set
+            {
+                A.A.Int32ValueBE = value.A;
+                A.B.Int32ValueBE = value.B;
+                B.A.Int32ValueBE = value.C;
+                B.B.Int32ValueBE = value.D;
+            }
+        }
+
         [FieldOffset(0)] public Guid _guid;
         public Guid GuidValueLE
         {

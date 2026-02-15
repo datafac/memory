@@ -13,9 +13,9 @@ namespace DataFac.Memory
 
         public override PairOfInt32 OnRead(ReadOnlySpan<byte> source)
         {
-            Int32 first = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(0, 4));
-            Int32 second = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(4, 4));
-            return new PairOfInt32(first, second);
+            Int32 a = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(0, 4));
+            Int32 b = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(4, 4));
+            return new PairOfInt32(a, b);
         }
 
         public override void OnWrite(Span<byte> target, in PairOfInt32 input)
@@ -26,9 +26,9 @@ namespace DataFac.Memory
 
         public static PairOfInt32 ReadFromSpan(ReadOnlySpan<byte> source)
         {
-            Int32 first = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(0, 4));
-            Int32 second = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(4, 4));
-            return new PairOfInt32(first, second);
+            Int32 a = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(0, 4));
+            Int32 b = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(4, 4));
+            return new PairOfInt32(a, b);
         }
 
         public static void WriteToSpan(Span<byte> target, in PairOfInt32 input)
