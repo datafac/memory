@@ -167,11 +167,8 @@ namespace DataFac.Memory
                     return _float;
                 else
                 {
-#if NET6_0_OR_GREATER
-                    return BitConverter.Int32BitsToSingle(BinaryPrimitives.ReverseEndianness(_int));
-#else
-                    return new Convert32(BinaryPrimitives.ReverseEndianness(_int)).FloatValue;
-#endif
+                    int reversed = BinaryPrimitives.ReverseEndianness(_int);
+                    return Unsafe.As<int, float>(ref reversed);
                 }
             }
             set
@@ -179,13 +176,7 @@ namespace DataFac.Memory
                 if (BitConverter.IsLittleEndian)
                     _float = value;
                 else
-                {
-#if NET6_0_OR_GREATER
-                    _int = BinaryPrimitives.ReverseEndianness(BitConverter.SingleToInt32Bits(value));
-#else
-                    _int = BinaryPrimitives.ReverseEndianness(new Convert32(value).Int32Value);
-#endif
-                }
+                    _int = BinaryPrimitives.ReverseEndianness(Unsafe.As<float, int>(ref value));
             }
         }
         public float SingleValueBE
@@ -194,11 +185,8 @@ namespace DataFac.Memory
             {
                 if (BitConverter.IsLittleEndian)
                 {
-#if NET6_0_OR_GREATER
-                    return BitConverter.Int32BitsToSingle(BinaryPrimitives.ReverseEndianness(_int));
-#else
-                    return new Convert32(BinaryPrimitives.ReverseEndianness(_int)).FloatValue;
-#endif
+                    int reversed = BinaryPrimitives.ReverseEndianness(_int);
+                    return Unsafe.As<int, float>(ref reversed);
                 }
                 else
                     return _float;
@@ -207,11 +195,7 @@ namespace DataFac.Memory
             {
                 if (BitConverter.IsLittleEndian)
                 {
-#if NET6_0_OR_GREATER
-                    _int = BinaryPrimitives.ReverseEndianness(BitConverter.SingleToInt32Bits(value));
-#else
-                    _int = BinaryPrimitives.ReverseEndianness(new Convert32(value).Int32Value);
-#endif
+                    _int = BinaryPrimitives.ReverseEndianness(Unsafe.As<float, int>(ref value));
                 }
                 else
                     _float = value;
