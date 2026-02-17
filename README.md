@@ -23,7 +23,8 @@ A helper struct that supports efficient building of ReadOnlySequence\<T\>.
 An implementation of ReadOnlySequenceSegment\<T\>.
 
 ## ByteBufferWriter
-An implementation of IBufferWriter\<byte\>.
+An implementation of IBufferWriter\<byte\> that does not internally reallocate as the buffer grows.
+Instead, it maintains a list of buffers and allocates new ones as needed.
 
 ## How to sponsor
 If you find this package useful, please consider sponsoring my work on GitHub 
