@@ -8,6 +8,20 @@
 }
 namespace DataFac.Memory
 {
+    public readonly struct Bits32 : System.IEquatable<DataFac.Memory.Bits32>
+    {
+        public readonly uint Data;
+        public Bits32(DataFac.Memory.Bits32 other) { }
+        public Bits32(uint data) { }
+        public bool Equals(DataFac.Memory.Bits32 other) { }
+        public override bool Equals(object? obj) { }
+        public bool GetBit(int index) { }
+        public override int GetHashCode() { }
+        public DataFac.Memory.Bits32 SetBit(int index, bool value) { }
+        public override string ToString() { }
+        public static bool operator !=(DataFac.Memory.Bits32 left, DataFac.Memory.Bits32 right) { }
+        public static bool operator ==(DataFac.Memory.Bits32 left, DataFac.Memory.Bits32 right) { }
+    }
     public struct BlockB001 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB001>
     {
         public bool BoolValue;
