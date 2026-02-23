@@ -26,6 +26,10 @@ An implementation of ReadOnlySequenceSegment\<T\>.
 An implementation of IBufferWriter\<byte\> that does not internally reallocate as the buffer grows.
 Instead, it maintains a list of buffers and allocates new ones as needed.
 
+## Bits32
+Represents a 32-bit unsigned integer that provides methods for querying and manipulating individual 
+bits in an immutable manner.
+
 ## How to sponsor
 If you find this package useful, please consider sponsoring my work on GitHub 
 at https://github.com/sponsors/Psiman62

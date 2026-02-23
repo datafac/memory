@@ -2,6 +2,14 @@
 
 namespace DataFac.Memory
 {
+    /// <summary>
+    /// Represents a 32-bit unsigned integer that provides methods for querying and manipulating individual bits in an
+    /// immutable manner.
+    /// </summary>
+    /// <remarks>This struct is immutable; all operations that modify bits return a new instance. Bit indices
+    /// are zero-based and must be in the range 0 to 31, inclusive. Attempting to access or modify a bit outside this
+    /// range will result in an ArgumentOutOfRangeException. Bits32 is useful for scenarios where efficient, type-safe
+    /// bit manipulation is required, such as flags, masks, or low-level protocol handling.</remarks>
     public readonly struct Bits32 : IEquatable<Bits32>
     {
         public readonly UInt32 Data;
