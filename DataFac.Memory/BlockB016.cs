@@ -102,6 +102,8 @@ namespace DataFac.Memory
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(BlockB016 other) => other._guid == _guid;
         public override bool Equals(object? obj) => obj is BlockB016 other && Equals(other);
+        public static bool operator ==(BlockB016 left, BlockB016 right) => left.Equals(right);
+        public static bool operator !=(BlockB016 left, BlockB016 right) => !left.Equals(right);
         public override int GetHashCode() => _guid.GetHashCode();
 
         public PairOfInt64 PairOfInt64LE

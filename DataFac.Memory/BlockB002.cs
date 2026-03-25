@@ -102,6 +102,8 @@ namespace DataFac.Memory
         public bool Equals(BlockB002 other) => _short == other._short;
         public override bool Equals(object? obj) => obj is BlockB002 other && Equals(other);
         public override int GetHashCode() => _short.GetHashCode();
+        public static bool operator ==(BlockB002 left, BlockB002 right) => left.Equals(right);
+        public static bool operator !=(BlockB002 left, BlockB002 right) => !left.Equals(right);
 
         [FieldOffset(0)] public short _short;
         public short Int16ValueLE

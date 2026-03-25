@@ -116,6 +116,8 @@ namespace DataFac.Memory
 #endif
             return hashCode.ToHashCode();
         }
+        public static bool operator ==(BlockB512 left, BlockB512 right) => left.Equals(right);
+        public static bool operator !=(BlockB512 left, BlockB512 right) => !left.Equals(right);
     }
 
 }

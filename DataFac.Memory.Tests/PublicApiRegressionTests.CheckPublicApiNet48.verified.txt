@@ -42,6 +42,8 @@ namespace DataFac.Memory
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
         public void WriteTo(int start, int length, System.Span<byte> target) { }
+        public static bool operator !=(DataFac.Memory.BlockB001 left, DataFac.Memory.BlockB001 right) { }
+        public static bool operator ==(DataFac.Memory.BlockB001 left, DataFac.Memory.BlockB001 right) { }
     }
     public struct BlockB002 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB002>
     {
@@ -65,6 +67,8 @@ namespace DataFac.Memory
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
         public void WriteTo(int start, int length, System.Span<byte> target) { }
+        public static bool operator !=(DataFac.Memory.BlockB002 left, DataFac.Memory.BlockB002 right) { }
+        public static bool operator ==(DataFac.Memory.BlockB002 left, DataFac.Memory.BlockB002 right) { }
     }
     public struct BlockB004 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB004>
     {
@@ -93,6 +97,8 @@ namespace DataFac.Memory
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
         public void WriteTo(int start, int length, System.Span<byte> target) { }
+        public static bool operator !=(DataFac.Memory.BlockB004 left, DataFac.Memory.BlockB004 right) { }
+        public static bool operator ==(DataFac.Memory.BlockB004 left, DataFac.Memory.BlockB004 right) { }
     }
     public struct BlockB008 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB008>
     {
@@ -124,6 +130,8 @@ namespace DataFac.Memory
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
         public void WriteTo(int start, int length, System.Span<byte> target) { }
+        public static bool operator !=(DataFac.Memory.BlockB008 left, DataFac.Memory.BlockB008 right) { }
+        public static bool operator ==(DataFac.Memory.BlockB008 left, DataFac.Memory.BlockB008 right) { }
     }
     public struct BlockB016 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB016>
     {
@@ -151,6 +159,8 @@ namespace DataFac.Memory
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
         public void WriteTo(int start, int length, System.Span<byte> target) { }
+        public static bool operator !=(DataFac.Memory.BlockB016 left, DataFac.Memory.BlockB016 right) { }
+        public static bool operator ==(DataFac.Memory.BlockB016 left, DataFac.Memory.BlockB016 right) { }
     }
     public struct BlockB032 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB032>
     {
@@ -171,6 +181,8 @@ namespace DataFac.Memory
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
         public void WriteTo(int start, int length, System.Span<byte> target) { }
+        public static bool operator !=(DataFac.Memory.BlockB032 left, DataFac.Memory.BlockB032 right) { }
+        public static bool operator ==(DataFac.Memory.BlockB032 left, DataFac.Memory.BlockB032 right) { }
     }
     public struct BlockB064 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB064>
     {
@@ -199,6 +211,8 @@ namespace DataFac.Memory
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
         public void WriteTo(int start, int length, System.Span<byte> target) { }
+        public static bool operator !=(DataFac.Memory.BlockB064 left, DataFac.Memory.BlockB064 right) { }
+        public static bool operator ==(DataFac.Memory.BlockB064 left, DataFac.Memory.BlockB064 right) { }
     }
     public struct BlockB128 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB128>
     {
@@ -219,6 +233,8 @@ namespace DataFac.Memory
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
         public void WriteTo(int start, int length, System.Span<byte> target) { }
+        public static bool operator !=(DataFac.Memory.BlockB128 left, DataFac.Memory.BlockB128 right) { }
+        public static bool operator ==(DataFac.Memory.BlockB128 left, DataFac.Memory.BlockB128 right) { }
     }
     public struct BlockB256 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB256>
     {
@@ -239,6 +255,8 @@ namespace DataFac.Memory
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
         public void WriteTo(int start, int length, System.Span<byte> target) { }
+        public static bool operator !=(DataFac.Memory.BlockB256 left, DataFac.Memory.BlockB256 right) { }
+        public static bool operator ==(DataFac.Memory.BlockB256 left, DataFac.Memory.BlockB256 right) { }
     }
     public struct BlockB512 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB512>
     {
@@ -259,6 +277,8 @@ namespace DataFac.Memory
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
         public void WriteTo(int start, int length, System.Span<byte> target) { }
+        public static bool operator !=(DataFac.Memory.BlockB512 left, DataFac.Memory.BlockB512 right) { }
+        public static bool operator ==(DataFac.Memory.BlockB512 left, DataFac.Memory.BlockB512 right) { }
     }
     public struct BlockK001 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockK001>
     {
@@ -279,6 +299,8 @@ namespace DataFac.Memory
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
         public void WriteTo(int start, int length, System.Span<byte> target) { }
+        public static bool operator !=(DataFac.Memory.BlockK001 left, DataFac.Memory.BlockK001 right) { }
+        public static bool operator ==(DataFac.Memory.BlockK001 left, DataFac.Memory.BlockK001 right) { }
     }
     public struct BlockK002 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockK002>
     {
@@ -299,6 +321,8 @@ namespace DataFac.Memory
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
         public void WriteTo(int start, int length, System.Span<byte> target) { }
+        public static bool operator !=(DataFac.Memory.BlockK002 left, DataFac.Memory.BlockK002 right) { }
+        public static bool operator ==(DataFac.Memory.BlockK002 left, DataFac.Memory.BlockK002 right) { }
     }
     public struct BlockK004 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockK004>
     {
@@ -319,6 +343,8 @@ namespace DataFac.Memory
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
         public void WriteTo(int start, int length, System.Span<byte> target) { }
+        public static bool operator !=(DataFac.Memory.BlockK004 left, DataFac.Memory.BlockK004 right) { }
+        public static bool operator ==(DataFac.Memory.BlockK004 left, DataFac.Memory.BlockK004 right) { }
     }
     public struct BlockK008 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockK008>
     {
@@ -339,6 +365,8 @@ namespace DataFac.Memory
         public bool TryWrite(System.Span<byte> target) { }
         public void WriteTo(System.Span<byte> target) { }
         public void WriteTo(int start, int length, System.Span<byte> target) { }
+        public static bool operator !=(DataFac.Memory.BlockK008 left, DataFac.Memory.BlockK008 right) { }
+        public static bool operator ==(DataFac.Memory.BlockK008 left, DataFac.Memory.BlockK008 right) { }
     }
     public class ByteBufferWriter : System.Buffers.IBufferWriter<byte>
     {

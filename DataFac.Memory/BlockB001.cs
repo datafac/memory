@@ -29,6 +29,8 @@ namespace DataFac.Memory
         public bool Equals(BlockB001 other) => ByteValue == other.ByteValue;
         public override bool Equals(object? obj) => obj is BlockB001 other && Equals(other);
         public override int GetHashCode() => ByteValue.GetHashCode();
+        public static bool operator ==(BlockB001 left, BlockB001 right) => left.Equals(right);
+        public static bool operator !=(BlockB001 left, BlockB001 right) => !left.Equals(right);
 
         public bool TryRead(ReadOnlySequence<byte> source)
         {

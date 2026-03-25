@@ -101,6 +101,8 @@ namespace DataFac.Memory
         public bool Equals(BlockB004 other) => _int == other._int;
         public override bool Equals(object? obj) => obj is BlockB004 other && Equals(other);
         public override int GetHashCode() => _int.GetHashCode();
+        public static bool operator ==(BlockB004 left, BlockB004 right) => left.Equals(right);
+        public static bool operator !=(BlockB004 left, BlockB004 right) => !left.Equals(right);
 
         public PairOfInt16 PairOfInt16LE
         {
