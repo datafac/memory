@@ -758,6 +758,15 @@ namespace DataFac.Memory
         void WriteTo(System.Span<byte> target);
         void WriteTo(int start, int length, System.Span<byte> target);
     }
+    public interface IOctets
+    {
+        System.Collections.Immutable.ImmutableArray<System.ReadOnlyMemory<byte>> Buffers { get; }
+        bool IsCompact { get; }
+        bool IsEmpty { get; }
+        int Length { get; }
+        System.ReadOnlyMemory<byte> AsMemory();
+        System.Buffers.ReadOnlySequence<byte> ToSequence();
+    }
     public interface ISpanCodec<TField>
     {
         TField ReadFromSpan(System.ReadOnlySpan<byte> source);
@@ -768,19 +777,21 @@ namespace DataFac.Memory
         TField ReadFrom(System.ReadOnlySpan<byte> source);
         void WriteTo(System.Span<byte> target, in TField input);
     }
-    public sealed class Octets : System.IEquatable<DataFac.Memory.Octets?>
+    public sealed class Octets : DataFac.Memory.IOctets, System.Collections.Generic.IEnumerable<byte>, System.Collections.IEnumerable, System.IEquatable<DataFac.Memory.Octets>
     {
         public Octets(System.ReadOnlySpan<byte> source) { }
         public Octets(System.ReadOnlySpan<byte> source1, System.ReadOnlySpan<byte> source2) { }
         public Octets(System.ReadOnlySpan<byte> source1, System.ReadOnlySpan<byte> source2, System.ReadOnlySpan<byte> source3) { }
-        public long Length { get; }
-        [System.Obsolete("This property has been deprecated. Instead use the AsMemory() method.", true)]
-        public System.ReadOnlyMemory<byte> Memory { get; }
-        public System.Buffers.ReadOnlySequence<byte> Sequence { get; }
+        public System.Collections.Immutable.ImmutableArray<System.ReadOnlyMemory<byte>> Buffers { get; }
+        public bool IsCompact { get; }
+        public bool IsEmpty { get; }
+        public int Length { get; }
         public static DataFac.Memory.Octets Empty { get; }
         public System.ReadOnlyMemory<byte> AsMemory() { }
+        public DataFac.Memory.Octets Compact() { }
         public bool Equals(DataFac.Memory.Octets? other) { }
         public override bool Equals(object? obj) { }
+        public System.Collections.Generic.IEnumerator<byte> GetEnumerator() { }
         public override int GetHashCode() { }
         [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
                 "head",
@@ -796,24 +807,70 @@ namespace DataFac.Memory
                 "body",
                 "tail"})]
         public System.ValueTuple<DataFac.Memory.Octets, DataFac.Memory.Octets, DataFac.Memory.Octets> GetHeadAndTail(int headLength, int tailLength) { }
-        [System.Obsolete("Deprecated, Use GetHeadAndBody or GetHeadAndTail")]
-        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
-                "head",
-                "body",
-                "tail"})]
-        public System.ValueTuple<DataFac.Memory.Octets, DataFac.Memory.Octets, DataFac.Memory.Octets> GetHeadTail(int headLength, int bodyLength) { }
         [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
                 "rest",
                 "tail"})]
         public System.ValueTuple<DataFac.Memory.Octets, DataFac.Memory.Octets> GetTail(int tailLength) { }
         public byte[] ToByteArray() { }
+        public System.Buffers.ReadOnlySequence<byte> ToSequence() { }
         public static DataFac.Memory.Octets Combine(params DataFac.Memory.Octets[] sources) { }
         public static DataFac.Memory.Octets Combine(DataFac.Memory.Octets source1, DataFac.Memory.Octets source2) { }
         public static DataFac.Memory.Octets Combine(DataFac.Memory.Octets source1, DataFac.Memory.Octets source2, DataFac.Memory.Octets source3) { }
-        public static DataFac.Memory.Octets UnsafeWrap(System.Buffers.ReadOnlySequence<byte> source) { }
-        public static DataFac.Memory.Octets UnsafeWrap(System.ReadOnlyMemory<byte> source) { }
+        public static DataFac.Memory.Octets Wrap(System.Buffers.ReadOnlySequence<byte> source) { }
+        public static DataFac.Memory.Octets Wrap(System.Collections.Immutable.ImmutableArray<System.ReadOnlyMemory<byte>> source) { }
+        public static DataFac.Memory.Octets Wrap(System.ReadOnlyMemory<byte> source) { }
         public static bool operator !=(DataFac.Memory.Octets? left, DataFac.Memory.Octets? right) { }
         public static bool operator ==(DataFac.Memory.Octets? left, DataFac.Memory.Octets? right) { }
+    }
+    public sealed class OctetsOld : DataFac.Memory.IOctets, System.IEquatable<DataFac.Memory.OctetsOld?>
+    {
+        public OctetsOld(System.ReadOnlySpan<byte> source) { }
+        public OctetsOld(System.ReadOnlySpan<byte> source1, System.ReadOnlySpan<byte> source2) { }
+        public OctetsOld(System.ReadOnlySpan<byte> source1, System.ReadOnlySpan<byte> source2, System.ReadOnlySpan<byte> source3) { }
+        public System.Collections.Immutable.ImmutableArray<System.ReadOnlyMemory<byte>> Buffers { get; }
+        public bool IsCompact { get; }
+        public bool IsEmpty { get; }
+        public int Length { get; }
+        [System.Obsolete("This property has been deprecated. Instead use the AsMemory() method.", true)]
+        public System.ReadOnlyMemory<byte> Memory { get; }
+        public static DataFac.Memory.OctetsOld Empty { get; }
+        public System.ReadOnlyMemory<byte> AsMemory() { }
+        public bool Equals(DataFac.Memory.OctetsOld? other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
+        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
+                "head",
+                "rest"})]
+        public System.ValueTuple<DataFac.Memory.OctetsOld, DataFac.Memory.OctetsOld> GetHead(int headLength) { }
+        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
+                "head",
+                "body",
+                "tail"})]
+        public System.ValueTuple<DataFac.Memory.OctetsOld, DataFac.Memory.OctetsOld, DataFac.Memory.OctetsOld> GetHeadAndBody(int headLength, int bodyLength) { }
+        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
+                "head",
+                "body",
+                "tail"})]
+        public System.ValueTuple<DataFac.Memory.OctetsOld, DataFac.Memory.OctetsOld, DataFac.Memory.OctetsOld> GetHeadAndTail(int headLength, int tailLength) { }
+        [System.Obsolete("Deprecated, Use GetHeadAndBody or GetHeadAndTail")]
+        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
+                "head",
+                "body",
+                "tail"})]
+        public System.ValueTuple<DataFac.Memory.OctetsOld, DataFac.Memory.OctetsOld, DataFac.Memory.OctetsOld> GetHeadTail(int headLength, int bodyLength) { }
+        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
+                "rest",
+                "tail"})]
+        public System.ValueTuple<DataFac.Memory.OctetsOld, DataFac.Memory.OctetsOld> GetTail(int tailLength) { }
+        public byte[] ToByteArray() { }
+        public System.Buffers.ReadOnlySequence<byte> ToSequence() { }
+        public static DataFac.Memory.OctetsOld Combine(params DataFac.Memory.OctetsOld[] sources) { }
+        public static DataFac.Memory.OctetsOld Combine(DataFac.Memory.OctetsOld source1, DataFac.Memory.OctetsOld source2) { }
+        public static DataFac.Memory.OctetsOld Combine(DataFac.Memory.OctetsOld source1, DataFac.Memory.OctetsOld source2, DataFac.Memory.OctetsOld source3) { }
+        public static DataFac.Memory.OctetsOld UnsafeWrap(System.Buffers.ReadOnlySequence<byte> source) { }
+        public static DataFac.Memory.OctetsOld UnsafeWrap(System.ReadOnlyMemory<byte> source) { }
+        public static bool operator !=(DataFac.Memory.OctetsOld? left, DataFac.Memory.OctetsOld? right) { }
+        public static bool operator ==(DataFac.Memory.OctetsOld? left, DataFac.Memory.OctetsOld? right) { }
     }
     public readonly struct PairOfInt16 : System.IEquatable<DataFac.Memory.PairOfInt16>
     {

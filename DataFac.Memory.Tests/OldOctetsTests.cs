@@ -8,9 +8,9 @@ using Xunit;
 
 namespace DataFac.Memory.Tests
 {
-    public class OctetsTests
+    public class OldOctetsTests
     {
-        private void AssertAreEquivalent(string chars, Octets octets)
+        private void AssertAreEquivalent(string chars, OctetsOld octets)
         {
             // assert
             int length = chars.Length;
@@ -25,41 +25,41 @@ namespace DataFac.Memory.Tests
         [Fact]
         public void EmptyA()
         {
-            Octets buffer = Octets.Empty;
+            OctetsOld buffer = OctetsOld.Empty;
             buffer.AsMemory().Length.ShouldBe(0);
         }
 
         [Fact]
         public void EmptyB()
         {
-            Octets buffer = Octets.Wrap(ReadOnlyMemory<byte>.Empty);
+            OctetsOld buffer = OctetsOld.UnsafeWrap(ReadOnlyMemory<byte>.Empty);
             buffer.AsMemory().Length.ShouldBe(0);
-            buffer.ShouldBeSameAs(Octets.Empty);
+            buffer.ShouldBeSameAs(OctetsOld.Empty);
         }
 
         [Fact]
         public void EmptyC()
         {
-            Octets buffer = Octets.Wrap(ReadOnlySequence<byte>.Empty);
+            OctetsOld buffer = OctetsOld.UnsafeWrap(ReadOnlySequence<byte>.Empty);
             buffer.AsMemory().Length.ShouldBe(0);
-            buffer.ShouldBeSameAs(Octets.Empty);
+            buffer.ShouldBeSameAs(OctetsOld.Empty);
         }
 
         [Fact]
         public void EmptyD()
         {
-            Octets buffer = Octets.Wrap(Array.Empty<byte>());
+            OctetsOld buffer = OctetsOld.UnsafeWrap(Array.Empty<byte>());
             buffer.AsMemory().Length.ShouldBe(0);
-            buffer.ShouldBeSameAs(Octets.Empty);
+            buffer.ShouldBeSameAs(OctetsOld.Empty);
         }
 
         [Fact]
         public void ConstructFromSequence0_Empty()
         {
             ReadOnlySequence<byte> sequence = ReadOnlySequence<byte>.Empty;
-            Octets buffer = Octets.Wrap(sequence);
+            OctetsOld buffer = OctetsOld.UnsafeWrap(sequence);
             buffer.AsMemory().Length.ShouldBe(0);
-            buffer.Equals(Octets.Empty).ShouldBeTrue();
+            buffer.Equals(OctetsOld.Empty).ShouldBeTrue();
         }
 
         [Fact]
@@ -67,8 +67,8 @@ namespace DataFac.Memory.Tests
         {
             ReadOnlySequence<byte> sequence = new ReadOnlySequence<byte>(new byte[] { 1, 2, 3, 4, 5 });
             sequence.IsSingleSegment.ShouldBeTrue();
-            Octets buffer1 = Octets.Wrap(sequence);
-            Octets buffer2 = Octets.Wrap(new ReadOnlyMemory<byte>(new byte[] { 1, 2, 3, 4, 5 }));
+            OctetsOld buffer1 = OctetsOld.UnsafeWrap(sequence);
+            OctetsOld buffer2 = OctetsOld.UnsafeWrap(new ReadOnlyMemory<byte>(new byte[] { 1, 2, 3, 4, 5 }));
             buffer1.Equals(buffer2).ShouldBeTrue();
 
             int hash1 = buffer1.GetHashCode();
@@ -79,17 +79,17 @@ namespace DataFac.Memory.Tests
         [Fact]
         public void ConstructFromSequence2_MultiSegment()
         {
-            Octets octets1 = new Octets([0, 1, 2]);
-            Octets octets2 = new Octets([3]);
-            Octets octets3 = new Octets([4, 5]);
-            Octets octets4 = new Octets([6, 7, 8]);
-            Octets octets5 = new Octets([9]);
-            var octets6a = Octets.Combine(octets1, octets2, octets3, octets4, octets5);
+            OctetsOld octets1 = new OctetsOld([0, 1, 2]);
+            OctetsOld octets2 = new OctetsOld([3]);
+            OctetsOld octets3 = new OctetsOld([4, 5]);
+            OctetsOld octets4 = new OctetsOld([6, 7, 8]);
+            OctetsOld octets5 = new OctetsOld([9]);
+            var octets6a = OctetsOld.Combine(octets1, octets2, octets3, octets4, octets5);
 
             octets6a.ToSequence().IsSingleSegment.ShouldBeFalse();
             octets6a.Length.ShouldBe(10);
 
-            Octets octets6b = new Octets([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+            OctetsOld octets6b = new OctetsOld([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
             octets6b.ToSequence().IsSingleSegment.ShouldBeTrue();
             // assert compacted sequence is same as uncompacted
             octets6b.Equals(octets6a).ShouldBeTrue();
@@ -102,8 +102,8 @@ namespace DataFac.Memory.Tests
         [Fact]
         public void EqualityEmpty()
         {
-            Octets buffer1 = Octets.Wrap(new byte[0])!;
-            Octets buffer2 = Octets.Empty;
+            OctetsOld buffer1 = OctetsOld.UnsafeWrap(new byte[0])!;
+            OctetsOld buffer2 = OctetsOld.Empty;
             buffer1.ShouldBeSameAs(buffer2);
             buffer1.Equals(buffer2).ShouldBeTrue();
 
@@ -115,8 +115,8 @@ namespace DataFac.Memory.Tests
         [Fact]
         public void EqualityNonEmpty()
         {
-            Octets buffer1 = new Octets(new byte[] { 1, 2, 3 });
-            Octets buffer2 = new Octets(new byte[] { 1, 2, 3 });
+            OctetsOld buffer1 = new OctetsOld(new byte[] { 1, 2, 3 });
+            OctetsOld buffer2 = new OctetsOld(new byte[] { 1, 2, 3 });
             buffer1.Equals(buffer2).ShouldBeTrue();
 
             int hash1 = buffer1.GetHashCode();
@@ -128,7 +128,7 @@ namespace DataFac.Memory.Tests
         public void Block_Create_Empty()
         {
             var s = string.Empty;
-            var b = Octets.Empty;
+            var b = OctetsOld.Empty;
 
             AssertAreEquivalent(s, b);
         }
@@ -137,7 +137,7 @@ namespace DataFac.Memory.Tests
         public void Block_Create_NonEmpty()
         {
             var s = "abc";
-            var b = new Octets(Encoding.UTF8.GetBytes(s));
+            var b = new OctetsOld(Encoding.UTF8.GetBytes(s));
 
             AssertAreEquivalent(s, b);
         }
@@ -145,8 +145,8 @@ namespace DataFac.Memory.Tests
         [Fact]
         public void Block_Equality_Null()
         {
-            Octets? a = null;
-            Octets b = Octets.Empty;
+            OctetsOld? a = null;
+            OctetsOld b = OctetsOld.Empty;
 
             b.Equals(a).ShouldBeFalse();
             Equals(a, b).ShouldBeFalse();
@@ -155,24 +155,22 @@ namespace DataFac.Memory.Tests
         [Fact]
         public void Block_Equality_Empty()
         {
-            Octets a = Octets.Empty;
-            Octets b = new Octets(new byte[0]);
+            OctetsOld a = OctetsOld.Empty;
+            OctetsOld b = new OctetsOld(new byte[0]);
 
             a.AsMemory().IsEmpty.ShouldBeTrue();
             b.AsMemory().IsEmpty.ShouldBeTrue();
             b.GetHashCode().ShouldBe(a.GetHashCode());
+            b.ShouldBeEquivalentTo(a);
             b.Equals(a).ShouldBeTrue();
             Equals(a, b).ShouldBeTrue();
-            IEnumerable<byte> aEnum = a;
-            IEnumerable<byte> bEnum = b;
-            bEnum.ShouldBeEquivalentTo(aEnum);
         }
 
         [Fact]
         public void Block_Equality_SameObject()
         {
-            Octets a = Octets.Empty;
-            Octets b = Octets.Empty;
+            OctetsOld a = OctetsOld.Empty;
+            OctetsOld b = OctetsOld.Empty;
 
             b.ShouldBeSameAs(a);
             b.GetHashCode().ShouldBe(a.GetHashCode());
@@ -184,8 +182,8 @@ namespace DataFac.Memory.Tests
         [Fact]
         public void Block_Equality_DifferentLength()
         {
-            Octets a = new Octets(Encoding.UTF8.GetBytes("abc"));
-            Octets b = new Octets(Encoding.UTF8.GetBytes("abcd"));
+            OctetsOld a = new OctetsOld(Encoding.UTF8.GetBytes("abc"));
+            OctetsOld b = new OctetsOld(Encoding.UTF8.GetBytes("abcd"));
 
             b.Equals(a).ShouldBeFalse();
             Equals(a, b).ShouldBeFalse();
@@ -196,8 +194,8 @@ namespace DataFac.Memory.Tests
         [Fact]
         public void Block_Equality_SameLength()
         {
-            Octets a = new Octets(Encoding.UTF8.GetBytes("abc"));
-            Octets b = new Octets(Encoding.UTF8.GetBytes("def"));
+            OctetsOld a = new OctetsOld(Encoding.UTF8.GetBytes("abc"));
+            OctetsOld b = new OctetsOld(Encoding.UTF8.GetBytes("def"));
 
             b.Equals(a).ShouldBeFalse();
             Equals(a, b).ShouldBeFalse();
@@ -209,8 +207,8 @@ namespace DataFac.Memory.Tests
         public void Block_Equality_NonEmpty()
         {
             var s = "abc";
-            var a = new Octets(Encoding.UTF8.GetBytes(s));
-            var b = new Octets(Encoding.UTF8.GetBytes(s));
+            var a = new OctetsOld(Encoding.UTF8.GetBytes(s));
+            var b = new OctetsOld(Encoding.UTF8.GetBytes(s));
 
             b.GetHashCode().ShouldBe(a.GetHashCode());
             b.Equals(a).ShouldBeTrue();
@@ -223,8 +221,8 @@ namespace DataFac.Memory.Tests
         [Fact]
         public void Block_Clone_Empty()
         {
-            var a = Octets.Empty;
-            var b = Octets.Wrap(a.AsMemory());
+            var a = OctetsOld.Empty;
+            var b = OctetsOld.UnsafeWrap(a.AsMemory());
 
             a.AsMemory().IsEmpty.ShouldBeTrue();
             b.AsMemory().IsEmpty.ShouldBeTrue();
@@ -238,8 +236,8 @@ namespace DataFac.Memory.Tests
         [Fact]
         public void Block_Equality_Null1()
         {
-            Octets a = Octets.Empty;
-            Octets? b = null;
+            OctetsOld a = OctetsOld.Empty;
+            OctetsOld? b = null;
 
             Equals(a, b).ShouldBeFalse();
             (a == b).ShouldBeFalse();
@@ -253,8 +251,8 @@ namespace DataFac.Memory.Tests
         [Fact]
         public void Block_Equality_Null2()
         {
-            Octets? a = null;
-            Octets? b = null;
+            OctetsOld? a = null;
+            OctetsOld? b = null;
 
             Equals(a, b).ShouldBeTrue();
             (a == b).ShouldBeTrue();
@@ -265,20 +263,13 @@ namespace DataFac.Memory.Tests
         public void Block_Enumeration()
         {
             var bytes = Encoding.UTF8.GetBytes("abc");
-            var block = new Octets(bytes);
+            var block = new OctetsOld(bytes);
 
             block.ToSequence().ToArray().ShouldBeEquivalentTo(bytes);
 
+            IEnumerator<byte> e = block.ToByteArray().ToList().GetEnumerator();
+            e.Reset();
             int i = 0;
-            foreach (byte b in block)
-            {
-                b.ShouldBe(bytes[i]);
-                i++;
-            }
-
-            // again
-            IEnumerator<byte> e = block.GetEnumerator(); 
-            i = 0;
             while (e.MoveNext())
             {
                 var b = e.Current;
@@ -286,7 +277,7 @@ namespace DataFac.Memory.Tests
                 i++;
             }
 
-            // and again
+            // again
             e.Reset();
             e.MoveNext().ShouldBeTrue();
             e.Current.ShouldBe(bytes[0]);
@@ -300,8 +291,8 @@ namespace DataFac.Memory.Tests
         [Fact]
         public void Block_Clone_NonEmpty()
         {
-            var a = new Octets(Encoding.UTF8.GetBytes("abc"));
-            var b = Octets.Wrap(a.AsMemory());
+            var a = new OctetsOld(Encoding.UTF8.GetBytes("abc"));
+            var b = OctetsOld.UnsafeWrap(a.AsMemory());
 
             a.AsMemory().IsEmpty.ShouldBeFalse();
             a.AsMemory().Length.ShouldBe(3);
@@ -318,7 +309,7 @@ namespace DataFac.Memory.Tests
             ReadOnlySpan<byte> immutable = new byte[] { 1, 2, 3 };
             var mutable = new byte[] { 1, 2, 3 };
 
-            Octets block = new Octets(mutable);
+            OctetsOld block = new OctetsOld(mutable);
             block.AsMemory().Span.SequenceEqual(immutable).ShouldBeTrue();
             block.AsMemory().Span.SequenceEqual(mutable).ShouldBeTrue();
             int hash1 = block.GetHashCode();
@@ -340,7 +331,7 @@ namespace DataFac.Memory.Tests
             var mutable = new byte[] { 1, 2, 3 };
             var memory = new ReadOnlyMemory<byte>(mutable);
 
-            Octets block = Octets.Wrap(memory);
+            OctetsOld block = OctetsOld.UnsafeWrap(memory);
             block.AsMemory().Span.SequenceEqual(immutable).ShouldBeTrue();
             block.AsMemory().Span.SequenceEqual(mutable).ShouldBeTrue();
 
@@ -359,9 +350,9 @@ namespace DataFac.Memory.Tests
             var memory = new ReadOnlyMemory<byte>(mutable);
 
             // arrange
-            Octets unsafeOrig = Octets.Wrap(memory);
-            Octets unsafeCopy = Octets.Wrap(unsafeOrig.AsMemory());
-            Octets safeCopy = new Octets(unsafeOrig.AsMemory().Span);
+            OctetsOld unsafeOrig = OctetsOld.UnsafeWrap(memory);
+            OctetsOld unsafeCopy = OctetsOld.UnsafeWrap(unsafeOrig.AsMemory());
+            OctetsOld safeCopy = new OctetsOld(unsafeOrig.AsMemory().Span);
 
             // act
             mutable[1] = 4;
@@ -377,18 +368,18 @@ namespace DataFac.Memory.Tests
         [Fact]
         public void GetHeadEmpty()
         {
-            Octets orig = Octets.Empty;
+            OctetsOld orig = OctetsOld.Empty;
             (var head, var body) = orig.GetHead(0);
-            head.Equals(Octets.Empty).ShouldBeTrue();
-            body.Equals(Octets.Empty).ShouldBeTrue();
-            var copy = new Octets(head.AsMemory().Span, body.AsMemory().Span);
+            head.Equals(OctetsOld.Empty).ShouldBeTrue();
+            body.Equals(OctetsOld.Empty).ShouldBeTrue();
+            var copy = new OctetsOld(head.AsMemory().Span, body.AsMemory().Span);
             copy.Equals(orig).ShouldBeTrue();
         }
 
         [Fact]
         public void GetHeadNonEmptyA()
         {
-            Octets orig = new Octets(new byte[] { 1, 2, 3 });
+            OctetsOld orig = new OctetsOld(new byte[] { 1, 2, 3 });
             (var head, var body) = orig.GetHead(1);
             head.AsMemory().Length.ShouldBe(1);
             var headBytes = head.ToByteArray();
@@ -397,14 +388,14 @@ namespace DataFac.Memory.Tests
             var bodyBytes = body.ToByteArray();
             bodyBytes[0].ShouldBe((byte)2);
             bodyBytes[1].ShouldBe((byte)3);
-            var copy = new Octets(head.AsMemory().Span, body.AsMemory().Span);
+            var copy = new OctetsOld(head.AsMemory().Span, body.AsMemory().Span);
             copy.Equals(orig).ShouldBeTrue();
         }
 
         [Fact]
         public void GetHeadNonEmptyB()
         {
-            Octets orig = new Octets(new byte[] { 1, 2 }, new byte[] { 3, 4 });
+            OctetsOld orig = new OctetsOld(new byte[] { 1, 2 }, new byte[] { 3, 4 });
             (var head, var body) = orig.GetHead(1);
             // head
             head.AsMemory().Length.ShouldBe(1);
@@ -417,26 +408,26 @@ namespace DataFac.Memory.Tests
             bodyBytes[1].ShouldBe((byte)3);
             bodyBytes[2].ShouldBe((byte)4);
 
-            var copy = new Octets(head.AsMemory().Span, body.AsMemory().Span);
+            var copy = new OctetsOld(head.AsMemory().Span, body.AsMemory().Span);
             copy.Equals(orig).ShouldBeTrue();
         }
 
         [Fact]
         public void GetHeadTailEmpty()
         {
-            Octets orig = Octets.Empty;
+            OctetsOld orig = OctetsOld.Empty;
             (var head, var body, var tail) = orig.GetHeadAndBody(0, 0);
-            head.Equals(Octets.Empty).ShouldBeTrue();
-            body.Equals(Octets.Empty).ShouldBeTrue();
-            tail.Equals(Octets.Empty).ShouldBeTrue();
-            var copy = new Octets(head.AsMemory().Span, body.AsMemory().Span, tail.AsMemory().Span);
+            head.Equals(OctetsOld.Empty).ShouldBeTrue();
+            body.Equals(OctetsOld.Empty).ShouldBeTrue();
+            tail.Equals(OctetsOld.Empty).ShouldBeTrue();
+            var copy = new OctetsOld(head.AsMemory().Span, body.AsMemory().Span, tail.AsMemory().Span);
             copy.Equals(orig).ShouldBeTrue();
         }
 
         [Fact]
         public void GetHeadTailNonEmptyA()
         {
-            Octets orig = new Octets(new byte[] { 1, 2, 3 });
+            OctetsOld orig = new OctetsOld(new byte[] { 1, 2, 3 });
             (var head, var body, var tail) = orig.GetHeadAndBody(1, 1);
             head.AsMemory().Length.ShouldBe(1);
             var headBytes = head.ToByteArray();
@@ -447,14 +438,14 @@ namespace DataFac.Memory.Tests
             tail.AsMemory().Length.ShouldBe(1);
             var tailBytes = tail.ToByteArray();
             tailBytes[0].ShouldBe((byte)3);
-            var copy = new Octets(head.AsMemory().Span, body.AsMemory().Span, tail.AsMemory().Span);
+            var copy = new OctetsOld(head.AsMemory().Span, body.AsMemory().Span, tail.AsMemory().Span);
             copy.Equals(orig).ShouldBeTrue();
         }
 
         [Fact]
         public void GetHeadTailNonEmptyB()
         {
-            Octets orig = new Octets(new byte[] { 1, 2, 3, 4 }, new byte[] { 5, 6, 7, 8 });
+            OctetsOld orig = new OctetsOld(new byte[] { 1, 2, 3, 4 }, new byte[] { 5, 6, 7, 8 });
             (var head, var body, var tail) = orig.GetHeadAndBody(2, 4);
             // head
             head.AsMemory().Length.ShouldBe(2);
@@ -474,7 +465,7 @@ namespace DataFac.Memory.Tests
             tailBytes[0].ShouldBe((byte)7);
             tailBytes[1].ShouldBe((byte)8);
 
-            var copy = new Octets(head.AsMemory().Span, body.AsMemory().Span, tail.AsMemory().Span);
+            var copy = new OctetsOld(head.AsMemory().Span, body.AsMemory().Span, tail.AsMemory().Span);
             copy.Equals(orig).ShouldBeTrue();
         }
     }
