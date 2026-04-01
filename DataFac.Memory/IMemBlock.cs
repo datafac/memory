@@ -17,7 +17,4 @@ public interface IMemBlock
     string ToBase64String(int start, int length, Base64FormattingOptions options = Base64FormattingOptions.None);
     byte[] ToByteArray();
     byte[] ToByteArray(int start, int length);
-    string UTF8String { get; set; }
-
-    // todo ByteString
 }

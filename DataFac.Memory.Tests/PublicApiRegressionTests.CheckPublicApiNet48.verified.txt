@@ -22,6 +22,20 @@ namespace DataFac.Memory
         public static bool operator !=(DataFac.Memory.Bits32 left, DataFac.Memory.Bits32 right) { }
         public static bool operator ==(DataFac.Memory.Bits32 left, DataFac.Memory.Bits32 right) { }
     }
+    public readonly struct Bits64 : System.IEquatable<DataFac.Memory.Bits64>
+    {
+        public readonly ulong Data;
+        public Bits64(DataFac.Memory.Bits64 other) { }
+        public Bits64(ulong data) { }
+        public bool Equals(DataFac.Memory.Bits64 other) { }
+        public override bool Equals(object? obj) { }
+        public bool GetBit(int index) { }
+        public override int GetHashCode() { }
+        public DataFac.Memory.Bits64 SetBit(int index, bool value) { }
+        public override string ToString() { }
+        public static bool operator !=(DataFac.Memory.Bits64 left, DataFac.Memory.Bits64 right) { }
+        public static bool operator ==(DataFac.Memory.Bits64 left, DataFac.Memory.Bits64 right) { }
+    }
     public struct BlockB001 : DataFac.Memory.IMemBlock, System.IEquatable<DataFac.Memory.BlockB001>
     {
         public bool BoolValue;
@@ -29,7 +43,6 @@ namespace DataFac.Memory
         public sbyte SByteValue;
         public int BlockSize { get; }
         public bool IsEmpty { get; }
-        public string UTF8String { get; set; }
         public bool Equals(DataFac.Memory.BlockB001 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
@@ -54,7 +67,6 @@ namespace DataFac.Memory
         public short Int16ValueBE { get; set; }
         public short Int16ValueLE { get; set; }
         public bool IsEmpty { get; }
-        public string UTF8String { get; set; }
         public bool Equals(DataFac.Memory.BlockB002 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
@@ -84,7 +96,6 @@ namespace DataFac.Memory
         public DataFac.Memory.PairOfInt16 PairOfInt16LE { get; set; }
         public float SingleValueBE { get; set; }
         public float SingleValueLE { get; set; }
-        public string UTF8String { get; set; }
         public bool Equals(DataFac.Memory.BlockB004 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
@@ -117,7 +128,6 @@ namespace DataFac.Memory
         public DataFac.Memory.PairOfInt32 PairOfInt32LE { get; set; }
         public ulong UInt64ValueBE { get; set; }
         public ulong UInt64ValueLE { get; set; }
-        public string UTF8String { get; set; }
         public bool Equals(DataFac.Memory.BlockB008 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
@@ -146,7 +156,6 @@ namespace DataFac.Memory
         public DataFac.Memory.PairOfInt64 PairOfInt64LE { get; set; }
         public DataFac.Memory.QuadOfInt32 QuadOfInt32BE { get; set; }
         public DataFac.Memory.QuadOfInt32 QuadOfInt32LE { get; set; }
-        public string UTF8String { get; set; }
         public bool Equals(DataFac.Memory.BlockB016 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
@@ -168,7 +177,6 @@ namespace DataFac.Memory
         public DataFac.Memory.BlockB016 B;
         public int BlockSize { get; }
         public bool IsEmpty { get; }
-        public string UTF8String { get; set; }
         public bool Equals(DataFac.Memory.BlockB032 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
@@ -190,7 +198,6 @@ namespace DataFac.Memory
         public DataFac.Memory.BlockB032 B;
         public int BlockSize { get; }
         public bool IsEmpty { get; }
-        public string UTF8String { get; set; }
         public bool Equals(DataFac.Memory.BlockB064 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
@@ -220,7 +227,6 @@ namespace DataFac.Memory
         public DataFac.Memory.BlockB064 B;
         public int BlockSize { get; }
         public bool IsEmpty { get; }
-        public string UTF8String { get; set; }
         public bool Equals(DataFac.Memory.BlockB128 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
@@ -242,7 +248,6 @@ namespace DataFac.Memory
         public DataFac.Memory.BlockB128 B;
         public int BlockSize { get; }
         public bool IsEmpty { get; }
-        public string UTF8String { get; set; }
         public bool Equals(DataFac.Memory.BlockB256 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
@@ -264,7 +269,6 @@ namespace DataFac.Memory
         public DataFac.Memory.BlockB256 B;
         public int BlockSize { get; }
         public bool IsEmpty { get; }
-        public string UTF8String { get; set; }
         public bool Equals(DataFac.Memory.BlockB512 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
@@ -286,7 +290,6 @@ namespace DataFac.Memory
         public DataFac.Memory.BlockB512 B;
         public int BlockSize { get; }
         public bool IsEmpty { get; }
-        public string UTF8String { get; set; }
         public bool Equals(DataFac.Memory.BlockK001 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
@@ -308,7 +311,6 @@ namespace DataFac.Memory
         public DataFac.Memory.BlockK001 B;
         public int BlockSize { get; }
         public bool IsEmpty { get; }
-        public string UTF8String { get; set; }
         public bool Equals(DataFac.Memory.BlockK002 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
@@ -330,7 +332,6 @@ namespace DataFac.Memory
         public DataFac.Memory.BlockK002 B;
         public int BlockSize { get; }
         public bool IsEmpty { get; }
-        public string UTF8String { get; set; }
         public bool Equals(DataFac.Memory.BlockK004 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
@@ -352,7 +353,6 @@ namespace DataFac.Memory
         public DataFac.Memory.BlockK004 B;
         public int BlockSize { get; }
         public bool IsEmpty { get; }
-        public string UTF8String { get; set; }
         public bool Equals(DataFac.Memory.BlockK008 other) { }
         public override bool Equals(object? obj) { }
         public override int GetHashCode() { }
@@ -617,14 +617,6 @@ namespace DataFac.Memory
         public static float ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in float input) { }
     }
-    public sealed class Codec_String_LE : DataFac.Memory.IFieldCodec, DataFac.Memory.ITypedFieldCodec<string>
-    {
-        public static DataFac.Memory.Codec_String_LE Instance { get; }
-        public string ReadFrom(System.ReadOnlySpan<byte> source) { }
-        public void WriteTo(System.Span<byte> target, in string? input) { }
-        public static string ReadFromSpan(System.ReadOnlySpan<byte> source) { }
-        public static void WriteToSpan(System.Span<byte> target, in string? input) { }
-    }
     public sealed class Codec_UInt16_BE : DataFac.Memory.Codec_Base<ushort>
     {
         public static DataFac.Memory.Codec_UInt16_BE Instance { get; }
@@ -701,7 +693,6 @@ namespace DataFac.Memory
     {
         int BlockSize { get; }
         bool IsEmpty { get; }
-        string UTF8String { get; set; }
         string ToBase64String(System.Base64FormattingOptions options = 0);
         string ToBase64String(int start, int length, System.Base64FormattingOptions options = 0);
         byte[] ToByteArray();
@@ -770,56 +761,6 @@ namespace DataFac.Memory
         public static DataFac.Memory.Octets Wrap(System.ReadOnlyMemory<byte> source) { }
         public static bool operator !=(DataFac.Memory.Octets? left, DataFac.Memory.Octets? right) { }
         public static bool operator ==(DataFac.Memory.Octets? left, DataFac.Memory.Octets? right) { }
-    }
-    public sealed class OctetsOld : DataFac.Memory.IOctets, System.IEquatable<DataFac.Memory.OctetsOld?>
-    {
-        public OctetsOld(System.ReadOnlySpan<byte> source) { }
-        public OctetsOld(System.ReadOnlySpan<byte> source1, System.ReadOnlySpan<byte> source2) { }
-        public OctetsOld(System.ReadOnlySpan<byte> source1, System.ReadOnlySpan<byte> source2, System.ReadOnlySpan<byte> source3) { }
-        public System.Collections.Immutable.ImmutableArray<System.ReadOnlyMemory<byte>> Buffers { get; }
-        public bool IsCompact { get; }
-        public bool IsEmpty { get; }
-        public int Length { get; }
-        [System.Obsolete("This property has been deprecated. Instead use the AsMemory() method.", true)]
-        public System.ReadOnlyMemory<byte> Memory { get; }
-        public static DataFac.Memory.OctetsOld Empty { get; }
-        public System.ReadOnlyMemory<byte> AsMemory() { }
-        public bool Equals(DataFac.Memory.OctetsOld? other) { }
-        public override bool Equals(object? obj) { }
-        public override int GetHashCode() { }
-        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
-                "head",
-                "rest"})]
-        public System.ValueTuple<DataFac.Memory.OctetsOld, DataFac.Memory.OctetsOld> GetHead(int headLength) { }
-        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
-                "head",
-                "body",
-                "tail"})]
-        public System.ValueTuple<DataFac.Memory.OctetsOld, DataFac.Memory.OctetsOld, DataFac.Memory.OctetsOld> GetHeadAndBody(int headLength, int bodyLength) { }
-        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
-                "head",
-                "body",
-                "tail"})]
-        public System.ValueTuple<DataFac.Memory.OctetsOld, DataFac.Memory.OctetsOld, DataFac.Memory.OctetsOld> GetHeadAndTail(int headLength, int tailLength) { }
-        [System.Obsolete("Deprecated, Use GetHeadAndBody or GetHeadAndTail")]
-        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
-                "head",
-                "body",
-                "tail"})]
-        public System.ValueTuple<DataFac.Memory.OctetsOld, DataFac.Memory.OctetsOld, DataFac.Memory.OctetsOld> GetHeadTail(int headLength, int bodyLength) { }
-        [return: System.Runtime.CompilerServices.TupleElementNames(new string[] {
-                "rest",
-                "tail"})]
-        public System.ValueTuple<DataFac.Memory.OctetsOld, DataFac.Memory.OctetsOld> GetTail(int tailLength) { }
-        public byte[] ToByteArray() { }
-        public System.Buffers.ReadOnlySequence<byte> ToSequence() { }
-        public static DataFac.Memory.OctetsOld Combine(params DataFac.Memory.OctetsOld[] sources) { }
-        public static DataFac.Memory.OctetsOld Combine(DataFac.Memory.OctetsOld source1, DataFac.Memory.OctetsOld source2) { }
-        public static DataFac.Memory.OctetsOld Combine(DataFac.Memory.OctetsOld source1, DataFac.Memory.OctetsOld source2, DataFac.Memory.OctetsOld source3) { }
-        public static DataFac.Memory.OctetsOld UnsafeWrap(System.Buffers.ReadOnlySequence<byte> source) { }
-        public static DataFac.Memory.OctetsOld UnsafeWrap(System.ReadOnlyMemory<byte> source) { }
-        public static bool operator !=(DataFac.Memory.OctetsOld? left, DataFac.Memory.OctetsOld? right) { }
-        public static bool operator ==(DataFac.Memory.OctetsOld? left, DataFac.Memory.OctetsOld? right) { }
     }
     public readonly struct PairOfInt16 : System.IEquatable<DataFac.Memory.PairOfInt16>
     {

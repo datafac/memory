@@ -89,12 +89,6 @@ namespace DataFac.Memory
         public byte[] ToByteArray() => BlockHelper.AsReadOnlySpan(ref this).ToArray();
         public byte[] ToByteArray(int start, int length) => BlockHelper.AsReadOnlySpan(ref this).Slice(start, length).ToArray();
 
-        public string UTF8String
-        {
-            get => BlockHelper.GetString(ref this);
-            set => BlockHelper.SetString(ref this, value);
-        }
-
         public bool IsEmpty => _long == 0;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

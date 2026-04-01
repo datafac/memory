@@ -17,12 +17,6 @@ namespace DataFac.Memory
         [FieldOffset(0)] public sbyte SByteValue;
         [FieldOffset(0)] public byte ByteValue;
 
-        public string UTF8String
-        {
-            get => BlockHelper.GetString(ref this);
-            set => BlockHelper.SetString(ref this, value);
-        }
-
         public bool IsEmpty => ByteValue == 0;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
