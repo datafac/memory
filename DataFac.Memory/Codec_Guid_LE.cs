@@ -1,47 +1,56 @@
 ﻿using System;
 
-namespace DataFac.Memory
-{
-    public sealed class Codec_Guid_LE : Codec_Base<Guid>
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
+namespace DataFac.Memory;
+
+public sealed class Codec_Guid_LE : Codec_Base<Guid>
 #if NET7_0_OR_GREATER
-    , ISpanCodec<Guid>
+, ISpanCodec<Guid>
 #endif
+{
+    private Codec_Guid_LE() { }
+    public static Codec_Guid_LE Instance { get; } = new Codec_Guid_LE();
+
+    /// <inheritdoc />
+    public override Guid OnRead(ReadOnlySpan<byte> source)
     {
-        private Codec_Guid_LE() { }
-        public static Codec_Guid_LE Instance { get; } = new Codec_Guid_LE();
-        public override Guid OnRead(ReadOnlySpan<byte> source)
-        {
 #if NET8_0_OR_GREATER
-            return new Guid(source, false);
+        return new Guid(source, false);
 #else
-            return GuidHelper.ReadFromSpan(source, false);
+        return GuidHelper.ReadFromSpan(source, false);
 #endif
-        }
+    }
 
-        public override void OnWrite(Span<byte> target, in Guid input)
-        {
+    /// <inheritdoc />
+    public override void OnWrite(Span<byte> target, in Guid input)
+    {
 #if NET8_0_OR_GREATER
-            input.TryWriteBytes(target, false, out int _);
+        input.TryWriteBytes(target, false, out int _);
 #else
-            GuidHelper.WriteToSpan(target, false, input);
+        GuidHelper.WriteToSpan(target, false, input);
 #endif
-        }
-        public static Guid ReadFromSpan(ReadOnlySpan<byte> source)
-        {
-#if NET8_0_OR_GREATER
-            return new Guid(source, false);
-#else
-            return GuidHelper.ReadFromSpan(source, false);
-#endif
-        }
+    }
 
-        public static void WriteToSpan(Span<byte> target, in Guid input)
-        {
+    /// <inheritdoc />
+    public static Guid ReadFromSpan(ReadOnlySpan<byte> source)
+    {
 #if NET8_0_OR_GREATER
-            input.TryWriteBytes(target, false, out int _);
+        return new Guid(source, false);
 #else
-            GuidHelper.WriteToSpan(target, false, input);
+        return GuidHelper.ReadFromSpan(source, false);
 #endif
-        }
+    }
+
+    /// <inheritdoc />
+    public static void WriteToSpan(Span<byte> target, in Guid input)
+    {
+#if NET8_0_OR_GREATER
+        input.TryWriteBytes(target, false, out int _);
+#else
+        GuidHelper.WriteToSpan(target, false, input);
+#endif
     }
 }

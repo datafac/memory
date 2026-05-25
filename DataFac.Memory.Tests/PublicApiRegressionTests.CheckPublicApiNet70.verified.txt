@@ -1,18 +1,9 @@
-﻿public sealed class Codec_QuadOfInt32_LE : DataFac.Memory.Codec_Base<DataFac.Memory.QuadOfInt32>, DataFac.Memory.ISpanCodec<DataFac.Memory.QuadOfInt32>
-{
-    public static Codec_QuadOfInt32_LE Instance { get; }
-    public override DataFac.Memory.QuadOfInt32 OnRead(System.ReadOnlySpan<byte> source) { }
-    public override void OnWrite(System.Span<byte> target, in DataFac.Memory.QuadOfInt32 input) { }
-    public static DataFac.Memory.QuadOfInt32 ReadFromSpan(System.ReadOnlySpan<byte> source) { }
-    public static void WriteToSpan(System.Span<byte> target, in DataFac.Memory.QuadOfInt32 input) { }
-}
-namespace DataFac.Memory
+﻿namespace DataFac.Memory
 {
     public readonly struct Bits32 : System.IEquatable<DataFac.Memory.Bits32>
     {
-        public readonly uint Data;
-        public Bits32(DataFac.Memory.Bits32 other) { }
         public Bits32(uint data) { }
+        public uint Data { get; }
         public bool Equals(DataFac.Memory.Bits32 other) { }
         public override bool Equals(object? obj) { }
         public bool GetBit(int index) { }
@@ -24,9 +15,8 @@ namespace DataFac.Memory
     }
     public readonly struct Bits64 : System.IEquatable<DataFac.Memory.Bits64>
     {
-        public readonly ulong Data;
-        public Bits64(DataFac.Memory.Bits64 other) { }
         public Bits64(ulong data) { }
+        public ulong Data { get; }
         public bool Equals(DataFac.Memory.Bits64 other) { }
         public override bool Equals(object? obj) { }
         public bool GetBit(int index) { }
@@ -382,7 +372,7 @@ namespace DataFac.Memory
         public System.Span<byte> GetSpan(int sizeHint = 0) { }
         public System.Buffers.ReadOnlySequence<byte> GetWrittenSequence() { }
     }
-    public abstract class Codec_Base<TField> : DataFac.Memory.IFieldCodec, DataFac.Memory.ITypedFieldCodec<TField>
+    public abstract class Codec_Base<TField> : DataFac.Memory.ITypedFieldCodec<TField>
         where TField :  struct
     {
         protected Codec_Base() { }
@@ -619,6 +609,14 @@ namespace DataFac.Memory
         public static DataFac.Memory.QuadOfInt32 ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in DataFac.Memory.QuadOfInt32 input) { }
     }
+    public sealed class Codec_QuadOfInt32_LE : DataFac.Memory.Codec_Base<DataFac.Memory.QuadOfInt32>, DataFac.Memory.ISpanCodec<DataFac.Memory.QuadOfInt32>
+    {
+        public static DataFac.Memory.Codec_QuadOfInt32_LE Instance { get; }
+        public override DataFac.Memory.QuadOfInt32 OnRead(System.ReadOnlySpan<byte> source) { }
+        public override void OnWrite(System.Span<byte> target, in DataFac.Memory.QuadOfInt32 input) { }
+        public static DataFac.Memory.QuadOfInt32 ReadFromSpan(System.ReadOnlySpan<byte> source) { }
+        public static void WriteToSpan(System.Span<byte> target, in DataFac.Memory.QuadOfInt32 input) { }
+    }
     public sealed class Codec_SByte_BE : DataFac.Memory.Codec_Base<sbyte>, DataFac.Memory.ISpanCodec<sbyte>
     {
         public static DataFac.Memory.Codec_SByte_BE Instance { get; }
@@ -711,7 +709,7 @@ namespace DataFac.Memory
         public static ulong ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in ulong input) { }
     }
-    public readonly struct GuidHelper
+    public readonly struct GuidHelper : System.IEquatable<DataFac.Memory.GuidHelper>
     {
         public readonly System.Guid GuidValue;
         public readonly int Part_A;
@@ -726,14 +724,14 @@ namespace DataFac.Memory
         public readonly byte Part_J;
         public readonly byte Part_K;
         public GuidHelper(System.Guid guidValue) { }
+        public bool Equals(DataFac.Memory.GuidHelper other) { }
+        public override bool Equals(object? obj) { }
+        public override int GetHashCode() { }
         public override string ToString() { }
         public static System.Guid ReadFromSpan(System.ReadOnlySpan<byte> source, bool bigEndian) { }
         public static void WriteToSpan(System.Span<byte> target, bool bigEndian, System.Guid value) { }
-    }
-    public interface IFieldCodec
-    {
-        object? ReadObject(System.ReadOnlySpan<byte> source);
-        void WriteObject(System.Span<byte> target, object? input);
+        public static bool operator !=(DataFac.Memory.GuidHelper left, DataFac.Memory.GuidHelper right) { }
+        public static bool operator ==(DataFac.Memory.GuidHelper left, DataFac.Memory.GuidHelper right) { }
     }
     public interface IMemBlock
     {
@@ -749,26 +747,17 @@ namespace DataFac.Memory
         void WriteTo(System.Span<byte> target);
         void WriteTo(int start, int length, System.Span<byte> target);
     }
-    public interface IOctets
-    {
-        System.Collections.Immutable.ImmutableArray<System.ReadOnlyMemory<byte>> Buffers { get; }
-        bool IsCompact { get; }
-        bool IsEmpty { get; }
-        int Length { get; }
-        System.ReadOnlyMemory<byte> AsMemory();
-        System.Buffers.ReadOnlySequence<byte> ToSequence();
-    }
     public interface ISpanCodec<TField>
     {
         TField ReadFromSpan(System.ReadOnlySpan<byte> source);
         void WriteToSpan(System.Span<byte> target, in TField input);
     }
-    public interface ITypedFieldCodec<TField> : DataFac.Memory.IFieldCodec
+    public interface ITypedFieldCodec<TField>
     {
         TField ReadFrom(System.ReadOnlySpan<byte> source);
         void WriteTo(System.Span<byte> target, in TField input);
     }
-    public sealed class Octets : DataFac.Memory.IOctets, System.Collections.Generic.IEnumerable<byte>, System.Collections.IEnumerable, System.IEquatable<DataFac.Memory.Octets>
+    public sealed class Octets : System.Collections.Generic.IEnumerable<byte>, System.Collections.IEnumerable, System.IEquatable<DataFac.Memory.Octets>
     {
         public Octets(System.ReadOnlySpan<byte> source) { }
         public Octets(System.ReadOnlySpan<byte> source1, System.ReadOnlySpan<byte> source2) { }

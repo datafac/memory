@@ -1,34 +1,36 @@
 ﻿using System;
 using System.Buffers.Binary;
 
-namespace DataFac.Memory
-{
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
+namespace DataFac.Memory;
+
 #if NET6_0_OR_GREATER
-    public sealed class Codec_Half_BE : Codec_Base<Half>
+public sealed class Codec_Half_BE : Codec_Base<Half>
 #if NET7_0_OR_GREATER
-    , ISpanCodec<Half>
+, ISpanCodec<Half>
 #endif
+{
+    private Codec_Half_BE() { }
+    public static Codec_Half_BE Instance { get; } = new Codec_Half_BE();
+    public override Half OnRead(ReadOnlySpan<byte> source)
     {
-        private Codec_Half_BE() { }
-        public static Codec_Half_BE Instance { get; } = new Codec_Half_BE();
-        public override Half OnRead(ReadOnlySpan<byte> source)
-        {
-            return BinaryPrimitives.ReadHalfBigEndian(source);
-        }
-
-        public override void OnWrite(Span<byte> target, in Half input)
-        {
-            BinaryPrimitives.WriteHalfBigEndian(target, input);
-        }
-        public static Half ReadFromSpan(ReadOnlySpan<byte> source)
-        {
-            return BinaryPrimitives.ReadHalfBigEndian(source);
-        }
-
-        public static void WriteToSpan(Span<byte> target, in Half input)
-        {
-            BinaryPrimitives.WriteHalfBigEndian(target, input);
-        }
+        return BinaryPrimitives.ReadHalfBigEndian(source);
     }
-#endif
+
+    public override void OnWrite(Span<byte> target, in Half input)
+    {
+        BinaryPrimitives.WriteHalfBigEndian(target, input);
+    }
+    public static Half ReadFromSpan(ReadOnlySpan<byte> source)
+    {
+        return BinaryPrimitives.ReadHalfBigEndian(source);
+    }
+
+    public static void WriteToSpan(Span<byte> target, in Half input)
+    {
+        BinaryPrimitives.WriteHalfBigEndian(target, input);
+    }
 }
+#endif

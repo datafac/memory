@@ -39,8 +39,8 @@ public class Bits32Tests
 public class Bits64Tests
 {
     [Theory]
-    [InlineData(default(UInt64), "0x00000000")]
-    [InlineData(1, "0x00000001")]
+    [InlineData(default(UInt64), "0x0000000000000000")]
+    [InlineData(1, "0x0000000000000001")]
     [InlineData(UInt64.MaxValue, "0xFFFFFFFFFFFFFFFF")]
     public void InitBits(UInt64 data, string expected)
     {

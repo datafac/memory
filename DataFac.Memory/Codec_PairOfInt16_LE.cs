@@ -1,40 +1,50 @@
 ﻿using System;
 using System.Buffers.Binary;
 
-namespace DataFac.Memory
-{
-    public sealed class Codec_PairOfInt16_LE : Codec_Base<PairOfInt16>
+#pragma warning disable CA1707 // Identifiers should not contain underscores
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
+namespace DataFac.Memory;
+
+/// <summary>
+/// Little-endian codec for reading and writing <see cref="PairOfInt16"/> from and to 4-byte spans.
+/// </summary>
+public sealed class Codec_PairOfInt16_LE : Codec_Base<PairOfInt16>
 #if NET7_0_OR_GREATER
-    , ISpanCodec<PairOfInt16>
+, ISpanCodec<PairOfInt16>
 #endif
+{
+    private Codec_PairOfInt16_LE() { }
+    public static Codec_PairOfInt16_LE Instance { get; } = new Codec_PairOfInt16_LE();
+
+    /// <inheritdoc />
+    public override PairOfInt16 OnRead(ReadOnlySpan<byte> source)
     {
-        private Codec_PairOfInt16_LE() { }
-        public static Codec_PairOfInt16_LE Instance { get; } = new Codec_PairOfInt16_LE();
+        Int16 first = BinaryPrimitives.ReadInt16LittleEndian(source.Slice(0, 2));
+        Int16 second = BinaryPrimitives.ReadInt16LittleEndian(source.Slice(2, 2));
+        return new PairOfInt16(first, second);
+    }
 
-        public override PairOfInt16 OnRead(ReadOnlySpan<byte> source)
-        {
-            Int16 first = BinaryPrimitives.ReadInt16LittleEndian(source.Slice(0, 2));
-            Int16 second = BinaryPrimitives.ReadInt16LittleEndian(source.Slice(2, 2));
-            return new PairOfInt16(first, second);
-        }
+    /// <inheritdoc />
+    public override void OnWrite(Span<byte> target, in PairOfInt16 input)
+    {
+        BinaryPrimitives.WriteInt16LittleEndian(target.Slice(0, 2), input.A);
+        BinaryPrimitives.WriteInt16LittleEndian(target.Slice(2, 2), input.B);
+    }
 
-        public override void OnWrite(Span<byte> target, in PairOfInt16 input)
-        {
-            BinaryPrimitives.WriteInt16LittleEndian(target.Slice(0, 2), input.A);
-            BinaryPrimitives.WriteInt16LittleEndian(target.Slice(2, 2), input.B);
-        }
+    /// <inheritdoc />
+    public static PairOfInt16 ReadFromSpan(ReadOnlySpan<byte> source)
+    {
+        Int16 first = BinaryPrimitives.ReadInt16LittleEndian(source.Slice(0, 2));
+        Int16 second = BinaryPrimitives.ReadInt16LittleEndian(source.Slice(2, 2));
+        return new PairOfInt16(first, second);
+    }
 
-        public static PairOfInt16 ReadFromSpan(ReadOnlySpan<byte> source)
-        {
-            Int16 first = BinaryPrimitives.ReadInt16LittleEndian(source.Slice(0, 2));
-            Int16 second = BinaryPrimitives.ReadInt16LittleEndian(source.Slice(2, 2));
-            return new PairOfInt16(first, second);
-        }
-
-        public static void WriteToSpan(Span<byte> target, in PairOfInt16 input)
-        {
-            BinaryPrimitives.WriteInt16LittleEndian(target.Slice(0, 2), input.A);
-            BinaryPrimitives.WriteInt16LittleEndian(target.Slice(2, 2), input.B);
-        }
+    /// <inheritdoc />
+    public static void WriteToSpan(Span<byte> target, in PairOfInt16 input)
+    {
+        BinaryPrimitives.WriteInt16LittleEndian(target.Slice(0, 2), input.A);
+        BinaryPrimitives.WriteInt16LittleEndian(target.Slice(2, 2), input.B);
     }
 }

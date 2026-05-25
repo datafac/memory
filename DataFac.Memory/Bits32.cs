@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace DataFac.Memory;
@@ -14,30 +13,62 @@ namespace DataFac.Memory;
 /// bit manipulation is required, such as flags, masks, or low-level protocol handling.</remarks>
 public readonly struct Bits32 : IEquatable<Bits32>
 {
-    public readonly UInt32 Data;
-    public Bits32(UInt32 data) => Data = data;
-    public Bits32(Bits32 other) => Data = other.Data;
-    public bool Equals(Bits32 other) => Data == other.Data;
+    private readonly UInt32 _data;
+
+    /// <summary>
+    /// Bits data stored as a 32-bit unsigned integer. Each bit can be accessed or modified using the GetBit and SetBit methods.
+    /// </summary>
+    public uint Data => _data;
+
+    /// <summary>
+    /// Constructs an instance from an 32-bit unsigned integer.
+    /// </summary>
+    /// <param name="data"></param>
+    public Bits32(UInt32 data) => _data = data;
+
+    /// <inheritdoc />
+    public bool Equals(Bits32 other) => _data == other._data;
+
+    /// <inheritdoc />
     public override bool Equals(object? obj) => obj is Bits32 other && Equals(other);
-    public override int GetHashCode() => HashCode.Combine(Data);
-    override public string ToString() => $"0x{Data:X8}";
+
+    /// <inheritdoc />
+    public override int GetHashCode() => HashCode.Combine(_data);
+
+    /// <inheritdoc />
+    public override string ToString() => $"0x{_data:X8}";
+
+    /// <inheritdoc />
     public static bool operator ==(Bits32 left, Bits32 right) => left.Equals(right);
+
+    /// <inheritdoc />
     public static bool operator !=(Bits32 left, Bits32 right) => !left.Equals(right);
 
+    /// <summary>
+    /// Returns the value of the bit at the specified index. Bit indices are zero-based, 
+    /// with 0 representing the least significant bit and 31 representing the most significant bit.
+    /// </summary>
+    /// <param name="index"></param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool GetBit(int index)
     {
         index &= 0x1F; // Ensure index is within 0-31
         UInt32 mask = 1u << index;
-        return (Data & mask) != 0;
+        return (_data & mask) != 0;
     }
 
+    /// <summary>
+    /// Sets the bit at the specified index to the specified value. Bit indices are zero-based, 
+    /// with 0 representing the least significant bit and 31 representing the most significant bit.
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="value"></param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Bits32 SetBit(int index, bool value)
     {
         index &= 0x1F; // Ensure index is within 0-31
         UInt32 mask = 1u << index;
-        UInt32 newData = value ? (Data | mask) : (Data & ~mask);
+        UInt32 newData = value ? (_data | mask) : (_data & ~mask);
         return new Bits32(newData);
     }
 }

@@ -3,6 +3,8 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
 namespace DataFac.Memory;
 
 public class ByteBufferWriter : IBufferWriter<byte>
@@ -13,7 +15,7 @@ public class ByteBufferWriter : IBufferWriter<byte>
     // todo use ReadOnlySequenceBuilder for extra perf?
     private readonly LinkedList<ReadOnlyMemory<byte>> _savedBuffers = new LinkedList<ReadOnlyMemory<byte>>();
     private Memory<byte> _currentBuffer = Memory<byte>.Empty;
-    private int _currentPosition = 0;
+    private int _currentPosition;
 
     public ReadOnlySequence<byte> GetWrittenSequence()
     {

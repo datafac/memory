@@ -5,231 +5,232 @@ using System.Buffers.Binary;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace DataFac.Memory
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
+namespace DataFac.Memory;
+
+[StructLayout(LayoutKind.Explicit, Size = 64)]
+public struct BlockB064 : IMemBlock, IEquatable<BlockB064>
 {
-    [StructLayout(LayoutKind.Explicit, Size = 64)]
-    public struct BlockB064 : IMemBlock, IEquatable<BlockB064>
+    private const int Size = 64;
+
+    public int BlockSize => Size;
+
+    [FieldOffset(0)] public BlockB032 A;
+    [FieldOffset(32)] public BlockB032 B;
+
+    public bool TryRead(ReadOnlySequence<byte> source)
     {
-        private const int Size = 64;
-
-        public int BlockSize => Size;
-
-        [FieldOffset(0)] public BlockB032 A;
-        [FieldOffset(32)] public BlockB032 B;
-
-        public bool TryRead(ReadOnlySequence<byte> source)
+        var span = BlockHelper.AsWritableSpan(ref this);
+        if (source.IsEmpty) return false;
+        if (source.IsSingleSegment)
         {
-            var span = BlockHelper.AsWritableSpan(ref this);
-            if (source.IsEmpty) return false;
-            if (source.IsSingleSegment)
-            {
-                var segment = source.First;
-                if (segment.Length < Size) return false;
-                segment.Span.Slice(0, Size).CopyTo(span);
-                return true;
-            }
-            int bytesRemaining = Size;
-            foreach (var segment in source)
-            {
-                if (bytesRemaining == 0) break;
-                if (segment.Length > bytesRemaining)
-                {
-                    segment.Span.Slice(0, bytesRemaining).CopyTo(span);
-                    span = span.Slice(bytesRemaining);
-                    bytesRemaining = 0;
-                }
-                else
-                {
-                    segment.Span.CopyTo(span);
-                    span = span.Slice(segment.Length);
-                    bytesRemaining -= segment.Length;
-                }
-            }
-            return bytesRemaining == 0;
-        }
-
-        public bool TryRead(ReadOnlySpan<byte> source)
-        {
-            if (source.Length < Size) return false;
-            var span = BlockHelper.AsWritableSpan(ref this);
-            source.Slice(0, Size).CopyTo(span);
+            var segment = source.First;
+            if (segment.Length < Size) return false;
+            segment.Span.Slice(0, Size).CopyTo(span);
             return true;
         }
+        int bytesRemaining = Size;
+        foreach (var segment in source)
+        {
+            if (bytesRemaining == 0) break;
+            if (segment.Length > bytesRemaining)
+            {
+                segment.Span.Slice(0, bytesRemaining).CopyTo(span);
+                span = span.Slice(bytesRemaining);
+                bytesRemaining = 0;
+            }
+            else
+            {
+                segment.Span.CopyTo(span);
+                span = span.Slice(segment.Length);
+                bytesRemaining -= segment.Length;
+            }
+        }
+        return bytesRemaining == 0;
+    }
 
-        public bool TryWrite(Span<byte> target) => MemoryMarshal.TryWrite(target.Slice(0, Size),
+    public bool TryRead(ReadOnlySpan<byte> source)
+    {
+        if (source.Length < Size) return false;
+        var span = BlockHelper.AsWritableSpan(ref this);
+        source.Slice(0, Size).CopyTo(span);
+        return true;
+    }
+
+    public bool TryWrite(Span<byte> target) => MemoryMarshal.TryWrite(target.Slice(0, Size),
 #if NET8_0_OR_GREATER
-            in this);
+        in this);
 #else
-            ref this);
+        ref this);
 #endif
 
-        public void WriteTo(Span<byte> target) => BlockHelper.AsReadOnlySpan(ref this).CopyTo(target);
-        public void WriteTo(int start, int length, Span<byte> target) => BlockHelper.AsReadOnlySpan(ref this).Slice(start, length).CopyTo(target);
+    public void WriteTo(Span<byte> target) => BlockHelper.AsReadOnlySpan(ref this).CopyTo(target);
+    public void WriteTo(int start, int length, Span<byte> target) => BlockHelper.AsReadOnlySpan(ref this).Slice(start, length).CopyTo(target);
 
-        public string ToBase64String(Base64FormattingOptions options = Base64FormattingOptions.None)
-        {
-            var span = BlockHelper.AsReadOnlySpan(ref this);
+    public string ToBase64String(Base64FormattingOptions options = Base64FormattingOptions.None)
+    {
+        var span = BlockHelper.AsReadOnlySpan(ref this);
 #if NET8_0_OR_GREATER
-            return Convert.ToBase64String(span, options);
+        return Convert.ToBase64String(span, options);
 #else
-            return Convert.ToBase64String(span.ToArray(), options);
+        return Convert.ToBase64String(span.ToArray(), options);
 #endif
-        }
+    }
 
-        public string ToBase64String(int start, int length, Base64FormattingOptions options = Base64FormattingOptions.None)
-        {
-            var span = BlockHelper.AsReadOnlySpan(ref this).Slice(start, length);
+    public string ToBase64String(int start, int length, Base64FormattingOptions options = Base64FormattingOptions.None)
+    {
+        var span = BlockHelper.AsReadOnlySpan(ref this).Slice(start, length);
 #if NET8_0_OR_GREATER
-            return Convert.ToBase64String(span, options);
+        return Convert.ToBase64String(span, options);
 #else
-            return Convert.ToBase64String(span.ToArray(), options);
+        return Convert.ToBase64String(span.ToArray(), options);
 #endif
-        }
+    }
 
-        public byte[] ToByteArray() => BlockHelper.AsReadOnlySpan(ref this).ToArray();
-        public byte[] ToByteArray(int start, int length) => BlockHelper.AsReadOnlySpan(ref this).Slice(start, length).ToArray();
+    public byte[] ToByteArray() => BlockHelper.AsReadOnlySpan(ref this).ToArray();
+    public byte[] ToByteArray(int start, int length) => BlockHelper.AsReadOnlySpan(ref this).Slice(start, length).ToArray();
 
-        public bool IsEmpty => BlockHelper.AsReadOnlySpanOfInt64(ref this).AreAllZero();
+    public bool IsEmpty => BlockHelper.AsReadOnlySpanOfInt64(ref this).AreAllZero();
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(BlockB064 other) => BlockHelper.AsReadOnlySpanOfInt64(ref this).SequenceEqual(BlockHelper.AsReadOnlySpanOfInt64(ref other));
-        public override bool Equals(object? obj) => obj is BlockB064 other && Equals(other);
-        public override int GetHashCode()
-        {
-            HashCode hashCode = new HashCode();
-            hashCode.Add(Size);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool Equals(BlockB064 other) => BlockHelper.AsReadOnlySpanOfInt64(ref this).SequenceEqual(BlockHelper.AsReadOnlySpanOfInt64(ref other));
+    public override bool Equals(object? obj) => obj is BlockB064 other && Equals(other);
+    public override int GetHashCode()
+    {
+        HashCode hashCode = new HashCode();
+        hashCode.Add(Size);
 #if NET8_0_OR_GREATER
-            hashCode.AddBytes(BlockHelper.AsReadOnlySpan(ref this));
+        hashCode.AddBytes(BlockHelper.AsReadOnlySpan(ref this));
 #else
-            var self = BlockHelper.AsReadOnlySpanOfInt64(ref this);
-            for (int i = 0; i < self.Length; i++)
-            {
-                hashCode.Add(self[i]);
-            }
+        var self = BlockHelper.AsReadOnlySpanOfInt64(ref this);
+        for (int i = 0; i < self.Length; i++)
+        {
+            hashCode.Add(self[i]);
+        }
 #endif
-            return hashCode.ToHashCode();
-        }
-        public static bool operator ==(BlockB064 left, BlockB064 right) => left.Equals(right);
-        public static bool operator !=(BlockB064 left, BlockB064 right) => !left.Equals(right);
+        return hashCode.ToHashCode();
+    }
+    public static bool operator ==(BlockB064 left, BlockB064 right) => left.Equals(right);
+    public static bool operator !=(BlockB064 left, BlockB064 right) => !left.Equals(right);
 
-        public void GetInt32ArrayBE(Span<Int32> target)
+    public void GetInt32ArrayBE(Span<Int32> target)
+    {
+        var source = MemoryMarshal.Cast<byte, Int32>(BlockHelper.AsReadOnlySpan(ref this));
+        if (!BitConverter.IsLittleEndian)
         {
-            var source = MemoryMarshal.Cast<byte, Int32>(BlockHelper.AsReadOnlySpan(ref this));
-            if (!BitConverter.IsLittleEndian)
+            source.Slice(0, target.Length).CopyTo(target);
+        }
+        else
+        {
+            for (int i = 0; i < target.Length; i++)
             {
-                source.Slice(0, target.Length).CopyTo(target);
-            }
-            else
-            {
-                for (int i = 0; i < target.Length; i++)
-                {
-                    target[i] = BinaryPrimitives.ReverseEndianness(source[i]);
-                }
+                target[i] = BinaryPrimitives.ReverseEndianness(source[i]);
             }
         }
-        public void SetInt32ArrayBE(ReadOnlySpan<Int32> values)
+    }
+    public void SetInt32ArrayBE(ReadOnlySpan<Int32> values)
+    {
+        var target = MemoryMarshal.Cast<byte, Int32>(BlockHelper.AsWritableSpan(ref this));
+        if (!BitConverter.IsLittleEndian)
         {
-            var target = MemoryMarshal.Cast<byte, Int32>(BlockHelper.AsWritableSpan(ref this));
-            if (!BitConverter.IsLittleEndian)
+            values.CopyTo(target);
+        }
+        else
+        {
+            for (int i = 0; i < values.Length; i++)
             {
-                values.CopyTo(target);
-            }
-            else
-            {
-                for (int i = 0; i < values.Length; i++)
-                {
-                    target[i] = BinaryPrimitives.ReverseEndianness(values[i]);
-                }
+                target[i] = BinaryPrimitives.ReverseEndianness(values[i]);
             }
         }
-        public void GetInt32ArrayLE(Span<Int32> target)
+    }
+    public void GetInt32ArrayLE(Span<Int32> target)
+    {
+        var source = MemoryMarshal.Cast<byte, Int32>(BlockHelper.AsReadOnlySpan(ref this));
+        if (BitConverter.IsLittleEndian)
         {
-            var source = MemoryMarshal.Cast<byte, Int32>(BlockHelper.AsReadOnlySpan(ref this));
-            if (BitConverter.IsLittleEndian)
+            source.Slice(0, target.Length).CopyTo(target);
+        }
+        else
+        {
+            for (int i = 0; i < target.Length; i++)
             {
-                source.Slice(0, target.Length).CopyTo(target);
-            }
-            else
-            {
-                for (int i = 0; i < target.Length; i++)
-                {
-                    target[i] = BinaryPrimitives.ReverseEndianness(source[i]);
-                }
+                target[i] = BinaryPrimitives.ReverseEndianness(source[i]);
             }
         }
-        public void SetInt32ArrayLE(ReadOnlySpan<Int32> values)
+    }
+    public void SetInt32ArrayLE(ReadOnlySpan<Int32> values)
+    {
+        var target = MemoryMarshal.Cast<byte, Int32>(BlockHelper.AsWritableSpan(ref this));
+        if (BitConverter.IsLittleEndian)
         {
-            var target = MemoryMarshal.Cast<byte, Int32>(BlockHelper.AsWritableSpan(ref this));
-            if (BitConverter.IsLittleEndian)
+            values.CopyTo(target);
+        }
+        else
+        {
+            for (int i = 0; i < values.Length; i++)
             {
-                values.CopyTo(target);
-            }
-            else
-            {
-                for (int i = 0; i < values.Length; i++)
-                {
-                    target[i] = BinaryPrimitives.ReverseEndianness(values[i]);
-                }
+                target[i] = BinaryPrimitives.ReverseEndianness(values[i]);
             }
         }
-        public void GetUInt32ArrayBE(Span<UInt32> target)
+    }
+    public void GetUInt32ArrayBE(Span<UInt32> target)
+    {
+        var source = MemoryMarshal.Cast<byte, UInt32>(BlockHelper.AsReadOnlySpan(ref this));
+        if (!BitConverter.IsLittleEndian)
         {
-            var source = MemoryMarshal.Cast<byte, UInt32>(BlockHelper.AsReadOnlySpan(ref this));
-            if (!BitConverter.IsLittleEndian)
+            source.Slice(0, target.Length).CopyTo(target);
+        }
+        else
+        {
+            for (int i = 0; i < target.Length; i++)
             {
-                source.Slice(0, target.Length).CopyTo(target);
-            }
-            else
-            {
-                for (int i = 0; i < target.Length; i++)
-                {
-                    target[i] = BinaryPrimitives.ReverseEndianness(source[i]);
-                }
+                target[i] = BinaryPrimitives.ReverseEndianness(source[i]);
             }
         }
-        public void SetUInt32ArrayBE(ReadOnlySpan<UInt32> values)
+    }
+    public void SetUInt32ArrayBE(ReadOnlySpan<UInt32> values)
+    {
+        var target = MemoryMarshal.Cast<byte, UInt32>(BlockHelper.AsWritableSpan(ref this));
+        if (!BitConverter.IsLittleEndian)
         {
-            var target = MemoryMarshal.Cast<byte, UInt32>(BlockHelper.AsWritableSpan(ref this));
-            if (!BitConverter.IsLittleEndian)
+            values.CopyTo(target);
+        }
+        else
+        {
+            for (int i = 0; i < values.Length; i++)
             {
-                values.CopyTo(target);
-            }
-            else
-            {
-                for (int i = 0; i < values.Length; i++)
-                {
-                    target[i] = BinaryPrimitives.ReverseEndianness(values[i]);
-                }
+                target[i] = BinaryPrimitives.ReverseEndianness(values[i]);
             }
         }
-        public void GetUInt32ArrayLE(Span<UInt32> target)
+    }
+    public void GetUInt32ArrayLE(Span<UInt32> target)
+    {
+        var source = MemoryMarshal.Cast<byte, UInt32>(BlockHelper.AsReadOnlySpan(ref this));
+        if (BitConverter.IsLittleEndian)
         {
-            var source = MemoryMarshal.Cast<byte, UInt32>(BlockHelper.AsReadOnlySpan(ref this));
-            if (BitConverter.IsLittleEndian)
+            source.Slice(0, target.Length).CopyTo(target);
+        }
+        else
+        {
+            for (int i = 0; i < target.Length; i++)
             {
-                source.Slice(0, target.Length).CopyTo(target);
-            }
-            else
-            {
-                for (int i = 0; i < target.Length; i++)
-                {
-                    target[i] = BinaryPrimitives.ReverseEndianness(source[i]);
-                }
+                target[i] = BinaryPrimitives.ReverseEndianness(source[i]);
             }
         }
-        public void SetUInt32ArrayLE(ReadOnlySpan<UInt32> values)
+    }
+    public void SetUInt32ArrayLE(ReadOnlySpan<UInt32> values)
+    {
+        var target = MemoryMarshal.Cast<byte, UInt32>(BlockHelper.AsWritableSpan(ref this));
+        if (BitConverter.IsLittleEndian)
         {
-            var target = MemoryMarshal.Cast<byte, UInt32>(BlockHelper.AsWritableSpan(ref this));
-            if (BitConverter.IsLittleEndian)
+            values.CopyTo(target);
+        }
+        else
+        {
+            for (int i = 0; i < values.Length; i++)
             {
-                values.CopyTo(target);
-            }
-            else
-            {
-                for (int i = 0; i < values.Length; i++)
-                {
-                    target[i] = BinaryPrimitives.ReverseEndianness(values[i]);
-                }
+                target[i] = BinaryPrimitives.ReverseEndianness(values[i]);
             }
         }
     }

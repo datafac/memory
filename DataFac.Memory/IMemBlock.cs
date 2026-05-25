@@ -2,6 +2,8 @@
 using System.Buffers;
 using System.Collections.Generic;
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
 namespace DataFac.Memory;
 
 public interface IMemBlock

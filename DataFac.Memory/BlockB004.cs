@@ -5,198 +5,198 @@ using System.Buffers.Binary;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace DataFac.Memory
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
+namespace DataFac.Memory;
+
+[StructLayout(LayoutKind.Explicit, Size = 4)]
+public struct BlockB004 : IMemBlock, IEquatable<BlockB004>
 {
-    [StructLayout(LayoutKind.Explicit, Size = 4)]
-    public struct BlockB004 : IMemBlock, IEquatable<BlockB004>
+    private const int Size = 4;
+
+    public int BlockSize => Size;
+
+    [FieldOffset(0)] public BlockB002 A;
+    [FieldOffset(2)] public BlockB002 B;
+
+    public bool TryRead(ReadOnlySequence<byte> source)
     {
-        private const int Size = 4;
-
-        public int BlockSize => Size;
-
-        [FieldOffset(0)] public BlockB002 A;
-        [FieldOffset(2)] public BlockB002 B;
-
-        public bool TryRead(ReadOnlySequence<byte> source)
+        var span = BlockHelper.AsWritableSpan(ref this);
+        if (source.IsEmpty) return false;
+        if (source.IsSingleSegment)
         {
-            var span = BlockHelper.AsWritableSpan(ref this);
-            if (source.IsEmpty) return false;
-            if (source.IsSingleSegment)
-            {
-                var segment = source.First;
-                if (segment.Length < Size) return false;
-                segment.Span.Slice(0, Size).CopyTo(span);
-                return true;
-            }
-            int bytesRemaining = Size;
-            foreach (var segment in source)
-            {
-                if (bytesRemaining == 0) break;
-                if (segment.Length > bytesRemaining)
-                {
-                    segment.Span.Slice(0, bytesRemaining).CopyTo(span);
-                    span = span.Slice(bytesRemaining);
-                    bytesRemaining = 0;
-                }
-                else
-                {
-                    segment.Span.CopyTo(span);
-                    span = span.Slice(segment.Length);
-                    bytesRemaining -= segment.Length;
-                }
-            }
-            return bytesRemaining == 0;
-        }
-
-        public bool TryRead(ReadOnlySpan<byte> source)
-        {
-            if (source.Length < Size) return false;
-            var span = BlockHelper.AsWritableSpan(ref this);
-            source.Slice(0, Size).CopyTo(span);
+            var segment = source.First;
+            if (segment.Length < Size) return false;
+            segment.Span.Slice(0, Size).CopyTo(span);
             return true;
         }
+        int bytesRemaining = Size;
+        foreach (var segment in source)
+        {
+            if (bytesRemaining == 0) break;
+            if (segment.Length > bytesRemaining)
+            {
+                segment.Span.Slice(0, bytesRemaining).CopyTo(span);
+                span = span.Slice(bytesRemaining);
+                bytesRemaining = 0;
+            }
+            else
+            {
+                segment.Span.CopyTo(span);
+                span = span.Slice(segment.Length);
+                bytesRemaining -= segment.Length;
+            }
+        }
+        return bytesRemaining == 0;
+    }
 
-        public bool TryWrite(Span<byte> target) => MemoryMarshal.TryWrite(target.Slice(0, Size),
+    public bool TryRead(ReadOnlySpan<byte> source)
+    {
+        if (source.Length < Size) return false;
+        var span = BlockHelper.AsWritableSpan(ref this);
+        source.Slice(0, Size).CopyTo(span);
+        return true;
+    }
+
+    public bool TryWrite(Span<byte> target) => MemoryMarshal.TryWrite(target.Slice(0, Size),
 #if NET8_0_OR_GREATER
-            in this);
+        in this);
 #else
-            ref this);
+        ref this);
 #endif
 
-        public void WriteTo(Span<byte> target) => BlockHelper.AsReadOnlySpan(ref this).CopyTo(target);
-        public void WriteTo(int start, int length, Span<byte> target) => BlockHelper.AsReadOnlySpan(ref this).Slice(start, length).CopyTo(target);
+    public void WriteTo(Span<byte> target) => BlockHelper.AsReadOnlySpan(ref this).CopyTo(target);
+    public void WriteTo(int start, int length, Span<byte> target) => BlockHelper.AsReadOnlySpan(ref this).Slice(start, length).CopyTo(target);
 
-        public string ToBase64String(Base64FormattingOptions options = Base64FormattingOptions.None)
-        {
-            var span = BlockHelper.AsReadOnlySpan(ref this);
+    public string ToBase64String(Base64FormattingOptions options = Base64FormattingOptions.None)
+    {
+        var span = BlockHelper.AsReadOnlySpan(ref this);
 #if NET8_0_OR_GREATER
-            return Convert.ToBase64String(span, options);
+        return Convert.ToBase64String(span, options);
 #else
-            return Convert.ToBase64String(span.ToArray(), options);
+        return Convert.ToBase64String(span.ToArray(), options);
 #endif
-        }
+    }
 
-        public string ToBase64String(int start, int length, Base64FormattingOptions options = Base64FormattingOptions.None)
-        {
-            var span = BlockHelper.AsReadOnlySpan(ref this).Slice(start, length);
+    public string ToBase64String(int start, int length, Base64FormattingOptions options = Base64FormattingOptions.None)
+    {
+        var span = BlockHelper.AsReadOnlySpan(ref this).Slice(start, length);
 #if NET8_0_OR_GREATER
-            return Convert.ToBase64String(span, options);
+        return Convert.ToBase64String(span, options);
 #else
-            return Convert.ToBase64String(span.ToArray(), options);
+        return Convert.ToBase64String(span.ToArray(), options);
 #endif
-        }
+    }
 
-        public byte[] ToByteArray() => BlockHelper.AsReadOnlySpan(ref this).ToArray();
-        public byte[] ToByteArray(int start, int length) => BlockHelper.AsReadOnlySpan(ref this).Slice(start, length).ToArray();
+    public byte[] ToByteArray() => BlockHelper.AsReadOnlySpan(ref this).ToArray();
+    public byte[] ToByteArray(int start, int length) => BlockHelper.AsReadOnlySpan(ref this).Slice(start, length).ToArray();
 
-        public bool IsEmpty => _int == 0;
+    public bool IsEmpty => _int == 0;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(BlockB004 other) => _int == other._int;
-        public override bool Equals(object? obj) => obj is BlockB004 other && Equals(other);
-        public override int GetHashCode() => _int.GetHashCode();
-        public static bool operator ==(BlockB004 left, BlockB004 right) => left.Equals(right);
-        public static bool operator !=(BlockB004 left, BlockB004 right) => !left.Equals(right);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool Equals(BlockB004 other) => _int == other._int;
+    public override bool Equals(object? obj) => obj is BlockB004 other && Equals(other);
+    public override int GetHashCode() => _int.GetHashCode();
+    public static bool operator ==(BlockB004 left, BlockB004 right) => left.Equals(right);
+    public static bool operator !=(BlockB004 left, BlockB004 right) => !left.Equals(right);
 
-        public PairOfInt16 PairOfInt16LE
+    public PairOfInt16 PairOfInt16LE
+    {
+        get => new PairOfInt16(A.Int16ValueLE, B.Int16ValueLE);
+        set
         {
-            get => new PairOfInt16(A.Int16ValueLE, B.Int16ValueLE);
-            set
-            {
-                A.Int16ValueLE = value.A;
-                B.Int16ValueLE = value.B;
-            }
-        }
-
-        public PairOfInt16 PairOfInt16BE
-        {
-            get => new PairOfInt16(A.Int16ValueBE, B.Int16ValueBE);
-            set
-            {
-                A.Int16ValueBE = value.A;
-                B.Int16ValueBE = value.B;
-            }
-        }
-
-        [FieldOffset(0)] public int _int;
-        public int Int32ValueLE
-        {
-            get
-            {
-                if (BitConverter.IsLittleEndian)
-                    return _int;
-                else
-                    return BinaryPrimitives.ReverseEndianness(_int);
-            }
-            set
-            {
-                if (BitConverter.IsLittleEndian)
-                    _int = value;
-                else
-                    _int = BinaryPrimitives.ReverseEndianness(value);
-            }
-        }
-        public int Int32ValueBE
-        {
-            get
-            {
-                if (BitConverter.IsLittleEndian)
-                    return BinaryPrimitives.ReverseEndianness(_int);
-                else
-                    return _int;
-            }
-            set
-            {
-                if (BitConverter.IsLittleEndian)
-                    _int = BinaryPrimitives.ReverseEndianness(value);
-                else
-                    _int = value;
-            }
-        }
-
-        [FieldOffset(0)] public float _float;
-        public float SingleValueLE
-        {
-            get
-            {
-                if (BitConverter.IsLittleEndian)
-                    return _float;
-                else
-                {
-                    int reversed = BinaryPrimitives.ReverseEndianness(_int);
-                    return Unsafe.As<int, float>(ref reversed);
-                }
-            }
-            set
-            {
-                if (BitConverter.IsLittleEndian)
-                    _float = value;
-                else
-                    _int = BinaryPrimitives.ReverseEndianness(Unsafe.As<float, int>(ref value));
-            }
-        }
-        public float SingleValueBE
-        {
-            get
-            {
-                if (BitConverter.IsLittleEndian)
-                {
-                    int reversed = BinaryPrimitives.ReverseEndianness(_int);
-                    return Unsafe.As<int, float>(ref reversed);
-                }
-                else
-                    return _float;
-            }
-            set
-            {
-                if (BitConverter.IsLittleEndian)
-                {
-                    _int = BinaryPrimitives.ReverseEndianness(Unsafe.As<float, int>(ref value));
-                }
-                else
-                    _float = value;
-            }
+            A.Int16ValueLE = value.A;
+            B.Int16ValueLE = value.B;
         }
     }
 
+    public PairOfInt16 PairOfInt16BE
+    {
+        get => new PairOfInt16(A.Int16ValueBE, B.Int16ValueBE);
+        set
+        {
+            A.Int16ValueBE = value.A;
+            B.Int16ValueBE = value.B;
+        }
+    }
+
+    [FieldOffset(0)] public int _int;
+    public int Int32ValueLE
+    {
+        get
+        {
+            if (BitConverter.IsLittleEndian)
+                return _int;
+            else
+                return BinaryPrimitives.ReverseEndianness(_int);
+        }
+        set
+        {
+            if (BitConverter.IsLittleEndian)
+                _int = value;
+            else
+                _int = BinaryPrimitives.ReverseEndianness(value);
+        }
+    }
+    public int Int32ValueBE
+    {
+        get
+        {
+            if (BitConverter.IsLittleEndian)
+                return BinaryPrimitives.ReverseEndianness(_int);
+            else
+                return _int;
+        }
+        set
+        {
+            if (BitConverter.IsLittleEndian)
+                _int = BinaryPrimitives.ReverseEndianness(value);
+            else
+                _int = value;
+        }
+    }
+
+    [FieldOffset(0)] public float _float;
+    public float SingleValueLE
+    {
+        get
+        {
+            if (BitConverter.IsLittleEndian)
+                return _float;
+            else
+            {
+                int reversed = BinaryPrimitives.ReverseEndianness(_int);
+                return Unsafe.As<int, float>(ref reversed);
+            }
+        }
+        set
+        {
+            if (BitConverter.IsLittleEndian)
+                _float = value;
+            else
+                _int = BinaryPrimitives.ReverseEndianness(Unsafe.As<float, int>(ref value));
+        }
+    }
+    public float SingleValueBE
+    {
+        get
+        {
+            if (BitConverter.IsLittleEndian)
+            {
+                int reversed = BinaryPrimitives.ReverseEndianness(_int);
+                return Unsafe.As<int, float>(ref reversed);
+            }
+            else
+                return _float;
+        }
+        set
+        {
+            if (BitConverter.IsLittleEndian)
+            {
+                _int = BinaryPrimitives.ReverseEndianness(Unsafe.As<float, int>(ref value));
+            }
+            else
+                _float = value;
+        }
+    }
 }

@@ -5,227 +5,227 @@ using System.Buffers.Binary;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace DataFac.Memory
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
+namespace DataFac.Memory;
+
+[StructLayout(LayoutKind.Explicit, Size = 8)]
+public struct BlockB008 : IMemBlock, IEquatable<BlockB008>
 {
-    [StructLayout(LayoutKind.Explicit, Size = 8)]
-    public struct BlockB008 : IMemBlock, IEquatable<BlockB008>
+    private const int Size = 8;
+
+    public int BlockSize => Size;
+
+    [FieldOffset(0)] public BlockB004 A;
+    [FieldOffset(4)] public BlockB004 B;
+
+    public bool TryRead(ReadOnlySequence<byte> source)
     {
-        private const int Size = 8;
-
-        public int BlockSize => Size;
-
-        [FieldOffset(0)] public BlockB004 A;
-        [FieldOffset(4)] public BlockB004 B;
-
-        public bool TryRead(ReadOnlySequence<byte> source)
+        var span = BlockHelper.AsWritableSpan(ref this);
+        if (source.IsEmpty) return false;
+        if (source.IsSingleSegment)
         {
-            var span = BlockHelper.AsWritableSpan(ref this);
-            if (source.IsEmpty) return false;
-            if (source.IsSingleSegment)
-            {
-                var segment = source.First;
-                if (segment.Length < Size) return false;
-                segment.Span.Slice(0, Size).CopyTo(span);
-                return true;
-            }
-            int bytesRemaining = Size;
-            foreach (var segment in source)
-            {
-                if (bytesRemaining == 0) break;
-                if (segment.Length > bytesRemaining)
-                {
-                    segment.Span.Slice(0, bytesRemaining).CopyTo(span);
-                    span = span.Slice(bytesRemaining);
-                    bytesRemaining = 0;
-                }
-                else
-                {
-                    segment.Span.CopyTo(span);
-                    span = span.Slice(segment.Length);
-                    bytesRemaining -= segment.Length;
-                }
-            }
-            return bytesRemaining == 0;
-        }
-
-        public bool TryRead(ReadOnlySpan<byte> source)
-        {
-            if (source.Length < Size) return false;
-            var span = BlockHelper.AsWritableSpan(ref this);
-            source.Slice(0, Size).CopyTo(span);
+            var segment = source.First;
+            if (segment.Length < Size) return false;
+            segment.Span.Slice(0, Size).CopyTo(span);
             return true;
         }
+        int bytesRemaining = Size;
+        foreach (var segment in source)
+        {
+            if (bytesRemaining == 0) break;
+            if (segment.Length > bytesRemaining)
+            {
+                segment.Span.Slice(0, bytesRemaining).CopyTo(span);
+                span = span.Slice(bytesRemaining);
+                bytesRemaining = 0;
+            }
+            else
+            {
+                segment.Span.CopyTo(span);
+                span = span.Slice(segment.Length);
+                bytesRemaining -= segment.Length;
+            }
+        }
+        return bytesRemaining == 0;
+    }
 
-        public bool TryWrite(Span<byte> target) => MemoryMarshal.TryWrite(target.Slice(0, Size),
+    public bool TryRead(ReadOnlySpan<byte> source)
+    {
+        if (source.Length < Size) return false;
+        var span = BlockHelper.AsWritableSpan(ref this);
+        source.Slice(0, Size).CopyTo(span);
+        return true;
+    }
+
+    public bool TryWrite(Span<byte> target) => MemoryMarshal.TryWrite(target.Slice(0, Size),
 #if NET8_0_OR_GREATER
-            in this);
+        in this);
 #else
-            ref this);
+        ref this);
 #endif
 
-        public void WriteTo(Span<byte> target) => BlockHelper.AsReadOnlySpan(ref this).CopyTo(target);
-        public void WriteTo(int start, int length, Span<byte> target) => BlockHelper.AsReadOnlySpan(ref this).Slice(start, length).CopyTo(target);
+    public void WriteTo(Span<byte> target) => BlockHelper.AsReadOnlySpan(ref this).CopyTo(target);
+    public void WriteTo(int start, int length, Span<byte> target) => BlockHelper.AsReadOnlySpan(ref this).Slice(start, length).CopyTo(target);
 
-        public string ToBase64String(Base64FormattingOptions options = Base64FormattingOptions.None)
-        {
-            var span = BlockHelper.AsReadOnlySpan(ref this);
+    public string ToBase64String(Base64FormattingOptions options = Base64FormattingOptions.None)
+    {
+        var span = BlockHelper.AsReadOnlySpan(ref this);
 #if NET8_0_OR_GREATER
-            return Convert.ToBase64String(span, options);
+        return Convert.ToBase64String(span, options);
 #else
-            return Convert.ToBase64String(span.ToArray(), options);
+        return Convert.ToBase64String(span.ToArray(), options);
 #endif
-        }
+    }
 
-        public string ToBase64String(int start, int length, Base64FormattingOptions options = Base64FormattingOptions.None)
-        {
-            var span = BlockHelper.AsReadOnlySpan(ref this).Slice(start, length);
+    public string ToBase64String(int start, int length, Base64FormattingOptions options = Base64FormattingOptions.None)
+    {
+        var span = BlockHelper.AsReadOnlySpan(ref this).Slice(start, length);
 #if NET8_0_OR_GREATER
-            return Convert.ToBase64String(span, options);
+        return Convert.ToBase64String(span, options);
 #else
-            return Convert.ToBase64String(span.ToArray(), options);
+        return Convert.ToBase64String(span.ToArray(), options);
 #endif
-        }
+    }
 
-        public byte[] ToByteArray() => BlockHelper.AsReadOnlySpan(ref this).ToArray();
-        public byte[] ToByteArray(int start, int length) => BlockHelper.AsReadOnlySpan(ref this).Slice(start, length).ToArray();
+    public byte[] ToByteArray() => BlockHelper.AsReadOnlySpan(ref this).ToArray();
+    public byte[] ToByteArray(int start, int length) => BlockHelper.AsReadOnlySpan(ref this).Slice(start, length).ToArray();
 
-        public bool IsEmpty => _long == 0;
+    public bool IsEmpty => _long == 0;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(BlockB008 other) => _long == other._long;
-        public override bool Equals(object? obj) => obj is BlockB008 other && Equals(other);
-        public override int GetHashCode() => _long.GetHashCode();
-        public static bool operator ==(BlockB008 left, BlockB008 right) => left.Equals(right);
-        public static bool operator !=(BlockB008 left, BlockB008 right) => !left.Equals(right);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool Equals(BlockB008 other) => _long == other._long;
+    public override bool Equals(object? obj) => obj is BlockB008 other && Equals(other);
+    public override int GetHashCode() => _long.GetHashCode();
+    public static bool operator ==(BlockB008 left, BlockB008 right) => left.Equals(right);
+    public static bool operator !=(BlockB008 left, BlockB008 right) => !left.Equals(right);
 
-        public PairOfInt32 PairOfInt32LE
+    public PairOfInt32 PairOfInt32LE
+    {
+        get => new PairOfInt32(A.Int32ValueLE, B.Int32ValueLE);
+        set
         {
-            get => new PairOfInt32(A.Int32ValueLE, B.Int32ValueLE);
-            set
-            {
-                A.Int32ValueLE = value.A;
-                B.Int32ValueLE = value.B;
-            }
+            A.Int32ValueLE = value.A;
+            B.Int32ValueLE = value.B;
         }
+    }
 
-        public PairOfInt32 PairOfInt32BE
+    public PairOfInt32 PairOfInt32BE
+    {
+        get => new PairOfInt32(A.Int32ValueBE, B.Int32ValueBE);
+        set
         {
-            get => new PairOfInt32(A.Int32ValueBE, B.Int32ValueBE);
-            set
-            {
-                A.Int32ValueBE = value.A;
-                B.Int32ValueBE = value.B;
-            }
+            A.Int32ValueBE = value.A;
+            B.Int32ValueBE = value.B;
         }
+    }
 
-        [FieldOffset(0)] public long _long;
-        public long Int64ValueLE
+    [FieldOffset(0)] public long _long;
+    public long Int64ValueLE
+    {
+        get
         {
-            get
-            {
-                if (BitConverter.IsLittleEndian)
-                    return _long;
-                else
-                    return BinaryPrimitives.ReverseEndianness(_long);
-            }
-            set
-            {
-                if (BitConverter.IsLittleEndian)
-                    _long = value;
-                else
-                    _long = BinaryPrimitives.ReverseEndianness(value);
-            }
+            if (BitConverter.IsLittleEndian)
+                return _long;
+            else
+                return BinaryPrimitives.ReverseEndianness(_long);
         }
-        public long Int64ValueBE
+        set
         {
-            get
-            {
-                if (BitConverter.IsLittleEndian)
-                    return BinaryPrimitives.ReverseEndianness(_long);
-                else
-                    return _long;
-            }
-            set
-            {
-                if (BitConverter.IsLittleEndian)
-                    _long = BinaryPrimitives.ReverseEndianness(value);
-                else
-                    _long = value;
-            }
+            if (BitConverter.IsLittleEndian)
+                _long = value;
+            else
+                _long = BinaryPrimitives.ReverseEndianness(value);
         }
+    }
+    public long Int64ValueBE
+    {
+        get
+        {
+            if (BitConverter.IsLittleEndian)
+                return BinaryPrimitives.ReverseEndianness(_long);
+            else
+                return _long;
+        }
+        set
+        {
+            if (BitConverter.IsLittleEndian)
+                _long = BinaryPrimitives.ReverseEndianness(value);
+            else
+                _long = value;
+        }
+    }
 
-        [FieldOffset(0)] public ulong _ulong;
-        public ulong UInt64ValueLE
+    [FieldOffset(0)] public ulong _ulong;
+    public ulong UInt64ValueLE
+    {
+        get
         {
-            get
-            {
-                if (BitConverter.IsLittleEndian)
-                    return _ulong;
-                else
-                    return BinaryPrimitives.ReverseEndianness(_ulong);
-            }
-            set
-            {
-                if (BitConverter.IsLittleEndian)
-                    _ulong = value;
-                else
-                    _ulong = BinaryPrimitives.ReverseEndianness(value);
-            }
+            if (BitConverter.IsLittleEndian)
+                return _ulong;
+            else
+                return BinaryPrimitives.ReverseEndianness(_ulong);
         }
-        public ulong UInt64ValueBE
+        set
         {
-            get
-            {
-                if (BitConverter.IsLittleEndian)
-                    return BinaryPrimitives.ReverseEndianness(_ulong);
-                else
-                    return _ulong;
-            }
-            set
-            {
-                if (BitConverter.IsLittleEndian)
-                    _ulong = BinaryPrimitives.ReverseEndianness(value);
-                else
-                    _ulong = value;
-            }
+            if (BitConverter.IsLittleEndian)
+                _ulong = value;
+            else
+                _ulong = BinaryPrimitives.ReverseEndianness(value);
         }
+    }
+    public ulong UInt64ValueBE
+    {
+        get
+        {
+            if (BitConverter.IsLittleEndian)
+                return BinaryPrimitives.ReverseEndianness(_ulong);
+            else
+                return _ulong;
+        }
+        set
+        {
+            if (BitConverter.IsLittleEndian)
+                _ulong = BinaryPrimitives.ReverseEndianness(value);
+            else
+                _ulong = value;
+        }
+    }
 
-        [FieldOffset(0)] public double _double;
-        public double DoubleValueLE
+    [FieldOffset(0)] public double _double;
+    public double DoubleValueLE
+    {
+        get
         {
-            get
-            {
-                if (BitConverter.IsLittleEndian)
-                    return _double;
-                else
-                    return BitConverter.Int64BitsToDouble(BinaryPrimitives.ReverseEndianness(_long));
-            }
-            set
-            {
-                if (BitConverter.IsLittleEndian)
-                    _double = value;
-                else
-                    _long = BinaryPrimitives.ReverseEndianness(BitConverter.DoubleToInt64Bits(value));
-            }
+            if (BitConverter.IsLittleEndian)
+                return _double;
+            else
+                return BitConverter.Int64BitsToDouble(BinaryPrimitives.ReverseEndianness(_long));
         }
-        public double DoubleValueBE
+        set
         {
-            get
-            {
-                if (BitConverter.IsLittleEndian)
-                    return BitConverter.Int64BitsToDouble(BinaryPrimitives.ReverseEndianness(_long));
-                else
-                    return _double;
-            }
-            set
-            {
-                if (BitConverter.IsLittleEndian)
-                    _long = BinaryPrimitives.ReverseEndianness(BitConverter.DoubleToInt64Bits(value));
-                else
-                    _double = value;
-            }
+            if (BitConverter.IsLittleEndian)
+                _double = value;
+            else
+                _long = BinaryPrimitives.ReverseEndianness(BitConverter.DoubleToInt64Bits(value));
         }
-
+    }
+    public double DoubleValueBE
+    {
+        get
+        {
+            if (BitConverter.IsLittleEndian)
+                return BitConverter.Int64BitsToDouble(BinaryPrimitives.ReverseEndianness(_long));
+            else
+                return _double;
+        }
+        set
+        {
+            if (BitConverter.IsLittleEndian)
+                _long = BinaryPrimitives.ReverseEndianness(BitConverter.DoubleToInt64Bits(value));
+            else
+                _double = value;
+        }
     }
 
 }
