@@ -16,7 +16,6 @@ public sealed class Codec_QuadOfInt32_BE : Codec_Base<QuadOfInt32>
 #endif
 {
     private Codec_QuadOfInt32_BE() { }
-    public static Codec_QuadOfInt32_BE Instance { get; } = new Codec_QuadOfInt32_BE();
 
     /// <inheritdoc />
     public override QuadOfInt32 OnRead(ReadOnlySpan<byte> source)

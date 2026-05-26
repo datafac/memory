@@ -13,7 +13,6 @@ public sealed class Codec_UInt64_BE : Codec_Base<UInt64>
 #endif
 {
     private Codec_UInt64_BE() { }
-    public static Codec_UInt64_BE Instance { get; } = new Codec_UInt64_BE();
 
     /// <inheritdoc />
     public override UInt64 OnRead(ReadOnlySpan<byte> source) => BinaryPrimitives.ReadUInt64BigEndian(source);

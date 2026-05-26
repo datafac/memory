@@ -13,7 +13,6 @@ public sealed class Codec_Decimal_BE : Codec_Base<Decimal>
 #endif
 {
     private Codec_Decimal_BE() { }
-    public static Codec_Decimal_BE Instance { get; } = new Codec_Decimal_BE();
 
     /// <inheritdoc />
     public override Decimal OnRead(ReadOnlySpan<byte> source)
@@ -91,7 +90,6 @@ public sealed class Codec_Decimal_LE : Codec_Base<Decimal>
 #endif
 {
     private Codec_Decimal_LE() { }
-    public static Codec_Decimal_LE Instance { get; } = new Codec_Decimal_LE();
 
     /// <inheritdoc />
     public override Decimal OnRead(ReadOnlySpan<byte> source)

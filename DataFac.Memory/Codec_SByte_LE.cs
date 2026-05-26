@@ -15,7 +15,6 @@ public sealed class Codec_SByte_LE : Codec_Base<SByte>
 #endif
 {
     private Codec_SByte_LE() { }
-    public static Codec_SByte_LE Instance { get; } = new Codec_SByte_LE();
 
     /// <inheritdoc />
     public override SByte OnRead(ReadOnlySpan<byte> source) => (SByte)source[0];

@@ -13,7 +13,6 @@ public sealed class Codec_Double_BE : Codec_Base<Double>
 #endif
 {
     private Codec_Double_BE() { }
-    public static Codec_Double_BE Instance { get; } = new Codec_Double_BE();
 
     /// <inheritdoc />
     public override double OnRead(ReadOnlySpan<byte> source)

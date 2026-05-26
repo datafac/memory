@@ -13,7 +13,6 @@ public sealed class Codec_Char_BE : Codec_Base<Char>
 #endif
 {
     private Codec_Char_BE() { }
-    public static Codec_Char_BE Instance { get; } = new Codec_Char_BE();
 
     /// <inheritdoc />
     public override Char OnRead(ReadOnlySpan<byte> source) => (Char)BinaryPrimitives.ReadUInt16BigEndian(source);

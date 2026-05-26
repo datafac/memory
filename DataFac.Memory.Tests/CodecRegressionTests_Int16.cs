@@ -16,17 +16,9 @@ namespace DataFac.Memory.Tests
         public void Roundtrip_Int16_BE(in Int16 value, string expectedBytes)
         {
             Span<byte> buffer = stackalloc byte[2];
-#if NET7_0_OR_GREATER
             DataFac.Memory.Codec_Int16_BE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_Int16_BE.Instance.WriteTo(buffer, value);
-#endif
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
             Int16 copy = DataFac.Memory.Codec_Int16_BE.ReadFromSpan(buffer);
-#else
-            Int16 copy = DataFac.Memory.Codec_Int16_BE.Instance.ReadFrom(buffer);
-#endif
             copy.ShouldBe(value);
         }
 
@@ -39,17 +31,9 @@ namespace DataFac.Memory.Tests
         public void Roundtrip_Int16_LE(in Int16 value, string expectedBytes)
         {
             Span<byte> buffer = stackalloc byte[2];
-#if NET7_0_OR_GREATER
             DataFac.Memory.Codec_Int16_LE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_Int16_LE.Instance.WriteTo(buffer, value);
-#endif
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
             Int16 copy = DataFac.Memory.Codec_Int16_LE.ReadFromSpan(buffer);
-#else
-            Int16 copy = DataFac.Memory.Codec_Int16_LE.Instance.ReadFrom(buffer);
-#endif
             copy.ShouldBe(value);
         }
 
@@ -60,17 +44,9 @@ namespace DataFac.Memory.Tests
         public void Roundtrip_UInt16_BE(in UInt16 value, string expectedBytes)
         {
             Span<byte> buffer = stackalloc byte[2];
-#if NET7_0_OR_GREATER
             DataFac.Memory.Codec_UInt16_BE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_UInt16_BE.Instance.WriteTo(buffer, value);
-#endif
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
             UInt16 copy = DataFac.Memory.Codec_UInt16_BE.ReadFromSpan(buffer);
-#else
-            UInt16 copy = DataFac.Memory.Codec_UInt16_BE.Instance.ReadFrom(buffer);
-#endif
             copy.ShouldBe(value);
         }
 
@@ -81,17 +57,9 @@ namespace DataFac.Memory.Tests
         public void Roundtrip_UInt16_LE(in UInt16 value, string expectedBytes)
         {
             Span<byte> buffer = stackalloc byte[2];
-#if NET7_0_OR_GREATER
             DataFac.Memory.Codec_UInt16_LE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_UInt16_LE.Instance.WriteTo(buffer, value);
-#endif
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
             UInt16 copy = DataFac.Memory.Codec_UInt16_LE.ReadFromSpan(buffer);
-#else
-            UInt16 copy = DataFac.Memory.Codec_UInt16_LE.Instance.ReadFrom(buffer);
-#endif
             copy.ShouldBe(value);
         }
 

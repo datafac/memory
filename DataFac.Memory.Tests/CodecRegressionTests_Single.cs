@@ -26,17 +26,9 @@ namespace DataFac.Memory.Tests
         public void Roundtrip_Single_BE(in Single value, string expectedBytes)
         {
             Span<byte> buffer = stackalloc byte[4];
-#if NET7_0_OR_GREATER
             DataFac.Memory.Codec_Single_BE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_Single_BE.Instance.WriteTo(buffer, value);
-#endif
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
             Single copy = DataFac.Memory.Codec_Single_BE.ReadFromSpan(buffer);
-#else
-            Single copy = DataFac.Memory.Codec_Single_BE.Instance.ReadFrom(buffer);
-#endif
             copy.ShouldBe(value);
         }
 
@@ -58,17 +50,9 @@ namespace DataFac.Memory.Tests
         public void Roundtrip_Single_LE(in Single value, string expectedBytes)
         {
             Span<byte> buffer = stackalloc byte[4];
-#if NET7_0_OR_GREATER
             DataFac.Memory.Codec_Single_LE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_Single_LE.Instance.WriteTo(buffer, value);
-#endif
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
             Single copy = DataFac.Memory.Codec_Single_LE.ReadFromSpan(buffer);
-#else
-            Single copy = DataFac.Memory.Codec_Single_LE.Instance.ReadFrom(buffer);
-#endif
             copy.ShouldBe(value);
         }
 

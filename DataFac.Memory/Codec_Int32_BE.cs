@@ -13,7 +13,6 @@ public sealed class Codec_Int32_BE : Codec_Base<Int32>
 #endif
 {
     private Codec_Int32_BE() { }
-    public static Codec_Int32_BE Instance { get; } = new Codec_Int32_BE();
 
     /// <inheritdoc />
     public override Int32 OnRead(ReadOnlySpan<byte> source) => BinaryPrimitives.ReadInt32BigEndian(source);

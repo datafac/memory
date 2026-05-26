@@ -13,17 +13,9 @@ namespace DataFac.Memory.Tests
         public void Roundtrip_Boolean_BE(in Boolean value, string expectedBytes)
         {
             Span<byte> buffer = stackalloc byte[1];
-#if NET7_0_OR_GREATER
             DataFac.Memory.Codec_Boolean_BE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_Boolean_BE.Instance.WriteTo(buffer, value);
-#endif
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
             Boolean copy = DataFac.Memory.Codec_Boolean_BE.ReadFromSpan(buffer);
-#else
-            Boolean copy = DataFac.Memory.Codec_Boolean_BE.Instance.ReadFrom(buffer);
-#endif
             copy.ShouldBe(value);
         }
 
@@ -33,17 +25,9 @@ namespace DataFac.Memory.Tests
         public void Roundtrip_Boolean_LE(in Boolean value, string expectedBytes)
         {
             Span<byte> buffer = stackalloc byte[1];
-#if NET7_0_OR_GREATER
             DataFac.Memory.Codec_Boolean_LE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_Boolean_LE.Instance.WriteTo(buffer, value);
-#endif
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
             Boolean copy = DataFac.Memory.Codec_Boolean_LE.ReadFromSpan(buffer);
-#else
-            Boolean copy = DataFac.Memory.Codec_Boolean_LE.Instance.ReadFrom(buffer);
-#endif
             copy.ShouldBe(value);
         }
     }

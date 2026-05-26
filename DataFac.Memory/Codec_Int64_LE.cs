@@ -13,7 +13,6 @@ public sealed class Codec_Int64_LE : Codec_Base<Int64>
 #endif
 {
     private Codec_Int64_LE() { }
-    public static Codec_Int64_LE Instance { get; } = new Codec_Int64_LE();
 
     /// <inheritdoc />
     public override Int64 OnRead(ReadOnlySpan<byte> source) => BinaryPrimitives.ReadInt64LittleEndian(source);

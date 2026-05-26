@@ -17,7 +17,6 @@ public sealed class Codec_Single_LE : Codec_Base<Single>
 #endif
 {
     private Codec_Single_LE() { }
-    public static Codec_Single_LE Instance { get; } = new Codec_Single_LE();
 
     /// <inheritdoc />
     public override Single OnRead(ReadOnlySpan<byte> source)

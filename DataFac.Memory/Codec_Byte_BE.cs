@@ -13,10 +13,6 @@ public sealed class Codec_Byte_BE : Codec_Base<Byte>
 #endif
 {
     private Codec_Byte_BE() { }
-    /// <summary>
-    /// Singleton instance of <see cref="Codec_Byte_BE"/>.
-    /// </summary>
-    public static Codec_Byte_BE Instance { get; } = new Codec_Byte_BE();
 
     /// <inheritdoc />
     public override Byte OnRead(ReadOnlySpan<byte> source) => (Byte)source[0];

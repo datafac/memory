@@ -12,7 +12,6 @@ public sealed class Codec_Boolean_LE : Codec_Base<Boolean>
 #endif
 {
     private Codec_Boolean_LE() { }
-    public static Codec_Boolean_LE Instance { get; } = new Codec_Boolean_LE();
 
     /// <inheritdoc />
     public override Boolean OnRead(ReadOnlySpan<byte> source) => source[0] != (byte)0;

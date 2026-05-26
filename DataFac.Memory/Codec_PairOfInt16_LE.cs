@@ -16,7 +16,6 @@ public sealed class Codec_PairOfInt16_LE : Codec_Base<PairOfInt16>
 #endif
 {
     private Codec_PairOfInt16_LE() { }
-    public static Codec_PairOfInt16_LE Instance { get; } = new Codec_PairOfInt16_LE();
 
     /// <inheritdoc />
     public override PairOfInt16 OnRead(ReadOnlySpan<byte> source)

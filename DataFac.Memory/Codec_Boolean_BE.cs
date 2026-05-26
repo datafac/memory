@@ -14,11 +14,6 @@ public sealed class Codec_Boolean_BE : Codec_Base<Boolean>
 {
     private Codec_Boolean_BE() { }
 
-    /// <summary>
-    /// Gets the shared instance of Codec_Boolean_BE.
-    /// </summary>
-    public static Codec_Boolean_BE Instance { get; } = new Codec_Boolean_BE();
-
     /// <inheritdoc />
     public override Boolean OnRead(ReadOnlySpan<byte> source) => source[0] != (byte)0;
 

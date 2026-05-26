@@ -25,17 +25,9 @@ namespace DataFac.Memory.Tests
         public void Roundtrip_Double_BE(in double value, string expectedBytes)
         {
             Span<byte> buffer = stackalloc byte[8];
-#if NET7_0_OR_GREATER
             DataFac.Memory.Codec_Double_BE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_Double_BE.Instance.WriteTo(buffer, value);
-#endif
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
             double copy = DataFac.Memory.Codec_Double_BE.ReadFromSpan(buffer);
-#else
-            double copy = DataFac.Memory.Codec_Double_BE.Instance.ReadFrom(buffer);
-#endif
             copy.ShouldBe(value);
         }
 
@@ -57,17 +49,9 @@ namespace DataFac.Memory.Tests
         public void Roundtrip_Double_LE(in double value, string expectedBytes)
         {
             Span<byte> buffer = stackalloc byte[8];
-#if NET7_0_OR_GREATER
             DataFac.Memory.Codec_Double_LE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_Double_LE.Instance.WriteTo(buffer, value);
-#endif
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
             double copy = DataFac.Memory.Codec_Double_LE.ReadFromSpan(buffer);
-#else
-            double copy = DataFac.Memory.Codec_Double_LE.Instance.ReadFrom(buffer);
-#endif
             copy.ShouldBe(value);
         }
 

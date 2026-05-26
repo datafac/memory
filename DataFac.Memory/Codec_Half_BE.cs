@@ -13,7 +13,6 @@ public sealed class Codec_Half_BE : Codec_Base<Half>
 #endif
 {
     private Codec_Half_BE() { }
-    public static Codec_Half_BE Instance { get; } = new Codec_Half_BE();
     public override Half OnRead(ReadOnlySpan<byte> source)
     {
         return BinaryPrimitives.ReadHalfBigEndian(source);

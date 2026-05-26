@@ -12,7 +12,6 @@ public sealed class Codec_Guid_BE : Codec_Base<Guid>
 #endif
 {
     private Codec_Guid_BE() { }
-    public static Codec_Guid_BE Instance { get; } = new Codec_Guid_BE();
 
     /// <inheritdoc />
     public override Guid OnRead(ReadOnlySpan<byte> source)

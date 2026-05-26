@@ -45,17 +45,9 @@ namespace DataFac.Memory.Tests
         public void Roundtrip_UInt64_BE(in UInt64 value, string expectedBytes)
         {
             Span<byte> buffer = stackalloc byte[8];
-#if NET7_0_OR_GREATER
             DataFac.Memory.Codec_UInt64_BE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_UInt64_BE.Instance.WriteTo(buffer, value);
-#endif
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
             UInt64 copy = DataFac.Memory.Codec_UInt64_BE.ReadFromSpan(buffer);
-#else
-            UInt64 copy = DataFac.Memory.Codec_UInt64_BE.Instance.ReadFrom(buffer);
-#endif
             copy.ShouldBe(value);
         }
 
@@ -66,17 +58,9 @@ namespace DataFac.Memory.Tests
         public void Roundtrip_UInt64_LE(in UInt64 value, string expectedBytes)
         {
             Span<byte> buffer = stackalloc byte[8];
-#if NET7_0_OR_GREATER
             DataFac.Memory.Codec_UInt64_LE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_UInt64_LE.Instance.WriteTo(buffer, value);
-#endif
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
             UInt64 copy = DataFac.Memory.Codec_UInt64_LE.ReadFromSpan(buffer);
-#else
-            UInt64 copy = DataFac.Memory.Codec_UInt64_LE.Instance.ReadFrom(buffer);
-#endif
             copy.ShouldBe(value);
         }
     }

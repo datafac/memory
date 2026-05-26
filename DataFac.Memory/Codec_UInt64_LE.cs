@@ -11,8 +11,6 @@ public sealed class Codec_UInt64_LE : Codec_Base<UInt64>, ISpanCodec<UInt64>
 {
     private Codec_UInt64_LE() { }
 
-    public static Codec_UInt64_LE Instance { get; } = new Codec_UInt64_LE();
-
     /// <inheritdoc />
     public override UInt64 OnRead(ReadOnlySpan<byte> source) => BinaryPrimitives.ReadUInt64LittleEndian(source);
 

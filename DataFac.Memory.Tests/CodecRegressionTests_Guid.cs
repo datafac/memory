@@ -51,17 +51,9 @@ namespace DataFac.Memory.Tests
         {
             Guid value = GetTestGuid(input);
             Span<byte> buffer = stackalloc byte[16];
-#if NET7_0_OR_GREATER
             DataFac.Memory.Codec_Guid_BE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_Guid_BE.Instance.WriteTo(buffer, value);
-#endif
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
             Guid copy = DataFac.Memory.Codec_Guid_BE.ReadFromSpan(buffer);
-#else
-            Guid copy = DataFac.Memory.Codec_Guid_BE.Instance.ReadFrom(buffer);
-#endif
             copy.ShouldBe(value);
         }
 
@@ -73,17 +65,9 @@ namespace DataFac.Memory.Tests
         {
             Guid value = GetTestGuid(input);
             Span<byte> buffer = stackalloc byte[16];
-#if NET7_0_OR_GREATER
             DataFac.Memory.Codec_Guid_LE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_Guid_LE.Instance.WriteTo(buffer, value);
-#endif
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
             Guid copy = DataFac.Memory.Codec_Guid_LE.ReadFromSpan(buffer);
-#else
-            Guid copy = DataFac.Memory.Codec_Guid_LE.Instance.ReadFrom(buffer);
-#endif
             copy.ShouldBe(value);
         }
 

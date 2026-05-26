@@ -13,7 +13,6 @@ public sealed class Codec_Half_LE : Codec_Base<Half>
 #endif
 {
     private Codec_Half_LE() { }
-    public static Codec_Half_LE Instance { get; } = new Codec_Half_LE();
 
     /// <inheritdoc />
     public override Half OnRead(ReadOnlySpan<byte> source)

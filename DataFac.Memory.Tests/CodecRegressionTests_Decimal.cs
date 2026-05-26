@@ -26,17 +26,9 @@ namespace DataFac.Memory.Tests
         {
             Decimal value = GetTestValue(input);
             Span<byte> buffer = stackalloc byte[16];
-#if NET7_0_OR_GREATER
             DataFac.Memory.Codec_Decimal_BE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_Decimal_BE.Instance.WriteTo(buffer, value);
-#endif
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
             Decimal copy = DataFac.Memory.Codec_Decimal_BE.ReadFromSpan(buffer);
-#else
-            Decimal copy = DataFac.Memory.Codec_Decimal_BE.Instance.ReadFrom(buffer);
-#endif
             copy.ShouldBe(value);
         }
 
@@ -50,17 +42,9 @@ namespace DataFac.Memory.Tests
         {
             Decimal value = GetTestValue(input);
             Span<byte> buffer = stackalloc byte[16];
-#if NET7_0_OR_GREATER
             DataFac.Memory.Codec_Decimal_LE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_Decimal_LE.Instance.WriteTo(buffer, value);
-#endif
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
             Decimal copy = DataFac.Memory.Codec_Decimal_LE.ReadFromSpan(buffer);
-#else
-            Decimal copy = DataFac.Memory.Codec_Decimal_LE.Instance.ReadFrom(buffer);
-#endif
             copy.ShouldBe(value);
         }
 

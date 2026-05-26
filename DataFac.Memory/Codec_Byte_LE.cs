@@ -12,7 +12,6 @@ public sealed class Codec_Byte_LE : Codec_Base<Byte>
 #endif
 {
     private Codec_Byte_LE() { }
-    public static Codec_Byte_LE Instance { get; } = new Codec_Byte_LE();
 
     /// <inheritdoc />
     public override Byte OnRead(ReadOnlySpan<byte> source) => (Byte)source[0];
