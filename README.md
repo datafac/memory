@@ -7,6 +7,12 @@ Performant memory related types and codecs. Targets .NetStandard 2.0 and .NET 8 
 ![NuGet Downloads](https://img.shields.io/nuget/dt/Datafac.Memory)
 ![GitHub Sponsors](https://img.shields.io/github/sponsors/psiman62)
 
+*Breaking changes in v2.x: This major version release includes breaking changes over v1.x.*
+- Codec methods have been simplified to only take a Span\<byte\> as the destination buffer. 
+  This change was made to improve performance and reduce complexity.
+- IFieldCodec and ITypedFieldCodec interfaces have been removed. Instead, codecs are now 
+  implemented as static methods in the codec classes.
+
 ## Codecs
 Endian-aware binary encoders and decoders for primitive types.
 
@@ -14,7 +20,7 @@ Endian-aware binary encoders and decoders for primitive types.
 Structs that divide memory into a binary tree. Sizes from 1B to 8KB.
 
 ## Octets
-An immutable reference type that wraps a ReadOnlySequence\<byte\>.
+An immutable reference type that wraps an ImmutableArray\<ReadOnlyMemory\<byte\>\>
 
 ## ReadOnlySequenceBuilder
 A helper struct that supports efficient building of ReadOnlySequence\<T\>.

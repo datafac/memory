@@ -621,11 +621,6 @@
         void WriteTo(int start, int length, System.Span<byte> target);
     }
     public interface ISpanCodec<TField> { }
-    public interface ITypedFieldCodec<TField>
-    {
-        TField ReadFrom(System.ReadOnlySpan<byte> source);
-        void WriteTo(System.Span<byte> target, in TField input);
-    }
     public sealed class Octets : System.Collections.Generic.IEnumerable<byte>, System.Collections.IEnumerable, System.IEquatable<DataFac.Memory.Octets>
     {
         public Octets(System.ReadOnlySpan<byte> source) { }
