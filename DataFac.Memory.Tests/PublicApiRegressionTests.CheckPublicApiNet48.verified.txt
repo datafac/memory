@@ -366,264 +366,219 @@
         public System.Span<byte> GetSpan(int sizeHint = 0) { }
         public System.Buffers.ReadOnlySequence<byte> GetWrittenSequence() { }
     }
-    public abstract class Codec_Base<TField> : DataFac.Memory.ITypedFieldCodec<TField>
-        where TField :  struct
+    public sealed class Codec_Boolean_BE : DataFac.Memory.ISpanCodec<bool>
     {
-        protected Codec_Base() { }
-        public abstract TField OnRead(System.ReadOnlySpan<byte> source);
-        public abstract void OnWrite(System.Span<byte> target, in TField input);
-        public TField ReadFrom(System.ReadOnlySpan<byte> source) { }
-        public void WriteTo(System.Span<byte> target, in TField input) { }
-    }
-    public sealed class Codec_Boolean_BE : DataFac.Memory.Codec_Base<bool>
-    {
-        public override bool OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in bool input) { }
+        public Codec_Boolean_BE() { }
         public static bool ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in bool input) { }
     }
-    public sealed class Codec_Boolean_LE : DataFac.Memory.Codec_Base<bool>
+    public sealed class Codec_Boolean_LE : DataFac.Memory.ISpanCodec<bool>
     {
-        public override bool OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in bool input) { }
+        public Codec_Boolean_LE() { }
         public static bool ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in bool input) { }
     }
-    public sealed class Codec_Byte_BE : DataFac.Memory.Codec_Base<byte>
+    public sealed class Codec_Byte_BE : DataFac.Memory.ISpanCodec<byte>
     {
-        public override byte OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in byte input) { }
+        public Codec_Byte_BE() { }
         public static byte ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in byte input) { }
     }
-    public sealed class Codec_Byte_LE : DataFac.Memory.Codec_Base<byte>
+    public sealed class Codec_Byte_LE : DataFac.Memory.ISpanCodec<byte>
     {
-        public override byte OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in byte input) { }
+        public Codec_Byte_LE() { }
         public static byte ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in byte input) { }
     }
-    public sealed class Codec_Char_BE : DataFac.Memory.Codec_Base<char>
+    public sealed class Codec_Char_BE : DataFac.Memory.ISpanCodec<char>
     {
-        public override char OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in char input) { }
+        public Codec_Char_BE() { }
         public static char ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in char input) { }
     }
-    public sealed class Codec_Char_LE : DataFac.Memory.Codec_Base<char>
+    public sealed class Codec_Char_LE : DataFac.Memory.ISpanCodec<char>
     {
-        public override char OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in char input) { }
+        public Codec_Char_LE() { }
         public static char ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in char input) { }
     }
-    public sealed class Codec_Decimal_BE : DataFac.Memory.Codec_Base<decimal>
+    public sealed class Codec_Decimal_BE : DataFac.Memory.ISpanCodec<decimal>
     {
-        public override decimal OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in decimal input) { }
+        public Codec_Decimal_BE() { }
         public static decimal ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in decimal input) { }
     }
-    public sealed class Codec_Decimal_LE : DataFac.Memory.Codec_Base<decimal>
+    public sealed class Codec_Decimal_LE : DataFac.Memory.ISpanCodec<decimal>
     {
-        public override decimal OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in decimal input) { }
+        public Codec_Decimal_LE() { }
         public static decimal ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in decimal input) { }
     }
-    public sealed class Codec_Double_BE : DataFac.Memory.Codec_Base<double>
+    public sealed class Codec_Double_BE : DataFac.Memory.ISpanCodec<double>
     {
-        public override double OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in double input) { }
+        public Codec_Double_BE() { }
         public static double ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in double input) { }
     }
-    public sealed class Codec_Double_LE : DataFac.Memory.Codec_Base<double>
+    public sealed class Codec_Double_LE : DataFac.Memory.ISpanCodec<double>
     {
-        public override double OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in double input) { }
+        public Codec_Double_LE() { }
         public static double ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in double input) { }
     }
-    public sealed class Codec_Guid_BE : DataFac.Memory.Codec_Base<System.Guid>
+    public sealed class Codec_Guid_BE : DataFac.Memory.ISpanCodec<System.Guid>
     {
-        public override System.Guid OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in System.Guid input) { }
+        public Codec_Guid_BE() { }
         public static System.Guid ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in System.Guid input) { }
     }
-    public sealed class Codec_Guid_LE : DataFac.Memory.Codec_Base<System.Guid>
+    public sealed class Codec_Guid_LE : DataFac.Memory.ISpanCodec<System.Guid>
     {
-        public override System.Guid OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in System.Guid input) { }
+        public Codec_Guid_LE() { }
         public static System.Guid ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in System.Guid input) { }
     }
-    public sealed class Codec_Int16_BE : DataFac.Memory.Codec_Base<short>
+    public sealed class Codec_Int16_BE : DataFac.Memory.ISpanCodec<short>
     {
-        public override short OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in short input) { }
+        public Codec_Int16_BE() { }
         public static short ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in short input) { }
     }
-    public sealed class Codec_Int16_LE : DataFac.Memory.Codec_Base<short>
+    public sealed class Codec_Int16_LE : DataFac.Memory.ISpanCodec<short>
     {
-        public override short OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in short input) { }
+        public Codec_Int16_LE() { }
         public static short ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in short input) { }
     }
-    public sealed class Codec_Int32_BE : DataFac.Memory.Codec_Base<int>
+    public sealed class Codec_Int32_BE : DataFac.Memory.ISpanCodec<int>
     {
-        public override int OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in int input) { }
+        public Codec_Int32_BE() { }
         public static int ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in int input) { }
     }
-    public sealed class Codec_Int32_LE : DataFac.Memory.Codec_Base<int>
+    public sealed class Codec_Int32_LE : DataFac.Memory.ISpanCodec<int>
     {
-        public override int OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in int input) { }
+        public Codec_Int32_LE() { }
         public static int ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in int input) { }
     }
-    public sealed class Codec_Int64_BE : DataFac.Memory.Codec_Base<long>
+    public sealed class Codec_Int64_BE : DataFac.Memory.ISpanCodec<long>
     {
-        public override long OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in long input) { }
+        public Codec_Int64_BE() { }
         public static long ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in long input) { }
     }
-    public sealed class Codec_Int64_LE : DataFac.Memory.Codec_Base<long>
+    public sealed class Codec_Int64_LE : DataFac.Memory.ISpanCodec<long>
     {
-        public override long OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in long input) { }
+        public Codec_Int64_LE() { }
         public static long ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in long input) { }
     }
-    public sealed class Codec_PairOfInt16_BE : DataFac.Memory.Codec_Base<DataFac.Memory.PairOfInt16>
+    public sealed class Codec_PairOfInt16_BE : DataFac.Memory.ISpanCodec<DataFac.Memory.PairOfInt16>
     {
-        public override DataFac.Memory.PairOfInt16 OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in DataFac.Memory.PairOfInt16 input) { }
+        public Codec_PairOfInt16_BE() { }
         public static DataFac.Memory.PairOfInt16 ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in DataFac.Memory.PairOfInt16 input) { }
     }
-    public sealed class Codec_PairOfInt16_LE : DataFac.Memory.Codec_Base<DataFac.Memory.PairOfInt16>
+    public sealed class Codec_PairOfInt16_LE : DataFac.Memory.ISpanCodec<DataFac.Memory.PairOfInt16>
     {
-        public override DataFac.Memory.PairOfInt16 OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in DataFac.Memory.PairOfInt16 input) { }
+        public Codec_PairOfInt16_LE() { }
         public static DataFac.Memory.PairOfInt16 ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in DataFac.Memory.PairOfInt16 input) { }
     }
-    public sealed class Codec_PairOfInt32_BE : DataFac.Memory.Codec_Base<DataFac.Memory.PairOfInt32>
+    public sealed class Codec_PairOfInt32_BE : DataFac.Memory.ISpanCodec<DataFac.Memory.PairOfInt32>
     {
-        public override DataFac.Memory.PairOfInt32 OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in DataFac.Memory.PairOfInt32 input) { }
+        public Codec_PairOfInt32_BE() { }
         public static DataFac.Memory.PairOfInt32 ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in DataFac.Memory.PairOfInt32 input) { }
     }
-    public sealed class Codec_PairOfInt32_LE : DataFac.Memory.Codec_Base<DataFac.Memory.PairOfInt32>
+    public sealed class Codec_PairOfInt32_LE : DataFac.Memory.ISpanCodec<DataFac.Memory.PairOfInt32>
     {
-        public override DataFac.Memory.PairOfInt32 OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in DataFac.Memory.PairOfInt32 input) { }
+        public Codec_PairOfInt32_LE() { }
         public static DataFac.Memory.PairOfInt32 ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in DataFac.Memory.PairOfInt32 input) { }
     }
-    public sealed class Codec_PairOfInt64_BE : DataFac.Memory.Codec_Base<DataFac.Memory.PairOfInt64>
+    public sealed class Codec_PairOfInt64_BE : DataFac.Memory.ISpanCodec<DataFac.Memory.PairOfInt64>
     {
-        public override DataFac.Memory.PairOfInt64 OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in DataFac.Memory.PairOfInt64 input) { }
+        public Codec_PairOfInt64_BE() { }
         public static DataFac.Memory.PairOfInt64 ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in DataFac.Memory.PairOfInt64 input) { }
     }
-    public sealed class Codec_PairOfInt64_LE : DataFac.Memory.Codec_Base<DataFac.Memory.PairOfInt64>
+    public sealed class Codec_PairOfInt64_LE : DataFac.Memory.ISpanCodec<DataFac.Memory.PairOfInt64>
     {
-        public override DataFac.Memory.PairOfInt64 OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in DataFac.Memory.PairOfInt64 input) { }
+        public Codec_PairOfInt64_LE() { }
         public static DataFac.Memory.PairOfInt64 ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in DataFac.Memory.PairOfInt64 input) { }
     }
-    public sealed class Codec_QuadOfInt32_BE : DataFac.Memory.Codec_Base<DataFac.Memory.QuadOfInt32>
+    public sealed class Codec_QuadOfInt32_BE : DataFac.Memory.ISpanCodec<DataFac.Memory.QuadOfInt32>
     {
-        public override DataFac.Memory.QuadOfInt32 OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in DataFac.Memory.QuadOfInt32 input) { }
+        public Codec_QuadOfInt32_BE() { }
         public static DataFac.Memory.QuadOfInt32 ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in DataFac.Memory.QuadOfInt32 input) { }
     }
-    public sealed class Codec_QuadOfInt32_LE : DataFac.Memory.Codec_Base<DataFac.Memory.QuadOfInt32>
+    public sealed class Codec_QuadOfInt32_LE : DataFac.Memory.ISpanCodec<DataFac.Memory.QuadOfInt32>
     {
-        public override DataFac.Memory.QuadOfInt32 OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in DataFac.Memory.QuadOfInt32 input) { }
+        public Codec_QuadOfInt32_LE() { }
         public static DataFac.Memory.QuadOfInt32 ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in DataFac.Memory.QuadOfInt32 input) { }
     }
-    public sealed class Codec_SByte_BE : DataFac.Memory.Codec_Base<sbyte>
+    public sealed class Codec_SByte_BE : DataFac.Memory.ISpanCodec<sbyte>
     {
-        public override sbyte OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in sbyte input) { }
+        public Codec_SByte_BE() { }
         public static sbyte ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in sbyte input) { }
     }
-    public sealed class Codec_SByte_LE : DataFac.Memory.Codec_Base<sbyte>
+    public sealed class Codec_SByte_LE : DataFac.Memory.ISpanCodec<sbyte>
     {
-        public override sbyte OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in sbyte input) { }
+        public Codec_SByte_LE() { }
         public static sbyte ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in sbyte input) { }
     }
-    public sealed class Codec_Single_BE : DataFac.Memory.Codec_Base<float>
+    public sealed class Codec_Single_BE : DataFac.Memory.ISpanCodec<float>
     {
-        public override float OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in float input) { }
+        public Codec_Single_BE() { }
         public static float ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in float input) { }
     }
-    public sealed class Codec_Single_LE : DataFac.Memory.Codec_Base<float>
+    public sealed class Codec_Single_LE : DataFac.Memory.ISpanCodec<float>
     {
-        public override float OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in float input) { }
+        public Codec_Single_LE() { }
         public static float ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in float input) { }
     }
-    public sealed class Codec_UInt16_BE : DataFac.Memory.Codec_Base<ushort>
+    public sealed class Codec_UInt16_BE : DataFac.Memory.ISpanCodec<ushort>
     {
-        public override ushort OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in ushort input) { }
+        public Codec_UInt16_BE() { }
         public static ushort ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in ushort input) { }
     }
-    public sealed class Codec_UInt16_LE : DataFac.Memory.Codec_Base<ushort>
+    public sealed class Codec_UInt16_LE : DataFac.Memory.ISpanCodec<ushort>
     {
-        public override ushort OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in ushort input) { }
+        public Codec_UInt16_LE() { }
         public static ushort ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in ushort input) { }
     }
-    public sealed class Codec_UInt32_BE : DataFac.Memory.Codec_Base<uint>
+    public sealed class Codec_UInt32_BE : DataFac.Memory.ISpanCodec<uint>
     {
-        public override uint OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in uint input) { }
+        public Codec_UInt32_BE() { }
         public static uint ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in uint input) { }
     }
-    public sealed class Codec_UInt32_LE : DataFac.Memory.Codec_Base<uint>
+    public sealed class Codec_UInt32_LE : DataFac.Memory.ISpanCodec<uint>
     {
-        public override uint OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in uint input) { }
+        public Codec_UInt32_LE() { }
         public static uint ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in uint input) { }
     }
-    public sealed class Codec_UInt64_BE : DataFac.Memory.Codec_Base<ulong>
+    public sealed class Codec_UInt64_BE : DataFac.Memory.ISpanCodec<ulong>
     {
-        public override ulong OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in ulong input) { }
+        public Codec_UInt64_BE() { }
         public static ulong ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in ulong input) { }
     }
-    public sealed class Codec_UInt64_LE : DataFac.Memory.Codec_Base<ulong>, DataFac.Memory.ISpanCodec<ulong>
+    public sealed class Codec_UInt64_LE : DataFac.Memory.ISpanCodec<ulong>
     {
-        public override ulong OnRead(System.ReadOnlySpan<byte> source) { }
-        public override void OnWrite(System.Span<byte> target, in ulong input) { }
+        public Codec_UInt64_LE() { }
         public static ulong ReadFromSpan(System.ReadOnlySpan<byte> source) { }
         public static void WriteToSpan(System.Span<byte> target, in ulong input) { }
     }

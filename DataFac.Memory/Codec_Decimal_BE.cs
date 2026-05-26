@@ -7,66 +7,21 @@ using System.Buffers.Binary;
 
 namespace DataFac.Memory;
 
-public sealed class Codec_Decimal_BE : Codec_Base<Decimal>
-#if NET7_0_OR_GREATER
-, ISpanCodec<Decimal>
-#endif
+public sealed class Codec_Decimal_BE : ISpanCodec<Decimal>
 {
-    private Codec_Decimal_BE() { }
-
-    /// <inheritdoc />
-    public override Decimal OnRead(ReadOnlySpan<byte> source)
-    {
-#if NET6_0_OR_GREATER
-        Span<int> data = stackalloc int[4];
-        data[0] = BinaryPrimitives.ReadInt32BigEndian(source.Slice(0));
-        data[1] = BinaryPrimitives.ReadInt32BigEndian(source.Slice(4));
-        data[2] = BinaryPrimitives.ReadInt32BigEndian(source.Slice(8));
-        data[3] = BinaryPrimitives.ReadInt32BigEndian(source.Slice(12));
-        return new Decimal(data);
-#else
-        int[] data = new int[4];
-        data[0] = BinaryPrimitives.ReadInt32BigEndian(source.Slice(0));
-        data[1] = BinaryPrimitives.ReadInt32BigEndian(source.Slice(4));
-        data[2] = BinaryPrimitives.ReadInt32BigEndian(source.Slice(8));
-        data[3] = BinaryPrimitives.ReadInt32BigEndian(source.Slice(12));
-        return new Decimal(data);
-#endif
-    }
-
-    /// <inheritdoc />
-    public override void OnWrite(Span<byte> target, in Decimal input)
-    {
-#if NET6_0_OR_GREATER
-        Span<int> data = stackalloc int[4];
-        Decimal.TryGetBits(input, data, out int _);
-#else
-        int[] data = Decimal.GetBits(input);
-#endif
-        BinaryPrimitives.WriteInt32BigEndian(target.Slice(0), data[0]);
-        BinaryPrimitives.WriteInt32BigEndian(target.Slice(4), data[1]);
-        BinaryPrimitives.WriteInt32BigEndian(target.Slice(8), data[2]);
-        BinaryPrimitives.WriteInt32BigEndian(target.Slice(12), data[3]);
-    }
-
     /// <inheritdoc />
     public static Decimal ReadFromSpan(ReadOnlySpan<byte> source)
     {
 #if NET6_0_OR_GREATER
         Span<int> data = stackalloc int[4];
-        data[0] = BinaryPrimitives.ReadInt32BigEndian(source.Slice(0));
-        data[1] = BinaryPrimitives.ReadInt32BigEndian(source.Slice(4));
-        data[2] = BinaryPrimitives.ReadInt32BigEndian(source.Slice(8));
-        data[3] = BinaryPrimitives.ReadInt32BigEndian(source.Slice(12));
-        return new Decimal(data);
 #else
         int[] data = new int[4];
+#endif
         data[0] = BinaryPrimitives.ReadInt32BigEndian(source.Slice(0));
         data[1] = BinaryPrimitives.ReadInt32BigEndian(source.Slice(4));
         data[2] = BinaryPrimitives.ReadInt32BigEndian(source.Slice(8));
         data[3] = BinaryPrimitives.ReadInt32BigEndian(source.Slice(12));
         return new Decimal(data);
-#endif
     }
 
     /// <inheritdoc />
@@ -84,66 +39,21 @@ public sealed class Codec_Decimal_BE : Codec_Base<Decimal>
         BinaryPrimitives.WriteInt32BigEndian(target.Slice(12), data[3]);
     }
 }
-public sealed class Codec_Decimal_LE : Codec_Base<Decimal>
-#if NET7_0_OR_GREATER
-, ISpanCodec<Decimal>
-#endif
+public sealed class Codec_Decimal_LE : ISpanCodec<Decimal>
 {
-    private Codec_Decimal_LE() { }
-
-    /// <inheritdoc />
-    public override Decimal OnRead(ReadOnlySpan<byte> source)
-    {
-#if NET6_0_OR_GREATER
-        Span<int> data = stackalloc int[4];
-        data[0] = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(0));
-        data[1] = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(4));
-        data[2] = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(8));
-        data[3] = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(12));
-        return new Decimal(data);
-#else
-        int[] data = new int[4];
-        data[0] = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(0));
-        data[1] = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(4));
-        data[2] = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(8));
-        data[3] = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(12));
-        return new Decimal(data);
-#endif
-    }
-
-    /// <inheritdoc />
-    public override void OnWrite(Span<byte> target, in Decimal input)
-    {
-#if NET6_0_OR_GREATER
-        Span<int> data = stackalloc int[4];
-        Decimal.TryGetBits(input, data, out int _);
-#else
-        int[] data = Decimal.GetBits(input);
-#endif
-        BinaryPrimitives.WriteInt32LittleEndian(target.Slice(0), data[0]);
-        BinaryPrimitives.WriteInt32LittleEndian(target.Slice(4), data[1]);
-        BinaryPrimitives.WriteInt32LittleEndian(target.Slice(8), data[2]);
-        BinaryPrimitives.WriteInt32LittleEndian(target.Slice(12), data[3]);
-    }
-
     /// <inheritdoc />
     public static Decimal ReadFromSpan(ReadOnlySpan<byte> source)
     {
 #if NET6_0_OR_GREATER
         Span<int> data = stackalloc int[4];
-        data[0] = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(0));
-        data[1] = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(4));
-        data[2] = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(8));
-        data[3] = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(12));
-        return new Decimal(data);
 #else
         int[] data = new int[4];
+#endif
         data[0] = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(0));
         data[1] = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(4));
         data[2] = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(8));
         data[3] = BinaryPrimitives.ReadInt32LittleEndian(source.Slice(12));
         return new Decimal(data);
-#endif
     }
 
     /// <inheritdoc />

@@ -46,17 +46,9 @@ namespace DataFac.Memory.Tests
         {
             Half value = GetTestValue(valueText);
             Span<byte> buffer = stackalloc byte[2];
-#if NET7_0_OR_GREATER
             DataFac.Memory.Codec_Half_BE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_Half_BE.Instance.WriteTo(buffer, value);
-#endif
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
             Half copy = DataFac.Memory.Codec_Half_BE.ReadFromSpan(buffer);
-#else
-            Half copy = DataFac.Memory.Codec_Half_BE.Instance.ReadFrom(buffer);
-#endif
             copy.ShouldBe(value);
         }
 
@@ -79,17 +71,9 @@ namespace DataFac.Memory.Tests
         {
             Half value = GetTestValue(valueText);
             Span<byte> buffer = stackalloc byte[2];
-#if NET7_0_OR_GREATER
             DataFac.Memory.Codec_Half_LE.WriteToSpan(buffer, value);
-#else
-            DataFac.Memory.Codec_Half_LE.Instance.WriteTo(buffer, value);
-#endif
             string.Join("-", buffer.ToArray().Select(b => b.ToString("X2"))).ShouldBe(expectedBytes);
-#if NET7_0_OR_GREATER
             Half copy = DataFac.Memory.Codec_Half_LE.ReadFromSpan(buffer);
-#else
-            Half copy = DataFac.Memory.Codec_Half_LE.Instance.ReadFrom(buffer);
-#endif
             copy.ShouldBe(value);
         }
 

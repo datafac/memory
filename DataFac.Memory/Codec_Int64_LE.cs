@@ -7,19 +7,8 @@ using System.Buffers.Binary;
 
 namespace DataFac.Memory;
 
-public sealed class Codec_Int64_LE : Codec_Base<Int64>
-#if NET7_0_OR_GREATER
-, ISpanCodec<Int64>
-#endif
+public sealed class Codec_Int64_LE : ISpanCodec<Int64>
 {
-    private Codec_Int64_LE() { }
-
-    /// <inheritdoc />
-    public override Int64 OnRead(ReadOnlySpan<byte> source) => BinaryPrimitives.ReadInt64LittleEndian(source);
-
-    /// <inheritdoc />
-    public override void OnWrite(Span<byte> target, in Int64 input) => BinaryPrimitives.WriteInt64LittleEndian(target, input);
-
     /// <inheritdoc />
     public static Int64 ReadFromSpan(ReadOnlySpan<byte> source) => BinaryPrimitives.ReadInt64LittleEndian(source);
 

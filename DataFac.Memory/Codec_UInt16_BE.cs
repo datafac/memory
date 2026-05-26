@@ -7,19 +7,8 @@ using System.Buffers.Binary;
 
 namespace DataFac.Memory;
 
-public sealed class Codec_UInt16_BE : Codec_Base<UInt16>
-#if NET7_0_OR_GREATER
-, ISpanCodec<UInt16>
-#endif
+public sealed class Codec_UInt16_BE : ISpanCodec<UInt16>
 {
-    private Codec_UInt16_BE() { }
-
-    /// <inheritdoc />
-    public override UInt16 OnRead(ReadOnlySpan<byte> source) => BinaryPrimitives.ReadUInt16BigEndian(source);
-
-    /// <inheritdoc />
-    public override void OnWrite(Span<byte> target, in UInt16 input) => BinaryPrimitives.WriteUInt16BigEndian(target, input);
-
     /// <inheritdoc />
     public static UInt16 ReadFromSpan(ReadOnlySpan<byte> source) => BinaryPrimitives.ReadUInt16BigEndian(source);
 

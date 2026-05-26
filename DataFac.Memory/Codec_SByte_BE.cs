@@ -9,19 +9,8 @@ namespace DataFac.Memory;
 /// <summary>
 /// Big-endian codec for reading and writing a signed byte (sbyte).
 /// </summary>
-public sealed class Codec_SByte_BE : Codec_Base<SByte>
-#if NET7_0_OR_GREATER
-, ISpanCodec<SByte>
-#endif
+public sealed class Codec_SByte_BE : ISpanCodec<SByte>
 {
-    private Codec_SByte_BE() { }
-
-    /// <inheritdoc />
-    public override SByte OnRead(ReadOnlySpan<byte> source) => (SByte)source[0];
-
-    /// <inheritdoc />
-    public override void OnWrite(Span<byte> target, in SByte input) => target[0] = (byte)input;
-
     /// <inheritdoc />
     public static SByte ReadFromSpan(ReadOnlySpan<byte> source) => (SByte)source[0];
 
