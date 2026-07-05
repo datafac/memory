@@ -2,6 +2,7 @@ using Shouldly;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using Xunit;
@@ -26,14 +27,14 @@ namespace DataFac.Memory.Tests
         public void EmptyA()
         {
             Octets buffer = Octets.Empty;
-            buffer.AsMemory().Length.ShouldBe(0);
+            buffer.Length.ShouldBe(0);
         }
 
         [Fact]
         public void EmptyB()
         {
             Octets buffer = Octets.Wrap(ReadOnlyMemory<byte>.Empty);
-            buffer.AsMemory().Length.ShouldBe(0);
+            buffer.Length.ShouldBe(0);
             buffer.ShouldBeSameAs(Octets.Empty);
         }
 
@@ -41,7 +42,7 @@ namespace DataFac.Memory.Tests
         public void EmptyC()
         {
             Octets buffer = Octets.Wrap(ReadOnlySequence<byte>.Empty);
-            buffer.AsMemory().Length.ShouldBe(0);
+            buffer.Length.ShouldBe(0);
             buffer.ShouldBeSameAs(Octets.Empty);
         }
 
@@ -49,7 +50,7 @@ namespace DataFac.Memory.Tests
         public void EmptyD()
         {
             Octets buffer = Octets.Wrap(Array.Empty<byte>());
-            buffer.AsMemory().Length.ShouldBe(0);
+            buffer.Length.ShouldBe(0);
             buffer.ShouldBeSameAs(Octets.Empty);
         }
 
@@ -58,7 +59,7 @@ namespace DataFac.Memory.Tests
         {
             ReadOnlySequence<byte> sequence = ReadOnlySequence<byte>.Empty;
             Octets buffer = Octets.Wrap(sequence);
-            buffer.AsMemory().Length.ShouldBe(0);
+            buffer.Length.ShouldBe(0);
             buffer.Equals(Octets.Empty).ShouldBeTrue();
         }
 
@@ -97,6 +98,54 @@ namespace DataFac.Memory.Tests
             int hash1 = octets6a.GetHashCode();
             int hash2 = octets6b.GetHashCode();
             hash2.ShouldBe(hash1);
+        }
+
+        [Fact]
+        public void ConstructFromBinaryData()
+        {
+            var orig1 = new BinaryData(new byte[] { 1, 2, 3 });
+            var orig2 = new BinaryData(new byte[] { 1, 2, 3 });
+
+            (orig1 == orig2).ShouldBeFalse();
+
+            var octets1 = Octets.Wrap(orig1);
+            var octets2 = Octets.Wrap(orig2);
+
+            (octets2 == octets1).ShouldBeTrue();
+            octets2.Equals(octets1).ShouldBeTrue();
+            octets2.ShouldBe(octets1);
+        }
+
+        [Fact]
+        public void ConstructFromImmutableArray()
+        {
+            var orig1 = ImmutableArray.Create(new byte[] { 1, 2, 3 });
+            var orig2 = ImmutableArray.Create(new byte[] { 1, 2, 3 });
+
+            (orig1 == orig2).ShouldBeFalse();
+
+            var octets1 = Octets.Wrap(orig1.AsMemory());
+            var octets2 = Octets.Wrap(orig2.AsMemory());
+
+            (octets2 == octets1).ShouldBeTrue();
+            octets2.Equals(octets1).ShouldBeTrue();
+            octets2.ShouldBe(octets1);
+        }
+
+        [Fact]
+        public void ConstructFromArraySegment()
+        {
+            var orig1 = new ArraySegment<byte>(new byte[] { 1, 2, 3 });
+            var orig2 = new ArraySegment<byte>(new byte[] { 1, 2, 3 });
+
+            (orig1 == orig2).ShouldBeFalse();
+
+            var octets1 = Octets.Wrap(orig1);
+            var octets2 = Octets.Wrap(orig2);
+
+            (octets2 == octets1).ShouldBeTrue();
+            octets2.Equals(octets1).ShouldBeTrue();
+            octets2.ShouldBe(octets1);
         }
 
         [Fact]
@@ -304,9 +353,9 @@ namespace DataFac.Memory.Tests
             var b = Octets.Wrap(a.AsMemory());
 
             a.AsMemory().IsEmpty.ShouldBeFalse();
-            a.AsMemory().Length.ShouldBe(3);
+            a.Length.ShouldBe(3);
             b.AsMemory().IsEmpty.ShouldBeFalse();
-            a.AsMemory().Length.ShouldBe(3);
+            a.Length.ShouldBe(3);
             b.GetHashCode().ShouldBe(a.GetHashCode());
             b.ShouldBeEquivalentTo(a);
             b.Equals(a).ShouldBeTrue();
@@ -390,10 +439,10 @@ namespace DataFac.Memory.Tests
         {
             Octets orig = new Octets(new byte[] { 1, 2, 3 });
             (var head, var body) = orig.GetHead(1);
-            head.AsMemory().Length.ShouldBe(1);
+            head.Length.ShouldBe(1);
             var headBytes = head.ToByteArray();
             headBytes[0].ShouldBe((byte)1);
-            body.AsMemory().Length.ShouldBe(2);
+            body.Length.ShouldBe(2);
             var bodyBytes = body.ToByteArray();
             bodyBytes[0].ShouldBe((byte)2);
             bodyBytes[1].ShouldBe((byte)3);
@@ -407,11 +456,11 @@ namespace DataFac.Memory.Tests
             Octets orig = new Octets(new byte[] { 1, 2 }, new byte[] { 3, 4 });
             (var head, var body) = orig.GetHead(1);
             // head
-            head.AsMemory().Length.ShouldBe(1);
+            head.Length.ShouldBe(1);
             var headBytes = head.ToByteArray();
             headBytes[0].ShouldBe((byte)1);
             // body
-            body.AsMemory().Length.ShouldBe(3);
+            body.Length.ShouldBe(3);
             var bodyBytes = body.ToByteArray();
             bodyBytes[0].ShouldBe((byte)2);
             bodyBytes[1].ShouldBe((byte)3);
@@ -438,13 +487,13 @@ namespace DataFac.Memory.Tests
         {
             Octets orig = new Octets(new byte[] { 1, 2, 3 });
             (var head, var body, var tail) = orig.GetHeadAndBody(1, 1);
-            head.AsMemory().Length.ShouldBe(1);
+            head.Length.ShouldBe(1);
             var headBytes = head.ToByteArray();
             headBytes[0].ShouldBe((byte)1);
-            body.AsMemory().Length.ShouldBe(1);
+            body.Length.ShouldBe(1);
             var bodyBytes = body.ToByteArray();
             bodyBytes[0].ShouldBe((byte)2);
-            tail.AsMemory().Length.ShouldBe(1);
+            tail.Length.ShouldBe(1);
             var tailBytes = tail.ToByteArray();
             tailBytes[0].ShouldBe((byte)3);
             var copy = new Octets(head.AsMemory().Span, body.AsMemory().Span, tail.AsMemory().Span);
@@ -457,19 +506,19 @@ namespace DataFac.Memory.Tests
             Octets orig = new Octets(new byte[] { 1, 2, 3, 4 }, new byte[] { 5, 6, 7, 8 });
             (var head, var body, var tail) = orig.GetHeadAndBody(2, 4);
             // head
-            head.AsMemory().Length.ShouldBe(2);
+            head.Length.ShouldBe(2);
             var headBytes = head.ToByteArray();
             headBytes[0].ShouldBe((byte)1);
             headBytes[1].ShouldBe((byte)2);
             // body
-            body.AsMemory().Length.ShouldBe(4);
+            body.Length.ShouldBe(4);
             var bodyBytes = body.ToByteArray();
             bodyBytes[0].ShouldBe((byte)3);
             bodyBytes[1].ShouldBe((byte)4);
             bodyBytes[2].ShouldBe((byte)5);
             bodyBytes[3].ShouldBe((byte)6);
             // tail
-            tail.AsMemory().Length.ShouldBe(2);
+            tail.Length.ShouldBe(2);
             var tailBytes = tail.ToByteArray();
             tailBytes[0].ShouldBe((byte)7);
             tailBytes[1].ShouldBe((byte)8);

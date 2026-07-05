@@ -37,7 +37,9 @@ public sealed class Octets : IEquatable<Octets>, IEnumerable<byte>
     /// <returns></returns>
     public static Octets Wrap(ReadOnlySequence<byte> source)
     {
-        return source.IsEmpty ? _empty : new Octets(source);
+        return source.IsEmpty 
+            ? _empty 
+            : source.IsSingleSegment ? new Octets(source.First) : new Octets(source);
     }
 
     /// <summary>
@@ -53,71 +55,88 @@ public sealed class Octets : IEquatable<Octets>, IEnumerable<byte>
     /// <summary>
     /// Combines multiple Octets.
     /// </summary>
-    public static Octets Combine(Octets source1, Octets source2)
+    public static Octets Combine(Octets? source1, Octets? source2)
     {
-        if (source1 is null && source2 is null)  return _empty;
-        if (source1 is null) return source2;
+        if(source1 is null) return source2 is null ? _empty : source2;
         if (source2 is null) return source1;
-        var builder = ImmutableArray.CreateBuilder<ReadOnlyMemory<byte>>();
+        var builder = ImmutableArray.CreateBuilder<ReadOnlyMemory<byte>>(2);
+        int length = 0;
         foreach (var buffer in source1.Buffers)
         {
-            builder.Add(buffer);
+            length += buffer.Length;
+            if (buffer.Length > 0) builder.Add(buffer);
         }
         foreach (var buffer in source2.Buffers)
         {
-            builder.Add(buffer);
+            length += buffer.Length;
+            if (buffer.Length > 0) builder.Add(buffer);
         }
-        return Octets.Wrap(builder.ToImmutable());
+        if (length == 0)
+            return _empty;
+        else
+            return Octets.Wrap(builder.ToImmutable());
     }
 
     /// <summary>
     /// Combines multiple Octets.
     /// </summary>
-    public static Octets Combine(Octets source1, Octets source2, Octets source3)
+    public static Octets Combine(Octets? source1, Octets? source2, Octets? source3)
     {
-        if (source1 is null && source2 is null && source3 is null) return _empty;
-        var builder = ImmutableArray.CreateBuilder<ReadOnlyMemory<byte>>();
+        var builder = ImmutableArray.CreateBuilder<ReadOnlyMemory<byte>>(3);
+        int length = 0;
         if (source1 is not null)
         {
             foreach (var buffer in source1.Buffers)
             {
-                builder.Add(buffer);
+                length += buffer.Length;
+                if (buffer.Length > 0) builder.Add(buffer);
             }
         }
         if (source2 is not null)
         {
             foreach (var buffer in source2.Buffers)
             {
-                builder.Add(buffer);
+                length += buffer.Length;
+                if (buffer.Length > 0) builder.Add(buffer);
             }
         }
         if (source3 is not null)
         {
             foreach (var buffer in source3.Buffers)
             {
-                builder.Add(buffer);
+                length += buffer.Length;
+                if (buffer.Length > 0) builder.Add(buffer);
             }
         }
-        return Octets.Wrap(builder.ToImmutable());
+        if (length == 0)
+            return _empty;
+        else
+            return Octets.Wrap(builder.ToImmutable());
     }
 
     /// <summary>
     /// Combines multiple Octets.
     /// </summary>
-    public static Octets Combine(params Octets[] sources)
+    public static Octets Combine(params Octets?[] sources)
     {
         if (sources is null) return _empty;
-        if (sources.Length == 0) return _empty;
-        if (sources.Length == 1) return sources[0];
-        var builder = ImmutableArray.CreateBuilder<ReadOnlyMemory<byte>>();
-        foreach (var source in sources)
+        var builder = ImmutableArray.CreateBuilder<ReadOnlyMemory<byte>>(sources.Length);
+        int length = 0;
+        foreach(var source in sources)
         {
-            foreach (var buffer in source.Buffers)
+            if (source is not null)
             {
-                builder.Add(buffer);
+                foreach (var buffer in source.Buffers)
+                {
+                    length += buffer.Length;
+                    if (buffer.Length > 0) builder.Add(buffer);
+                }
             }
         }
-        return Octets.Wrap(builder.ToImmutable());
+        if (length == 0)
+            return _empty;
+        else
+            return Octets.Wrap(builder.ToImmutable());
     }
 
     private readonly ImmutableArray<ReadOnlyMemory<byte>> _buffers;
@@ -223,7 +242,7 @@ public sealed class Octets : IEquatable<Octets>, IEnumerable<byte>
 
     private Octets(ReadOnlyMemory<byte> memory)
     {
-        _buffers = [memory];
+        _buffers = ImmutableArray.Create(memory);
         _length = memory.Length;
         _hashCodeFunc = new Lazy<int>(CalcHashCode);
     }
@@ -258,8 +277,16 @@ public sealed class Octets : IEquatable<Octets>, IEnumerable<byte>
     /// <param name="source"></param>
     public Octets(ReadOnlySpan<byte> source)
     {
-        _buffers = ImmutableArray<ReadOnlyMemory<byte>>.Empty.Add(source.ToArray());
-        _length = source.Length;
+        if (source.Length == 0)
+        {
+            _buffers = ImmutableArray<ReadOnlyMemory<byte>>.Empty;
+            _length = 0;
+        }
+        else
+        {
+            _buffers = ImmutableArray.Create<ReadOnlyMemory<byte>>(source.ToArray());
+            _length = source.Length;
+        }
         _hashCodeFunc = new Lazy<int>(CalcHashCode);
     }
 
@@ -268,15 +295,24 @@ public sealed class Octets : IEquatable<Octets>, IEnumerable<byte>
     /// </summary>
     public Octets(ReadOnlySpan<byte> source1, ReadOnlySpan<byte> source2)
     {
-        Memory<byte> buffer = new byte[source1.Length + source2.Length];
-        var target = buffer.Span;
-        int start = 0;
-        source1.CopyTo(target.Slice(start));
-        start += source1.Length;
-        source2.CopyTo(target.Slice(start));
-        start += source2.Length;
-        _buffers = ImmutableArray<ReadOnlyMemory<byte>>.Empty.Add(buffer);
-        _length = source1.Length + source2.Length;
+        var length = source1.Length + source2.Length;
+        if (length == 0)
+        {
+            _buffers = ImmutableArray<ReadOnlyMemory<byte>>.Empty;
+            _length = 0;
+        }
+        else
+        {
+            Memory<byte> buffer = new byte[length];
+            var target = buffer.Span;
+            int start = 0;
+            source1.CopyTo(target.Slice(start));
+            start += source1.Length;
+            source2.CopyTo(target.Slice(start));
+            start += source2.Length;
+            _buffers = ImmutableArray.Create<ReadOnlyMemory<byte>>(buffer);
+            _length = source1.Length + source2.Length;
+        }
         _hashCodeFunc = new Lazy<int>(CalcHashCode);
     }
 
@@ -285,17 +321,26 @@ public sealed class Octets : IEquatable<Octets>, IEnumerable<byte>
     /// </summary>
     public Octets(ReadOnlySpan<byte> source1, ReadOnlySpan<byte> source2, ReadOnlySpan<byte> source3)
     {
-        Memory<byte> buffer = new byte[source1.Length + source2.Length + source3.Length];
-        var target = buffer.Span;
-        int start = 0;
-        source1.CopyTo(target.Slice(start));
-        start += source1.Length;
-        source2.CopyTo(target.Slice(start));
-        start += source2.Length;
-        source3.CopyTo(target.Slice(start));
-        start += source3.Length;
-        _buffers = ImmutableArray<ReadOnlyMemory<byte>>.Empty.Add(buffer);
-        _length = source1.Length + source2.Length + source3.Length;
+        var length = source1.Length + source2.Length + source3.Length;
+        if (length == 0)
+        {
+            _buffers = ImmutableArray<ReadOnlyMemory<byte>>.Empty;
+            _length = 0;
+        }
+        else
+        {
+            Memory<byte> buffer = new byte[length];
+            var target = buffer.Span;
+            int start = 0;
+            source1.CopyTo(target.Slice(start));
+            start += source1.Length;
+            source2.CopyTo(target.Slice(start));
+            start += source2.Length;
+            source3.CopyTo(target.Slice(start));
+            start += source3.Length;
+            _buffers = ImmutableArray.Create<ReadOnlyMemory<byte>>(buffer);
+            _length = length;
+        }
         _hashCodeFunc = new Lazy<int>(CalcHashCode);
     }
 

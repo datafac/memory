@@ -703,9 +703,9 @@
         public System.ValueTuple<DataFac.Memory.Octets, DataFac.Memory.Octets> GetTail(int tailLength) { }
         public byte[] ToByteArray() { }
         public System.Buffers.ReadOnlySequence<byte> ToSequence() { }
-        public static DataFac.Memory.Octets Combine(params DataFac.Memory.Octets[] sources) { }
-        public static DataFac.Memory.Octets Combine(DataFac.Memory.Octets source1, DataFac.Memory.Octets source2) { }
-        public static DataFac.Memory.Octets Combine(DataFac.Memory.Octets source1, DataFac.Memory.Octets source2, DataFac.Memory.Octets source3) { }
+        public static DataFac.Memory.Octets Combine(params DataFac.Memory.Octets?[] sources) { }
+        public static DataFac.Memory.Octets Combine(DataFac.Memory.Octets? source1, DataFac.Memory.Octets? source2) { }
+        public static DataFac.Memory.Octets Combine(DataFac.Memory.Octets? source1, DataFac.Memory.Octets? source2, DataFac.Memory.Octets? source3) { }
         public static DataFac.Memory.Octets Wrap(System.Buffers.ReadOnlySequence<byte> source) { }
         public static DataFac.Memory.Octets Wrap(System.Collections.Immutable.ImmutableArray<System.ReadOnlyMemory<byte>> source) { }
         public static DataFac.Memory.Octets Wrap(System.ReadOnlyMemory<byte> source) { }
