@@ -10,6 +10,12 @@ namespace DataFac.Memory.Tests
     public class PublicApiRegressionTests
     {
         [Fact]
+        public async Task CheckVerifySetup()
+        {
+            await VerifyChecks.Run();
+        }
+
+        [Fact]
         public void VersionCheck()
         {
             ThisAssembly.AssemblyVersion.ShouldBe("2.0.0.0");
