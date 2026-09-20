@@ -28,7 +28,7 @@
 		<PackageReference Include="PublicApiGenerator" Version="11.5.4" />
 		<PackageReference Include="Shouldly" Version="4.3.0" />
 		<PackageReference Include="System.Memory.Data" Version="10.0.12" />
-		<PackageReference Include="Verify.XunitV3" Version="33.0.2" />
+		<PackageReference Include="Verify.XunitV3" Version="33.1.0" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="4.0.0">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
