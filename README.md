@@ -7,12 +7,6 @@ Performant memory related types and codecs. Targets .NetStandard 2.0 and .NET 8 
 ![NuGet Downloads](https://img.shields.io/nuget/dt/Datafac.Memory)
 ![GitHub Sponsors](https://img.shields.io/github/sponsors/psiman62)
 
-*Breaking changes in v2.x: This major version release includes breaking changes over v1.x.*
-- Codec methods have been simplified to only take a Span\<byte\> as the destination buffer. 
-  This change was made to improve performance and reduce complexity.
-- IFieldCodec and ITypedFieldCodec interfaces have been removed. Instead, codecs are now 
-  implemented as static methods in the codec classes.
-
 ## Codecs
 Endian-aware binary encoders and decoders for primitive types.
 
@@ -32,8 +26,8 @@ An implementation of ReadOnlySequenceSegment\<T\>.
 An implementation of IBufferWriter\<byte\> that does not internally reallocate as the buffer grows.
 Instead, it maintains a list of buffers and allocates new ones as needed.
 
-## Bits32
-Represents a 32-bit unsigned integer that provides methods for querying and manipulating individual 
+## Bits32/Bits64
+Represents a 32-bit or 64-bit unsigned integer that provides methods for querying and manipulating individual 
 bits in an immutable manner.
 
 ## How to sponsor
