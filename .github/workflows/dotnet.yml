@@ -20,13 +20,6 @@ jobs:
 
     steps:
 
-    # Get a short-lived NuGet API key
-    - name: NuGet login (OIDC → temp API key)
-      uses: NuGet/login@v1
-      id: login
-      with:
-        user: Psiman62 # ${{secrets.NUGET_USER}}
-
     - name: Checkout
       uses: actions/checkout@v4
       with:  
@@ -50,5 +43,11 @@ jobs:
     - name: Test
       run: dotnet test --configuration Release --no-build --verbosity normal
 
-    - name: Push
+    - name: NuGet Login
+      uses: NuGet/login@v1
+      id: login
+      with:
+        user: Psiman62 # or ${{secrets.NUGET_USER}}
+
+    - name: NuGet Push
       run: dotnet nuget push **/D*.nupkg --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
