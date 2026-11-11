@@ -1,7 +1,5 @@
 {
   "CompanyName":  "DataFac",
   "ProductName": "Memory",
-  "ExemptionCodes": [
-    "targetframeworks_notcontains_net8"
-  ]
+  "ExemptionCodes": []
 }
