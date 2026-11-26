@@ -679,6 +679,7 @@
         public static DataFac.Memory.Octets Empty { get; }
         public System.ReadOnlyMemory<byte> AsMemory() { }
         public DataFac.Memory.Octets Compact() { }
+        public void CopyTo(System.Span<byte> target) { }
         public bool Equals(DataFac.Memory.Octets? other) { }
         public override bool Equals(object? obj) { }
         public System.Collections.Generic.IEnumerator<byte> GetEnumerator() { }

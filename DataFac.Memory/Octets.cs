@@ -219,6 +219,27 @@ public sealed class Octets : IEquatable<Octets>, IEnumerable<byte>
     }
 
     /// <summary>
+    /// Copies the contents of the buffers to a target span.
+    /// </summary>
+    /// <param name="target">The span that receives the copied bytes.</param>
+    public void CopyTo(Span<byte> target)
+    {
+        if (_buffers.Length == 0) return;
+        if (_buffers.Length == 1)
+        {
+            _buffers[0].Span.CopyTo(target);
+            return;
+        }
+
+        int position = 0;
+        foreach (var buffer in _buffers)
+        {
+            buffer.Span.CopyTo(target.Slice(position));
+            position += buffer.Length;
+        }
+    }
+
+    /// <summary>
     /// Converts the sequence into a single byte array.
     /// </summary>
     /// <remarks>This method consolidates all segments of the sequence into a single contiguous byte
